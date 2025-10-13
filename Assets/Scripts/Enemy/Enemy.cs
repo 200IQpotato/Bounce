@@ -27,10 +27,25 @@ public class Enemy : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
         }
     }
-    
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Player player = collision.gameObject.GetComponent<Player>();
+            if (player != null)
+            {
+                player.TakeDamage(enemyStat.attack);
+            }
+        }
+    }
+
 
     public void TakeDamage(int damage)
     {
+        if (GameManager.Instance.CurrentState != GameState.PlayerRunning)
+            return;
+            
         enemyStat.health -= damage;
         enemyUI.UpdateHealth(enemyStat.health);
         Debug.Log("Enemy Health: " + enemyStat.health);
@@ -50,7 +65,7 @@ public class Enemy : MonoBehaviour
     {
         Debug.Log($"{name} is acting!");
         Vector2 randomDir = Random.insideUnitCircle.normalized;
-        rb.AddForce(randomDir * 3f, ForceMode2D.Impulse);
+        rb.AddForce(randomDir * 50f, ForceMode2D.Impulse);
     }
 
     void OnDestroy()

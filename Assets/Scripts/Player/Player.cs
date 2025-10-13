@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
 
     private PlayerStat playerStat;
     private Action<Enemy> onHit;
+    private Action onHealthChange;
 
     void Awake()
     {
@@ -95,6 +96,27 @@ public class Player : MonoBehaviour
     {
         if (GameManager.Instance != null)
             GameManager.Instance.UnregisterRigidbody(rb);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (GameManager.Instance.CurrentState != GameState.EnemyTurn)
+            return;
+        playerStat.health -= damage;
+        if (damage != 0)
+            onHealthChange?.Invoke();
+            
+        Debug.Log("Player Health: " + playerStat.health);
+        if (playerStat.health <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        Debug.Log("Player Death");
+        // Implement game over logic here
     }
 
     void DrawDragLine()
