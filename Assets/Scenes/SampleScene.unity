@@ -601,6 +601,10 @@ PrefabInstance:
       value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 3706968218350740567, guid: e930bea3bc4dc59489fb7ec3114524b1, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 69d6ea0f5e08a2145aae7ffdc14d2fb0, type: 2}
+    - target: {fileID: 3706968218350740567, guid: e930bea3bc4dc59489fb7ec3114524b1, type: 3}
       propertyPath: m_LinearDamping
       value: 0.5
       objectReference: {fileID: 0}
@@ -749,6 +753,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6028503895249170678, guid: 9cedf904ab1e1394bbd3c079d876d59a, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 288f70c86d6ec4a478c27e621a437897, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1079,6 +1087,10 @@ PrefabInstance:
       value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 3706968218350740567, guid: e930bea3bc4dc59489fb7ec3114524b1, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 69d6ea0f5e08a2145aae7ffdc14d2fb0, type: 2}
+    - target: {fileID: 3706968218350740567, guid: e930bea3bc4dc59489fb7ec3114524b1, type: 3}
       propertyPath: m_LinearDamping
       value: 0.5
       objectReference: {fileID: 0}
@@ -1321,6 +1333,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 45
       objectReference: {fileID: 0}
+    - target: {fileID: 3706968218350740567, guid: e930bea3bc4dc59489fb7ec3114524b1, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 69d6ea0f5e08a2145aae7ffdc14d2fb0, type: 2}
     - target: {fileID: 3706968218350740567, guid: e930bea3bc4dc59489fb7ec3114524b1, type: 3}
       propertyPath: m_LinearDamping
       value: 0.5
