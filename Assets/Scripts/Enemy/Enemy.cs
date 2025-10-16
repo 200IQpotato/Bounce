@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IBattleEntity, TurnBase
 {
     private Rigidbody2D rb;
     private EnemyStat enemyStat;
     [SerializeField] private EnemyUI enemyUI;
     [SerializeField] private float stopThreshold = 0.1f;
+    public bool isExpired { get; set; }
 
     void Awake()
     {
@@ -14,10 +15,13 @@ public class Enemy : MonoBehaviour
         enemyStat = GetComponent<EnemyStat>();
         enemyUI.UpdateHealth(enemyStat.health);
         enemyUI.UpdateAttack(enemyStat.attack);
+        isExpired = false;
     }
     void Start()
     {
-        GameManager.Instance.RegisterRigidbody(rb);
+        BattleManager.Instance.RegisterRigidbody(rb);
+        BattleManager.Instance.RegisterEnemy(this);
+        BattleManager.Instance.RegisterEntity(this);
     }
 
     void Update()
@@ -40,12 +44,29 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public IEnumerator TakeTurn()
+    {
+        Debug.Log($"{name} Turn Start");
+        OnTurnStart();
+        Act();
+        yield return new WaitUntil(BattleManager.Instance.AllObjectsStopped);
+        OnTurnEnd();
+    }
+
+    public void OnTurnStart()
+    {
+        
+    }
+    public void OnTurnEnd()
+    {
+        
+    }
 
     public void TakeDamage(int damage)
     {
-        if (GameManager.Instance.CurrentState != GameState.PlayerRunning)
+        if (BattleManager.Instance.CurrentState != GameState.PlayerTurn)
             return;
-            
+
         enemyStat.health -= damage;
         enemyUI.UpdateHealth(enemyStat.health);
         Debug.Log("Enemy Health: " + enemyStat.health);
@@ -70,7 +91,12 @@ public class Enemy : MonoBehaviour
 
     void OnDestroy()
     {
-        if (GameManager.Instance != null)
-            GameManager.Instance.UnregisterRigidbody(rb);
+        if (BattleManager.Instance != null)
+        {
+            BattleManager.Instance.UnregisterRigidbody(rb);
+            BattleManager.Instance.UnregisterEnemy(this);
+            BattleManager.Instance.UnregisterEntity(this);
+        }
+            
     }
 }

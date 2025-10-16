@@ -1,8 +1,9 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Collections;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IBattleEntity, TurnBase
 {
     private Rigidbody2D rb;
     [Header("Drag & Prediction Line")]
@@ -31,17 +32,23 @@ public class Player : MonoBehaviour
     private PlayerStat playerStat;
     private Action<Enemy> onHit;
     private Action onHealthChange;
+    public bool isExpired { get; set; }
+    private bool hasShoot = false;
+
 
     void Awake()
     {
         playerStat = GetComponent<PlayerStat>();
         rb = GetComponent<Rigidbody2D>();
         DragLine.positionCount = 2;
+        isExpired = false;
     }
 
     void Start()
-    {        
-        GameManager.Instance.RegisterRigidbody(rb);
+    {
+        BattleManager.Instance.RegisterRigidbody(rb);
+        BattleManager.Instance.RegisterPlayer(this);
+        BattleManager.Instance.RegisterEntity(this);
     }
 
     // Update is called once per frame
@@ -55,7 +62,7 @@ public class Player : MonoBehaviour
 
     void OnMouseDrag()
     {
-        if ( GameManager.Instance.CurrentState != GameState.PlayerTurn )
+        if ( BattleManager.Instance.CurrentState != GameState.PlayerTurn || hasShoot )
             return;
 
         DrawDragLine();
@@ -64,19 +71,37 @@ public class Player : MonoBehaviour
 
     void OnMouseUp()
     {
-        if (GameManager.Instance.CurrentState != GameState.PlayerTurn)
+        if (BattleManager.Instance.CurrentState != GameState.PlayerTurn || hasShoot)
             return;
 
-        GameManager.Instance.CurrentState = GameState.PlayerRunning;
         DisableLine();
-        
+
         Vector3 distance = mousePosition - transform.position;
         if (distance.magnitude > dragLimit)
         {
             distance = distance.normalized * dragLimit;
         }
         rb.AddForce(-distance * playerStat.force, ForceMode2D.Impulse);
-        GameManager.Instance.StartEnemyTurn();
+        hasShoot = true;
+    }
+
+    public IEnumerator TakeTurn()
+    {
+        Debug.Log($"{name} Turn Start");
+        OnTurnStart();
+        yield return new WaitUntil(() => hasShoot);
+        yield return new WaitUntil(BattleManager.Instance.AllObjectsStopped);
+        OnTurnEnd();
+    }
+
+    public void OnTurnStart()
+    {
+        hasShoot = false;
+    }
+
+    public void OnTurnEnd()
+    {
+
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -85,7 +110,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-            if (GameManager.Instance.CurrentState == GameState.PlayerRunning)
+            if (BattleManager.Instance.CurrentState == GameState.PlayerTurn)
                 enemy.TakeDamage(playerStat.attack);
                 
             onHit?.Invoke(collision.gameObject.GetComponent<Enemy>());
@@ -94,13 +119,17 @@ public class Player : MonoBehaviour
 
     void OnDestroy()
     {
-        if (GameManager.Instance != null)
-            GameManager.Instance.UnregisterRigidbody(rb);
+        if (BattleManager.Instance != null)
+        {
+            BattleManager.Instance.UnregisterRigidbody(rb);
+            BattleManager.Instance.UnregisterPlayer(this);
+            BattleManager.Instance.UnregisterEntity(this);
+        }
     }
 
     public void TakeDamage(int damage)
     {
-        if (GameManager.Instance.CurrentState != GameState.EnemyTurn)
+        if (BattleManager.Instance.CurrentState != GameState.EnemyTurn)
             return;
         playerStat.health -= damage;
         if (damage != 0)
@@ -122,7 +151,7 @@ public class Player : MonoBehaviour
     void DrawDragLine()
     {
         DragLine.enabled = true;
-        DragLine.SetPosition(0, transform.position + (mousePosition - transform.position).normalized);
+        DragLine.SetPosition(0, transform.position + (mousePosition - transform.position).normalized * 0.5f);
 
         if (Vector3.Distance(mousePosition, transform.position) <= dragLimit)
         {
@@ -156,7 +185,7 @@ public class Player : MonoBehaviour
         bool isHittingEnemy = false;
 
         PredictionLine.positionCount = 1;
-        PredictionLine.SetPosition(0, startPosition + currentVelocity.normalized );
+        PredictionLine.SetPosition(0, startPosition + currentVelocity.normalized * 0.5f );
 
         while (currentVelocity.magnitude > 0.1f && reflectionCount < maxReflectionCount)
         {
