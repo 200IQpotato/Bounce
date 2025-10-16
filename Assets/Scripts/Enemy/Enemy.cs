@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Enemy : MonoBehaviour, IBattleEntity, TurnBase
+public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
 {
     private Rigidbody2D rb;
     private EnemyStat enemyStat;

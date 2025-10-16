@@ -104,13 +104,13 @@ public class BattleManager : MonoBehaviour
             Debug.Log("New Turn");
 
             CurrentState = GameState.PlayerTurn;
-            foreach (TurnBase player in players)
+            foreach (ITurnBase player in players)
             {
                 yield return StartCoroutine(player.TakeTurn());
             }
 
             CurrentState = GameState.EnemyTurn;
-            foreach (TurnBase enemy in enemies)
+            foreach (ITurnBase enemy in enemies)
             {
                 yield return StartCoroutine(enemy.TakeTurn());
             }

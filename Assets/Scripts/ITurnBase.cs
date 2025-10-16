@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public interface TurnBase
+public interface ITurnBase
 {
     public IEnumerator TakeTurn();
 }

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections;
 
-public class Player : MonoBehaviour, IBattleEntity, TurnBase
+public class Player : MonoBehaviour, IBattleEntity, ITurnBase
 {
     private Rigidbody2D rb;
     [Header("Drag & Prediction Line")]
