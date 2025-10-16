@@ -1,10 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
 {
     private Rigidbody2D rb;
-    private EnemyStat enemyStat;
+    public Stats enemyStat;
     [SerializeField] private EnemyUI enemyUI;
     [SerializeField] private float stopThreshold = 0.1f;
     public bool isExpired { get; set; }
@@ -12,7 +13,7 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        enemyStat = GetComponent<EnemyStat>();
+        enemyStat = GetComponent<Stats>();
         enemyUI.UpdateHealth(enemyStat.health);
         enemyUI.UpdateAttack(enemyStat.attack);
         isExpired = false;
@@ -39,7 +40,8 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
             Player player = collision.gameObject.GetComponent<Player>();
             if (player != null)
             {
-                player.TakeDamage(enemyStat.attack);
+                if (BattleManager.Instance.CurrentState == GameState.EnemyTurn)
+                    player.TakeDamage(enemyStat.attack);
             }
         }
     }
@@ -47,10 +49,8 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
     public IEnumerator TakeTurn()
     {
         Debug.Log($"{name} Turn Start");
-        OnTurnStart();
         Act();
         yield return new WaitUntil(BattleManager.Instance.AllObjectsStopped);
-        OnTurnEnd();
     }
 
     public void OnTurnStart()
@@ -59,14 +59,11 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
     }
     public void OnTurnEnd()
     {
-        
+        enemyStat.OnTurnEnd(this);
     }
 
     public void TakeDamage(int damage)
     {
-        if (BattleManager.Instance.CurrentState != GameState.PlayerTurn)
-            return;
-
         enemyStat.health -= damage;
         enemyUI.UpdateHealth(enemyStat.health);
         Debug.Log("Enemy Health: " + enemyStat.health);

@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Collections;
+using Unity.VisualScripting.Antlr3.Runtime;
 
 public class Player : MonoBehaviour, IBattleEntity, ITurnBase
 {
@@ -29,19 +30,23 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         }
     }
 
-    private PlayerStat playerStat;
+    private Stats playerStat;
     private Action<Enemy> onHit;
     private Action onHealthChange;
     public bool isExpired { get; set; }
     private bool hasShoot = false;
 
+    [SerializeField] public EffectObject tempeffect;
 
     void Awake()
     {
-        playerStat = GetComponent<PlayerStat>();
+        playerStat = GetComponent<Stats>();
         rb = GetComponent<Rigidbody2D>();
         DragLine.positionCount = 2;
         isExpired = false;
+        onHit += (Enemy enemy) => {
+            enemy.enemyStat.ApplyEffect(new Effect(tempeffect, 1));
+        };
     }
 
     void Start()
@@ -87,21 +92,20 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
 
     public IEnumerator TakeTurn()
     {
+        hasShoot = false;
         Debug.Log($"{name} Turn Start");
-        OnTurnStart();
         yield return new WaitUntil(() => hasShoot);
         yield return new WaitUntil(BattleManager.Instance.AllObjectsStopped);
-        OnTurnEnd();
     }
 
     public void OnTurnStart()
     {
-        hasShoot = false;
+        
     }
 
     public void OnTurnEnd()
     {
-
+        playerStat.OnTurnEnd(this);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -113,7 +117,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
             if (BattleManager.Instance.CurrentState == GameState.PlayerTurn)
                 enemy.TakeDamage(playerStat.attack);
                 
-            onHit?.Invoke(collision.gameObject.GetComponent<Enemy>());
+            onHit?.Invoke(enemy);
         }
     }
 
@@ -129,8 +133,6 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
 
     public void TakeDamage(int damage)
     {
-        if (BattleManager.Instance.CurrentState != GameState.EnemyTurn)
-            return;
         playerStat.health -= damage;
         if (damage != 0)
             onHealthChange?.Invoke();

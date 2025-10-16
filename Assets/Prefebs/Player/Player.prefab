@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 3231779171201592595}
   - component: {fileID: 6028503895249170678}
   - component: {fileID: 6046937114774025375}
-  - component: {fileID: 1040245469230159237}
+  - component: {fileID: 8579827112369034467}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -267,7 +267,8 @@ MonoBehaviour:
   maxReflectionCount: 2
   dragLimit: 3
   stopThreshold: 0.1
---- !u!114 &1040245469230159237
+  tempeffect: {fileID: 11400000, guid: 8f1355a1824274f42995b49ed1334ef2, type: 2}
+--- !u!114 &8579827112369034467
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -276,7 +277,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2139883107620220181}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acb94374be577fb49a3794377585130d, type: 3}
+  m_Script: {fileID: 11500000, guid: 3a7bfc364c0b2444480708f4d2934b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   health: 3
