@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 6028503895249170678}
   - component: {fileID: 6046937114774025375}
   - component: {fileID: 8579827112369034467}
+  - component: {fileID: -6339019376901005833}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -267,7 +268,8 @@ MonoBehaviour:
   maxReflectionCount: 2
   dragLimit: 3
   stopThreshold: 0.1
-  tempeffect: {fileID: 11400000, guid: 8f1355a1824274f42995b49ed1334ef2, type: 2}
+  playerStat: {fileID: 0}
+  relicHolder: {fileID: 0}
 --- !u!114 &8579827112369034467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,6 +285,19 @@ MonoBehaviour:
   health: 3
   attack: 5
   force: 10
+--- !u!114 &-6339019376901005833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139883107620220181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b5f47dc36c88324b887f612239b9935, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  relics: []
 --- !u!1 &3339125862167439568
 GameObject:
   m_ObjectHideFlags: 0

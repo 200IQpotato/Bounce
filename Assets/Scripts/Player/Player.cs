@@ -30,23 +30,19 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         }
     }
 
-    private Stats playerStat;
-    private Action<Enemy> onHit;
-    private Action onHealthChange;
+    public Stats playerStat;
+    public RelicHolder relicHolder;
     public bool isExpired { get; set; }
     private bool hasShoot = false;
-
-    [SerializeField] public EffectObject tempeffect;
 
     void Awake()
     {
         playerStat = GetComponent<Stats>();
+        relicHolder = GetComponent<RelicHolder>();
         rb = GetComponent<Rigidbody2D>();
         DragLine.positionCount = 2;
         isExpired = false;
-        onHit += (Enemy enemy) => {
-            enemy.enemyStat.ApplyEffect(new Effect(tempeffect, 1));
-        };
+        relicHolder.EquipRelic(RelicManager.Instance.GetRandomRelic());
     }
 
     void Start()
@@ -110,14 +106,14 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collided with: " + collision.gameObject.name);
+        //Debug.Log("Collided with: " + collision.gameObject.name);
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (BattleManager.Instance.CurrentState == GameState.PlayerTurn)
                 enemy.TakeDamage(playerStat.attack);
                 
-            onHit?.Invoke(enemy);
+            relicHolder.OnHit(this, enemy);
         }
     }
 
@@ -133,9 +129,10 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
 
     public void TakeDamage(int damage)
     {
-        playerStat.health -= damage;
         if (damage != 0)
-            onHealthChange?.Invoke();
+            relicHolder.OnTakeDamage(this, ref damage);
+            
+        playerStat.health -= damage;
             
         Debug.Log("Player Health: " + playerStat.health);
         if (playerStat.health <= 0)
