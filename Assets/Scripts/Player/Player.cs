@@ -42,7 +42,6 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         rb = GetComponent<Rigidbody2D>();
         DragLine.positionCount = 2;
         isExpired = false;
-        relicHolder.EquipRelic(RelicManager.Instance.GetRandomRelic());
     }
 
     void Start()
@@ -50,6 +49,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         BattleManager.Instance.RegisterRigidbody(rb);
         BattleManager.Instance.RegisterPlayer(this);
         BattleManager.Instance.RegisterEntity(this);
+        relicHolder.EquipRelic(RelicManager.Instance.GetRandomRelic());
     }
 
     // Update is called once per frame
