@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
 {
     private Rigidbody2D rb;
-    public Stats enemyStat;
+    public Stats stats { get; set; }
     [SerializeField] private EnemyUI enemyUI;
     [SerializeField] private float stopThreshold = 0.1f;
     public bool isExpired { get; set; }
@@ -13,9 +13,9 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        enemyStat = GetComponent<Stats>();
-        enemyUI.UpdateHealth(enemyStat.health);
-        enemyUI.UpdateAttack(enemyStat.attack);
+        stats = GetComponent<Stats>();
+        enemyUI.UpdateHealth(stats.health);
+        enemyUI.UpdateAttack(stats.attack);
         isExpired = false;
     }
     void Start()
@@ -41,7 +41,7 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
             if (player != null)
             {
                 if (BattleManager.Instance.CurrentState == GameState.EnemyTurn)
-                    player.TakeDamage(enemyStat.attack);
+                    player.TakeDamage(stats.attack);
             }
         }
     }
@@ -59,15 +59,15 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
     }
     public void OnTurnEnd()
     {
-        enemyStat.OnTurnEnd(this);
+        stats.OnTurnEnd(this);
     }
 
     public void TakeDamage(int damage)
     {
-        enemyStat.health -= damage;
-        enemyUI.UpdateHealth(enemyStat.health);
-        Debug.Log("Enemy Health: " + enemyStat.health);
-        if (enemyStat.health <= 0)
+        stats.health -= damage;
+        enemyUI.UpdateHealth(stats.health);
+        Debug.Log("Enemy Health: " + stats.health);
+        if (stats.health <= 0)
         {
             Die();
         }

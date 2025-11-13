@@ -30,14 +30,14 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         }
     }
 
-    public Stats playerStat;
+    public Stats stats { get; set; }
     public RelicHolder relicHolder;
     public bool isExpired { get; set; }
     private bool hasShoot = false;
 
     void Awake()
     {
-        playerStat = GetComponent<Stats>();
+        stats = GetComponent<Stats>();
         relicHolder = GetComponent<RelicHolder>();
         rb = GetComponent<Rigidbody2D>();
         DragLine.positionCount = 2;
@@ -82,7 +82,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         {
             distance = distance.normalized * dragLimit;
         }
-        rb.AddForce(-distance * playerStat.force, ForceMode2D.Impulse);
+        rb.AddForce(-distance * stats.force, ForceMode2D.Impulse);
         hasShoot = true;
     }
 
@@ -101,7 +101,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
 
     public void OnTurnEnd()
     {
-        playerStat.OnTurnEnd(this);
+        stats.OnTurnEnd(this);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -111,7 +111,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (BattleManager.Instance.CurrentState == GameState.PlayerTurn)
-                enemy.TakeDamage(playerStat.attack);
+                enemy.TakeDamage(stats.attack);
                 
             relicHolder.OnHit(this, enemy);
         }
@@ -132,10 +132,10 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         if (damage != 0)
             relicHolder.OnTakeDamage(this, ref damage);
             
-        playerStat.health -= damage;
+        stats.health -= damage;
             
-        Debug.Log("Player Health: " + playerStat.health);
-        if (playerStat.health <= 0)
+        Debug.Log("Player Health: " + stats.health);
+        if (stats.health <= 0)
         {
             Die();
         }
@@ -175,7 +175,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
             distance = distance.normalized * dragLimit;
         }
 
-        Vector3 initialVelocity = -distance * playerStat.force / rb.mass;
+        Vector3 initialVelocity = -distance * stats.force / rb.mass;
         Vector3 currentVelocity = initialVelocity;
         float timeStep = 0.02f;
         float currentTime = 0f;
