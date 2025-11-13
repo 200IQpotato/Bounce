@@ -113,9 +113,11 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
             if (BattleManager.Instance.CurrentState == GameState.PlayerTurn)
             {
                 int damage = stats.attack;
-                relicHolder.OnHit(this, enemy, ref damage);
+                relicHolder.OnDealDamage(this, enemy, ref damage);
                 enemy.TakeDamage(damage);
             }
+
+            relicHolder.OnHit(this, enemy);
         }
     }
 

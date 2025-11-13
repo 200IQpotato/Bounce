@@ -4,7 +4,7 @@ using UnityEngine;
 public class PoisonBlade : RelicObject
 {
     public EffectObject poisonEffect;
-    public override void OnHit(Player player, IBattleEntity entity, ref int damage)
+    public override void OnHit(Player player, IBattleEntity entity)
     {
         entity.stats.ApplyEffect(new Effect(poisonEffect, 1));
     }
