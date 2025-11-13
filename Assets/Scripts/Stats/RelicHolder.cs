@@ -26,11 +26,11 @@ public class RelicHolder : MonoBehaviour
         }
     }
 
-    public void OnHit(Player player, IBattleEntity entity)
+    public void OnHit(Player player, IBattleEntity entity, ref int damage)
     {
         foreach (var relic in relics.OrderBy(r => r.priority))
         {
-            relic.OnHit(player, entity);
+            relic.OnHit(player, entity, ref damage);
         }
     }
 
