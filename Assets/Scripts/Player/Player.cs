@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections;
 using Unity.VisualScripting.Antlr3.Runtime;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour, IBattleEntity, ITurnBase
 {
@@ -63,6 +64,9 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
 
     void OnMouseDrag()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+
         if ( BattleManager.Instance.CurrentState != GameState.PlayerTurn || hasShoot )
             return;
 
@@ -72,6 +76,9 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
 
     void OnMouseUp()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+            
         if (BattleManager.Instance.CurrentState != GameState.PlayerTurn || hasShoot)
             return;
 

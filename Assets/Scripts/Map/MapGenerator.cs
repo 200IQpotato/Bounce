@@ -47,6 +47,7 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private float layerSpacing = 200f;  // 層與層之間的垂直距離
     [SerializeField] private float nodeSpacing = 150f;   // 同一層節點之間的水平距離
     [SerializeField] private float randomOffset = 30f;   // 隨機偏移範圍
+    [SerializeField] private float bottomPadding = 100f;
 
     private List<List<MapNode>> map = new();
     private List<GameObject> lines = new();
@@ -144,11 +145,8 @@ public class MapGenerator : MonoBehaviour
                 int idxC = Mathf.Min(lastConnectedIndex + 2, next.Count - 1);
 
                 // 先決定連幾條
-                if ((float)nextCount / currCount >= 2)
-                {
-                    chance = 1f;
-                    Debug.Log("chance = 1");
-                }
+                if ((float)nextCount / currCount >= 2)                
+                    chance = 1f;                
 
                 bool twoLines = Random.value < chance;
                 int startFrom = (Random.value < chance) ? idxB : idxA;
@@ -189,7 +187,9 @@ public class MapGenerator : MonoBehaviour
         for (int layer = 0; layer < map.Count; layer++)
         {
             List<MapNode> nodes = map[layer];
-            float yPos = layer * layerSpacing;
+            
+            // 修改處: yPos 加上 bottomPadding，確保第一層不會被切一半
+            float yPos = bottomPadding + layer * layerSpacing;
 
             // 計算該層的總寬度，讓節點居中
             float totalWidth = (nodes.Count - 1) * nodeSpacing;
@@ -276,16 +276,22 @@ public class MapGenerator : MonoBehaviour
     {
         if (scrollRect == null) return;
 
-        // 設置 Content 的大小（加大上下邊距）
         RectTransform content = mapContainer.GetComponent<RectTransform>();
-        float height = (levelHeight - 1) * layerSpacing + 400f;  // 上下各多 200 邊距
-        content.sizeDelta = new Vector2(content.sizeDelta.x, height);
 
-        // 將滾動視圖移到底部（起始位置，從第一層開始）
-        scrollRect.verticalNormalizedPosition = 0f;
+        float maxNodeY = 0f;
+        if (map.Count > 0)
+        {
+            MapNode lastNode = map[map.Count - 1][0];
+            maxNodeY = lastNode.position.y;
+        }
+
+        float finalHeight = maxNodeY + 100f; 
+
         
-        // 強制更新 Layout
+        content.sizeDelta = new Vector2(content.sizeDelta.x, finalHeight);
+
         Canvas.ForceUpdateCanvases();
+        scrollRect.verticalNormalizedPosition = 0f; // 0 代表回到最底部
     }
 
     GameObject GetNodePrefab( NodeType nodeType )
