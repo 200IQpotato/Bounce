@@ -20,6 +20,14 @@ public class MapNode
         nextNodes = new();
         nodeState = NodeState.Locked;
     }
+
+    public MapNode(NodeType type, NodeState state)
+    {
+        this.type = type;
+        nodeObject = null;
+        nextNodes = new();
+        nodeState = state;
+    }
 }
 
 public class MapGenerator : MonoBehaviour
@@ -51,6 +59,14 @@ public class MapGenerator : MonoBehaviour
 
     private List<List<MapNode>> map = new();
     private List<GameObject> lines = new();
+    public static event System.Action<MapNode> OnNodeChosen;
+    private int currentLayer = 0;
+
+    void Awake()
+    {
+        
+    }
+
     void Start()
     {
         GenerateMap();
@@ -94,7 +110,7 @@ public class MapGenerator : MonoBehaviour
             {
                 for (int j = 0; j < fixedNode; j++)
                 {
-                    nodes.Add(new MapNode(NodeType.Battle));
+                    nodes.Add(new MapNode(NodeType.Battle, NodeState.Unlocked));
                 }
             }
             else if (i == 8)
@@ -228,8 +244,7 @@ public class MapGenerator : MonoBehaviour
                     Button btn = nodeObj.GetComponent<Button>();
                     if (btn != null)
                     {
-                        MapNode capturedNode = node;  // 捕獲當前節點
-                        btn.onClick.AddListener(() => OnNodeClicked(capturedNode));
+                        btn.onClick.AddListener(() => OnNodeClicked(node));
                     }
                 }
             }
@@ -323,7 +338,46 @@ public class MapGenerator : MonoBehaviour
 
     void OnNodeClicked(MapNode node)
     {
-        Debug.Log($"Clicked on {node.type} node at position {node.position}");
-        // 在這裡處理節點點擊邏輯
+        Debug.Log($"Clicked on {node.type} node now state {node.nodeState}");
+        
+        if ( BattleManager.Instance.CurrentState != GameState.NotBattle )
+        {
+            Debug.Log("Cannot choose node during battle.");
+            return;
+        }
+        else if ( node.nodeState == NodeState.Locked || node.nodeState == NodeState.Completed )
+        {
+            Debug.Log("This node is locked.");
+            return;
+        }
+        else
+        {
+            OnNodeChosen?.Invoke( node );
+            LockLayerNodes( currentLayer++ );
+            node.nodeState = NodeState.Completed;
+            for ( int i = 0; i < node.nextNodes.Count; i++ )
+            {
+                UnlockNode( node.nextNodes[i] );
+            }
+        }
+    }
+
+    public void UnlockNode( MapNode node )
+    {
+        node.nodeState = NodeState.Unlocked;
+        // 可以在這裡更改節點的視覺效果，例如改變顏色或圖片
+    }
+
+    public void LockLayerNodes( int layer )
+    {
+        if ( layer < 0 || layer >= map.Count )
+            return;
+
+        for ( int i = 0; i < map[layer].Count; i++ )
+        {
+            MapNode node = map[layer][i];
+            node.nodeState = NodeState.Locked;
+            // 可以在這裡更改節點的視覺效果，例如改變顏色或圖片
+        }
     }
 }
