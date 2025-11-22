@@ -2389,7 +2389,7 @@ MonoBehaviour:
   layerSpacing: 240
   nodeSpacing: 180
   randomOffset: 30
-  bottomPadding: 50
+  bottomPadding: 100
   battleWeight: 55
   eliteWeight: 15
   eventWeight: 15

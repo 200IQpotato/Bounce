@@ -43,6 +43,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         rb = GetComponent<Rigidbody2D>();
         DragLine.positionCount = 2;
         isExpired = false;
+        DisableLine();
     }
 
     void Start()
