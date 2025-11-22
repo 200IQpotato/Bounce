@@ -52,10 +52,10 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private int fixedNode = 4;
 
     [Header("Layout Settings")]
-    [SerializeField] private float layerSpacing = 200f;  // 層與層之間的垂直距離
-    [SerializeField] private float nodeSpacing = 150f;   // 同一層節點之間的水平距離
-    [SerializeField] private float randomOffset = 30f;   // 隨機偏移範圍
-    [SerializeField] private float bottomPadding = 100f;
+    [SerializeField] private int layerSpacing = 200;  // 層與層之間的垂直距離
+    [SerializeField] private int nodeSpacing = 150;   // 同一層節點之間的水平距離
+    [SerializeField] private int randomOffset = 30;   // 隨機偏移範圍
+    [SerializeField] private int bottomPadding = 100;
 
     [Header("Node Chance Weights")]
     [SerializeField] private int battleWeight = 50;
@@ -205,33 +205,88 @@ public class MapGenerator : MonoBehaviour
         }
     }
     
+    // void CalculateNodePositions()
+    // {
+    //     Canvas canvas = GetComponentInChildren<Canvas>();
+    //     int scaleFactor = canvas != null ? (int)canvas.scaleFactor : 1;
+
+    //     for (int layer = 0; layer < map.Count; layer++)
+    //     {
+    //         List<MapNode> nodes = map[layer];
+            
+    //         // 修改處: yPos 加上 bottomPadding，確保第一層不會被切一半
+    //         int yPos = bottomPadding + layer * layerSpacing * scaleFactor;
+
+    //         // 計算該層的總寬度，讓節點居中
+    //         int totalWidth = (nodes.Count - 1) * nodeSpacing * scaleFactor;
+    //         int startX = (int)(-totalWidth / 2f);
+
+    //         for (int i = 0; i < nodes.Count; i++)
+    //         {
+    //             int xPos = startX + i * nodeSpacing * scaleFactor;
+    //             float currentYPos = yPos;
+
+    //             // 添加隨機偏移（但第一層和最後一層不偏移）
+    //             if (layer != 0 && layer != map.Count - 1)
+    //             {
+    //                 xPos += Random.Range(-randomOffset, randomOffset);
+    //                 yPos += Random.Range((int)(-randomOffset * 0.5f), (int)(randomOffset * 0.5f));
+    //             }
+
+    //             nodes[i].position = new Vector2(xPos, yPos);
+    //         }
+    //     }
+    // }
+
     void CalculateNodePositions()
     {
+        Canvas canvas = GetComponentInChildren<Canvas>();
+        float scaleFactor = canvas != null ? canvas.scaleFactor : 1f;
+
         for (int layer = 0; layer < map.Count; layer++)
         {
             List<MapNode> nodes = map[layer];
             
-            // 修改處: yPos 加上 bottomPadding，確保第一層不會被切一半
-            float yPos = bottomPadding + layer * layerSpacing;
+            float yPos = AlignValue(bottomPadding, scaleFactor) + layer * AlignValue(layerSpacing, scaleFactor);
 
-            // 計算該層的總寬度，讓節點居中
-            float totalWidth = (nodes.Count - 1) * nodeSpacing;
-            float startX = -totalWidth / 2f;
+            float alignedNodeSpacing = AlignValue(nodeSpacing, scaleFactor);
+            float totalWidth = (nodes.Count - 1) * alignedNodeSpacing;
+            float startX = AlignValue(-totalWidth / 2f, scaleFactor); 
 
             for (int i = 0; i < nodes.Count; i++)
             {
-                float xPos = startX + i * nodeSpacing;
+                float xPos = startX + i * alignedNodeSpacing;
+                float currentYPos = yPos;
 
-                // 添加隨機偏移（但第一層和最後一層不偏移）
                 if (layer != 0 && layer != map.Count - 1)
                 {
-                    xPos += Random.Range(-randomOffset, randomOffset);
-                    yPos += Random.Range(-randomOffset * 0.5f, randomOffset * 0.5f);
+                    xPos += GetAlignedRandomOffset(-randomOffset, randomOffset, scaleFactor);
+                    currentYPos += GetAlignedRandomOffset((int)(-randomOffset * 0.5f), (int)(randomOffset * 0.5f), scaleFactor);
                 }
 
-                nodes[i].position = new Vector2(xPos, yPos);
+                nodes[i].position = new Vector2(xPos, currentYPos);
             }
         }
+    }
+
+    // ✨ 新增：對齊單一數值到像素網格
+    float AlignValue(float value, float scale)
+    {
+        return Mathf.Round(value / scale) * scale;
+    }
+
+    // ✨ 新增：產生對齊的隨機偏移
+    float GetAlignedRandomOffset(float min, float max, float scale)
+    {
+        // 將範圍轉換為網格單位
+        int gridMin = Mathf.CeilToInt(min / scale);
+        int gridMax = Mathf.FloorToInt(max / scale);
+        
+        // 在網格上隨機選擇
+        int gridOffset = Random.Range(gridMin, gridMax + 1);
+        
+        // 轉換回實際座標
+        return gridOffset * scale;
     }
 
     void InstantiateNodes()
@@ -307,7 +362,9 @@ public class MapGenerator : MonoBehaviour
             maxNodeY = lastNode.position.y;
         }
 
-        float finalHeight = maxNodeY + 100f; 
+        Canvas canvas = GetComponentInChildren<Canvas>();
+        float scaleFactor = canvas != null ? canvas.scaleFactor : 1f;
+        float finalHeight = maxNodeY + AlignValue(bottomPadding, scaleFactor); 
 
         
         content.sizeDelta = new Vector2(content.sizeDelta.x, finalHeight);
