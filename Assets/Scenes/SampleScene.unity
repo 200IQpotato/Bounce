@@ -2390,6 +2390,11 @@ MonoBehaviour:
   nodeSpacing: 180
   randomOffset: 30
   bottomPadding: 50
+  battleWeight: 55
+  eliteWeight: 15
+  eventWeight: 15
+  shopWeight: 10
+  restWeight: 5
 --- !u!4 &1969331792
 Transform:
   m_ObjectHideFlags: 0

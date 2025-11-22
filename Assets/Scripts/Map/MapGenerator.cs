@@ -57,6 +57,13 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private float randomOffset = 30f;   // 隨機偏移範圍
     [SerializeField] private float bottomPadding = 100f;
 
+    [Header("Node Chance Weights")]
+    [SerializeField] private int battleWeight = 50;
+    [SerializeField] private int eliteWeight = 15;
+    [SerializeField] private int eventWeight = 15;
+    [SerializeField] private int shopWeight = 10;
+    [SerializeField] private int restWeight = 10;
+
     private List<List<MapNode>> map = new();
     private List<GameObject> lines = new();
     public static event System.Action<MapNode> OnNodeChosen;
@@ -129,7 +136,7 @@ public class MapGenerator : MonoBehaviour
                 int nodeCount = Random.Range(levelMinWidth, levelMaxWidth+1);
                 for (int j = 0; j < nodeCount; j++)
                 {
-                    NodeType type = (NodeType)Random.Range((int)NodeType.Battle, (int)NodeType.Rest+1);
+                    NodeType type = GetRandomNodeWeighted();
                     nodes.Add(new MapNode(type));
                 }
             }
@@ -379,5 +386,33 @@ public class MapGenerator : MonoBehaviour
             node.nodeState = NodeState.Locked;
             // 可以在這裡更改節點的視覺效果，例如改變顏色或圖片
         }
+    }
+
+    NodeType GetRandomNodeWeighted()
+    {
+        Dictionary<NodeType, int> weights = new Dictionary<NodeType, int>()
+        {
+            { NodeType.Battle, battleWeight },
+            { NodeType.Event, eventWeight },
+            { NodeType.Shop, shopWeight },
+            { NodeType.Rest, restWeight },
+            { NodeType.Elite, eliteWeight }
+        };
+
+        int total = 0;
+        foreach (var w in weights.Values)
+            total += w;
+
+        int r = Random.Range(0, total);
+        int sum = 0;
+
+        foreach (var kv in weights)
+        {
+            sum += kv.Value;
+            if (r < sum)
+                return kv.Key;
+        }
+
+        return NodeType.Battle; // 安全保底
     }
 }
