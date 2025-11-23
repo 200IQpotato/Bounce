@@ -1,10 +1,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class RelicHolder : MonoBehaviour
 {
     public List<RelicObject> relics = new();
+
+    // relic related counts & UI events
+    public static event Action<RelicObject, int> OnRelicAddedUI;
+    public static event Action<RelicObject> OnRelicRemovedUI;
+    public static event Action<ValueType, int> OnRelicValueUpdatedUI;
+    public int bounceCount = 0;
+    public int roundCount = 0;
+    public int hitCount = 0;
+
+    public void OnBounceAdd()
+    {
+        bounceCount++;
+        OnRelicValueUpdatedUI?.Invoke(ValueType.Bounce, bounceCount);
+    }
+
+    public void OnRoundAdd()
+    {
+        roundCount++;
+        OnRelicValueUpdatedUI?.Invoke(ValueType.Round, roundCount);
+    }
+
+    public void OnHitAdd()
+    {
+        hitCount++;
+        OnRelicValueUpdatedUI?.Invoke(ValueType.Hit, hitCount);
+    }
 
     public void EquipRelic(RelicObject relic)
     {
@@ -14,6 +41,7 @@ public class RelicHolder : MonoBehaviour
             relic.OnEquip(GetComponent<Player>());
             Debug.Log($"Equipped relic: {relic.relicName}");
             RelicManager.Instance.AddRelicToPlayer(relic);
+            OnRelicAddedUI?.Invoke(relic, relic.GetValue(this));
         }
     }
 
@@ -23,6 +51,7 @@ public class RelicHolder : MonoBehaviour
         {
             relics.Remove(relic);
             relic.OnUnequip(GetComponent<Player>());
+            OnRelicRemovedUI?.Invoke(relic);
         }
     }
 

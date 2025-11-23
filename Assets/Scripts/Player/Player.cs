@@ -104,7 +104,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
 
     public void OnTurnStart()
     {
-        
+        relicHolder.OnRoundAdd();
     }
 
     public void OnTurnEnd()
@@ -126,7 +126,10 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
             }
 
             relicHolder.OnHit(this, enemy);
+            relicHolder.OnHitAdd();
         }
+
+        relicHolder.OnBounceAdd();
     }
 
     void OnDestroy()
