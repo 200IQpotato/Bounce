@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 25e0355a9ef97e245b201ebc0a28c872
+guid: af0b55c124476ba4796387de8e222d80
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1547804281730946603
-    second: Line_0
+      213: 2429764162891173159
+    second: PoisonDagger_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,9 +40,9 @@ TextureImporter:
     filterMode: 0
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
-    wrapW: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Line_0
+      name: PoisonDagger_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 17
-        height: 8
+        width: 16
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b26d66a2bc7ea7510800000000000000
-      internalID: 1547804281730946603
+      spriteID: 72d4a19f1a148b120800000000000000
+      internalID: 2429764162891173159
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Line_0: 1547804281730946603
+      PoisonDagger_0: 2429764162891173159
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

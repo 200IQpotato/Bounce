@@ -339,7 +339,7 @@ public class MapGenerator : MonoBehaviour
                     float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
                     lineRect.anchoredPosition = start;
-                    lineRect.sizeDelta = new Vector2(distance, 5f);  // 寬度為距離，高度為線條粗細
+                    lineRect.sizeDelta = new Vector2(distance, 2f);  // 寬度為距離，高度為線條粗細
                     lineRect.pivot = new Vector2(0, 0.5f);
                     lineRect.rotation = Quaternion.Euler(0, 0, angle);
 
