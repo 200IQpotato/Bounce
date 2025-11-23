@@ -134,7 +134,7 @@ TextureImporter:
       name: MapNode_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 16
         y: 112
         width: 16
         height: 16
@@ -156,7 +156,7 @@ TextureImporter:
       name: MapNode_1
       rect:
         serializedVersion: 2
-        x: 16
+        x: 48
         y: 112
         width: 16
         height: 16
@@ -178,7 +178,7 @@ TextureImporter:
       name: MapNode_2
       rect:
         serializedVersion: 2
-        x: 32
+        x: 80
         y: 112
         width: 16
         height: 16
@@ -200,8 +200,8 @@ TextureImporter:
       name: MapNode_3
       rect:
         serializedVersion: 2
-        x: 48
-        y: 112
+        x: 0
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -222,8 +222,8 @@ TextureImporter:
       name: MapNode_4
       rect:
         serializedVersion: 2
-        x: 64
-        y: 112
+        x: 32
+        y: 96
         width: 16
         height: 16
       alignment: 0
@@ -244,8 +244,8 @@ TextureImporter:
       name: MapNode_5
       rect:
         serializedVersion: 2
-        x: 80
-        y: 112
+        x: 64
+        y: 96
         width: 16
         height: 16
       alignment: 0
