@@ -1,9 +1,10 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 public class EnemyUI : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI healthText;
-    [SerializeField] private TextMeshProUGUI attackText;
+    [SerializeField] private Text healthText;
+    [SerializeField] private Text attackText;
 
     public void UpdateAttack(int attack)
     {
