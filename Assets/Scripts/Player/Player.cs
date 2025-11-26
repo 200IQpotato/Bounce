@@ -15,6 +15,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
     [SerializeField] private List<GameObject> PredictionPoint;
     [SerializeField] private LayerMask collisionMask; // 設定可碰撞圖層（例如：牆、敵人等）
     [SerializeField] private float maxReflectionCount = 2; // 最多反彈次數
+    [SerializeField] private float ballRadius = 0.55f;
 
     [Header("Drag Settings")]
     [SerializeField] private float dragLimit = 3f;
@@ -194,7 +195,6 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         Vector3 currentVelocity = initialVelocity;
         float timeStep = 0.02f;
         float currentTime = 0f;
-        float ballRadius = 0.5f;
         int reflectionCount = 0;
         bool isHittingEnemy = false;
 
