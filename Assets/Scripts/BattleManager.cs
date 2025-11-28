@@ -19,8 +19,8 @@ public class BattleManager : MonoBehaviour
     private readonly List<Enemy> enemies = new();
     private readonly List<Player> players = new();
     private readonly List<IBattleEntity> entities = new();
-    public event Func<IEnumerator> OnTurnStartUI;
-    public event Func<IEnumerator> OnTurnEndUI;
+    public event Func<int, bool, IEnumerator> OnTurnStartEndUI;
+    private int turnCount = 0;
     
     void Awake() {
         if (Instance == null)
@@ -93,6 +93,7 @@ public class BattleManager : MonoBehaviour
             return;
 
         Debug.Log("Battle Start");
+        turnCount = 0;
         StartCoroutine(GameLoop());
     }
 
@@ -100,7 +101,8 @@ public class BattleManager : MonoBehaviour
     {
         while (true)
         {
-            //yield return StartCoroutine(OnTurnStartUI?.Invoke());
+            turnCount++;
+            yield return StartCoroutine(OnTurnStartEndUI?.Invoke(turnCount, true));
 
             foreach (IBattleEntity entity in entities)
             {
@@ -126,7 +128,7 @@ public class BattleManager : MonoBehaviour
             }
 
             Debug.Log("End Turn");
-            //yield return StartCoroutine(OnTurnEndUI?.Invoke());
+            yield return StartCoroutine(OnTurnStartEndUI?.Invoke(turnCount, false));
 
             if (enemies.Count == 0)
             {
