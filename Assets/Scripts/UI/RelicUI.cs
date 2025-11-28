@@ -11,7 +11,6 @@ public class RelicUI : MonoBehaviour
     {
         RelicHolder.OnRelicAddedUI += AddRelic;
         RelicHolder.OnRelicRemovedUI += RemoveRelic;
-        RelicHolder.OnRelicValueUpdatedUI += UpdateValue;
     }
 
     public void AddRelic(RelicObject relic, int value)
@@ -30,19 +29,6 @@ public class RelicUI : MonoBehaviour
         {
             Destroy(relicUIs[relic].gameObject);
             relicUIs.Remove(relic);
-        }
-    }
-
-    public void UpdateValue(ValueType type, int value)
-    {
-        foreach (var kvp in relicUIs)
-        {
-            RelicObject relic = kvp.Key;
-            RelicUIPrefab ui = kvp.Value;
-            if (relic.valueType == type)
-            {
-                ui.SetRelicUI(relic, relic.GetUIValue(value));
-            }
         }
     }
 }

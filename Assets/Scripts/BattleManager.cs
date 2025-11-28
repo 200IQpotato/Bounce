@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using System;
 
 public enum GameState
 {
@@ -18,6 +19,8 @@ public class BattleManager : MonoBehaviour
     private readonly List<Enemy> enemies = new();
     private readonly List<Player> players = new();
     private readonly List<IBattleEntity> entities = new();
+    public event Func<IEnumerator> OnTurnStartUI;
+    public event Func<IEnumerator> OnTurnEndUI;
     
     void Awake() {
         if (Instance == null)
@@ -97,6 +100,8 @@ public class BattleManager : MonoBehaviour
     {
         while (true)
         {
+            //yield return StartCoroutine(OnTurnStartUI?.Invoke());
+
             foreach (IBattleEntity entity in entities)
             {
                 entity.OnTurnStart();
@@ -121,6 +126,7 @@ public class BattleManager : MonoBehaviour
             }
 
             Debug.Log("End Turn");
+            //yield return StartCoroutine(OnTurnEndUI?.Invoke());
 
             if (enemies.Count == 0)
             {
