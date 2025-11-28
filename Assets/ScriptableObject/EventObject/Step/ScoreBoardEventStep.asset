@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 108e76732c6647445ad55126313d8cfe, type: 3}
+  m_Name: ScoreBoardEventStep
+  m_EditorClassIdentifier: 
+  scoreBoardPrefab: {fileID: 4857435102786315158, guid: d114fdc9177c5eb4ba786df05f84bd2d, type: 3}
+  targetScore: 150
+  boardCount: 5
+  rangeMin: {x: -9, y: -5}
+  rangeMax: {x: 9, y: 4}

@@ -404,7 +404,7 @@ public class MapGenerator : MonoBehaviour
     {
         Debug.Log($"Clicked on {node.type} node now state {node.nodeState}");
         
-        if ( BattleManager.Instance.CurrentState != GameState.NotBattle )
+        if ( GameManager.Instance.CurrentState != GameState.NotBattle )
         {
             Debug.Log("Cannot choose node during battle.");
             return;

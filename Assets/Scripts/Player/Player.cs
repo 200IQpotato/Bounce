@@ -69,7 +69,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         if (EventSystem.current.IsPointerOverGameObject())
             return;
 
-        if ( BattleManager.Instance.CurrentState != GameState.PlayerTurn || hasShoot )
+        if ( GameManager.Instance.CurrentState != GameState.PlayerTurn || hasShoot )
             return;
 
         DrawDragLine();
@@ -81,7 +81,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         if (EventSystem.current.IsPointerOverGameObject())
             return;
             
-        if (BattleManager.Instance.CurrentState != GameState.PlayerTurn || hasShoot)
+        if (GameManager.Instance.CurrentState != GameState.PlayerTurn || hasShoot)
             return;
 
         DisableLine();
@@ -119,7 +119,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-            if (BattleManager.Instance.CurrentState == GameState.PlayerTurn)
+            if (GameManager.Instance.CurrentState == GameState.PlayerTurn)
             {
                 int damage = stats.attack;
                 relicHolder.OnDealDamage(this, enemy, ref damage);

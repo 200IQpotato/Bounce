@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
             Player player = collision.gameObject.GetComponent<Player>();
             if (player != null)
             {
-                if (BattleManager.Instance.CurrentState == GameState.EnemyTurn)
+                if (GameManager.Instance.CurrentState == GameState.EnemyTurn)
                     player.TakeDamage(stats.attack);
             }
         }

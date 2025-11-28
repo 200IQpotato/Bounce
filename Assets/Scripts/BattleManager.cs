@@ -4,17 +4,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using System;
 
-public enum GameState
-{
-    PlayerTurn,
-    EnemyTurn,
-    NotBattle
-}
-
 public class BattleManager : MonoBehaviour
 {
     public static BattleManager Instance { get; private set; }
-    public GameState CurrentState { get; set; } = GameState.NotBattle;
     private readonly List<Rigidbody2D> activeRigidbodies = new();
     private readonly List<Enemy> enemies = new();
     private readonly List<Player> players = new();
@@ -89,7 +81,7 @@ public class BattleManager : MonoBehaviour
 
     public void StartBattle()
     {
-        if (CurrentState != GameState.NotBattle)
+        if (GameManager.Instance.CurrentState != GameState.NotBattle)
             return;
 
         Debug.Log("Battle Start");
@@ -110,13 +102,13 @@ public class BattleManager : MonoBehaviour
             }
             Debug.Log("New Turn");
 
-            CurrentState = GameState.PlayerTurn;
+            GameManager.Instance.CurrentState = GameState.PlayerTurn;
             foreach (ITurnBase player in players)
             {
                 yield return StartCoroutine(player.TakeTurn());
             }
 
-            CurrentState = GameState.EnemyTurn;
+            GameManager.Instance.CurrentState = GameState.EnemyTurn;
             foreach (ITurnBase enemy in enemies)
             {
                 yield return StartCoroutine(enemy.TakeTurn());
@@ -132,7 +124,7 @@ public class BattleManager : MonoBehaviour
 
             if (enemies.Count == 0)
             {
-                CurrentState = GameState.NotBattle;
+                GameManager.Instance.CurrentState = GameState.NotBattle;
                 Debug.Log("Battle End");
                 yield break;
             }

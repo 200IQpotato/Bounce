@@ -1,13 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GameState
+{
+    PlayerTurn,
+    EnemyTurn,
+    NotBattle
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public GameState CurrentState { get; set; } = GameState.NotBattle;
     public List<BattleLevelSO> battleLevels;
     public GameObject playerPrefab;
     [SerializeField] private Vector2 playerSpawnPoint;
-    private Player playerInstance;
+    public Player playerInstance;
 
     void Awake() {
         if (Instance == null)
@@ -50,9 +58,10 @@ public class GameManager : MonoBehaviour
 
     public void CreateLevel( NodeType nodeType )
     {
-        if( BattleManager.Instance.CurrentState != GameState.NotBattle )
+        if( CurrentState != GameState.NotBattle )
             return;
 
+        playerInstance.transform.position = playerSpawnPoint;
         switch ( nodeType )
         {
             case NodeType.Battle:
@@ -67,6 +76,7 @@ public class GameManager : MonoBehaviour
 
             case NodeType.Event:
                 Debug.Log("Creating Event Level");
+                EventManager.Instance.StartEvent();
                 break;
 
             case NodeType.Shop:
@@ -89,7 +99,6 @@ public class GameManager : MonoBehaviour
 
     void InstantiateBattleLevel( BattleLevelSO battleLevelSO )
     {
-        playerInstance.transform.position = playerSpawnPoint;
         int i = 0;
         foreach ( Enemy enemy in battleLevelSO.enemies )
         {
