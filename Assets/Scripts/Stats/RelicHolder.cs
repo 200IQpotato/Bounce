@@ -51,6 +51,8 @@ public class RelicHolder : MonoBehaviour
         {
             relics.Remove(relic);
             relic.OnUnequip(GetComponent<Player>());
+            Debug.Log($"Unequipped relic: {relic.relicName}");
+            RelicManager.Instance.RemoveRelicFromPlayer(relic);
             OnRelicRemovedUI?.Invoke(relic);
         }
     }

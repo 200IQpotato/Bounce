@@ -37,4 +37,12 @@ public class RelicManager : MonoBehaviour
             playerRelics.Add(relic);
         }
     }
+
+    public void RemoveRelicFromPlayer(RelicObject relic)
+    {
+        if (playerRelics.Contains(relic))
+        {
+            playerRelics.Remove(relic);
+        }
+    }
 }
