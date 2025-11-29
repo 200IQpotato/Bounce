@@ -33,10 +33,9 @@ public class EventManager : MonoBehaviour
         Debug.Log($"Event Start: {eventObject.eventName}");
 
         GameManager.Instance.CurrentState = GameState.PlayerTurn;
-        foreach (var step in eventObject.steps)
-        {
-            yield return StartCoroutine(step.Execute(this));
-        }
+        
+        yield return StartCoroutine(eventObject.Execute(this));
+        
         GameManager.Instance.CurrentState = GameState.NotBattle;
         Debug.Log("Event Finished!");
     }

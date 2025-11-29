@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-[CreateAssetMenu(fileName = "ScoreBoardEventStep", menuName = "Event/Steps/ScoreBoardEventStep")]
-public class ScoreBoardEventStep : EventStep
+[CreateAssetMenu(fileName = "ScoreBoardEvent", menuName = "Event/ScoreBoardEvent")]
+public class ScoreBoardEvent : EventObject
 {
     public GameObject scoreBoardPrefab;
     public int targetScore;
