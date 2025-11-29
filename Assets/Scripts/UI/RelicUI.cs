@@ -7,10 +7,10 @@ public class RelicUI : MonoBehaviour
     public RelicUIPrefab relicPrefab;
     private Dictionary<RelicObject, RelicUIPrefab> relicUIs = new();
 
-    void Awake()
+    void Start()
     {
-        RelicHolder.OnRelicAddedUI += AddRelic;
-        RelicHolder.OnRelicRemovedUI += RemoveRelic;
+        RelicManager.OnRelicAddedUI += AddRelic;
+        RelicManager.OnRelicRemovedUI += RemoveRelic;
     }
 
     public void AddRelic(RelicObject relic, int value)
@@ -18,7 +18,7 @@ public class RelicUI : MonoBehaviour
         if (!relicUIs.ContainsKey(relic))
         {
             RelicUIPrefab ui = Instantiate(relicPrefab, content);
-            ui.SetRelicUI(relic, relic.GetUIValue(value));
+            ui.SetRelicUI(relic, value);
             relicUIs[relic] = ui;
         }
     }

@@ -12,12 +12,12 @@ public class RelicUIPrefab : MonoBehaviour
 
     public void OnEnable()
     {
-        RelicHolder.OnRelicValueUpdatedUI += UpdateValue;
+        RelicManager.OnRelicValueUpdatedUI += UpdateValue;
     }
 
     public void OnDisable()
     {
-        RelicHolder.OnRelicValueUpdatedUI -= UpdateValue;
+        RelicManager.OnRelicValueUpdatedUI -= UpdateValue;
     }
 
     public void SetRelicUI(RelicObject relic, int value)
@@ -27,7 +27,7 @@ public class RelicUIPrefab : MonoBehaviour
         valueType = relic.valueType;
         if ( relic.valueType != ValueType.None )
         {
-            this.value.text = value.ToString();
+            this.value.text = getValue(value).ToString();
             this.value.gameObject.SetActive(true);
         }
         else

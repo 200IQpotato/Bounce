@@ -17,21 +17,5 @@ public class RelicObject : ScriptableObject
     public virtual void onHealthChange(Player player ) { }
     public virtual void OnTurnStart(Player player) { }
     public virtual void OnTurnEnd(Player player) { }
-    public virtual int GetUIValue(int rawValue){ return rawValue;}
-    public int GetValue(RelicHolder relicHolder)
-    {
-        switch (valueType)
-        {
-            case ValueType.Round:
-                return relicHolder.roundCount;
-            case ValueType.Bounce:
-                return relicHolder.bounceCount;
-            case ValueType.Hit:
-                return relicHolder.hitCount;
-            default:
-                return 0;
-        }
-    }
-
-    
+    public virtual int GetUIValue(int rawValue){ return rawValue;}    
 }

@@ -52,7 +52,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         BattleManager.Instance.RegisterRigidbody(rb);
         BattleManager.Instance.RegisterPlayer(this);
         BattleManager.Instance.RegisterEntity(this);
-        relicHolder.EquipRelic(RelicManager.Instance.GetRandomRelic());
+        RelicManager.Instance.AddRelicToPlayer(RelicManager.Instance.GetRandomRelic());
     }
 
     // Update is called once per frame
@@ -105,7 +105,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
 
     public void OnTurnStart()
     {
-        relicHolder.OnRoundAdd();
+        RelicManager.Instance.OnRoundAdd();
     }
 
     public void OnTurnEnd()
@@ -127,10 +127,10 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
             }
 
             relicHolder.OnHit(this, enemy);
-            relicHolder.OnHitAdd();
+            RelicManager.Instance.OnHitAdd();
         }
 
-        relicHolder.OnBounceAdd();
+        RelicManager.Instance.OnBounceAdd();
     }
 
     void OnDestroy()
