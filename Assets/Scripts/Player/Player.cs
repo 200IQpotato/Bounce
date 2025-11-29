@@ -52,7 +52,6 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         BattleManager.Instance.RegisterRigidbody(rb);
         BattleManager.Instance.RegisterPlayer(this);
         BattleManager.Instance.RegisterEntity(this);
-        RelicManager.Instance.AddRelicToPlayer(RelicManager.Instance.GetRandomRelic());
     }
 
     // Update is called once per frame

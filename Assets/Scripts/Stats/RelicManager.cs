@@ -30,12 +30,20 @@ public class RelicManager : MonoBehaviour
         }
     }
 
-    public RelicObject GetRandomRelic()
+    public List<RelicObject> GetRandomRelic(int count)
     {
         var available = allRelics.Except(playerRelics).ToList();
         if (available.Count == 0)
             return null;
-        return available[UnityEngine.Random.Range(0, available.Count)];
+
+        List<RelicObject> randomRelics = new List<RelicObject>();
+        for (int i = 0; i < count && available.Count > 0; i++)
+        {
+            int index = UnityEngine.Random.Range(0, available.Count);
+            randomRelics.Add(available[index]);
+            available.RemoveAt(index);
+        }
+        return randomRelics;
     }
     
     public void AddRelicToPlayer(RelicObject relic)
