@@ -3,7 +3,8 @@ using UnityEngine;
 public enum EffectType
 {
     Buff,
-    Debuff
+    Debuff,
+    Dot
 }
 
 public class EffectObject : ScriptableObject

@@ -125,8 +125,8 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
                 enemy.TakeDamage(damage);
             }
 
-            relicHolder.OnHit(this, enemy);
             RelicManager.Instance.OnHitAdd();
+            relicHolder.OnHit(this, enemy);            
         }
 
         RelicManager.Instance.OnBounceAdd();

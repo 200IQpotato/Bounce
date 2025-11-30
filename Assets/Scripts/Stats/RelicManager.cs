@@ -71,6 +71,9 @@ public class RelicManager : MonoBehaviour
         bounceCount = 0;
         roundCount = 0;
         hitCount = 0;
+        OnRelicValueUpdatedUI?.Invoke(ValueType.Bounce, bounceCount);
+        OnRelicValueUpdatedUI?.Invoke(ValueType.Round, roundCount);
+        OnRelicValueUpdatedUI?.Invoke(ValueType.Hit, hitCount);
     }
 
     public void OnBounceAdd()

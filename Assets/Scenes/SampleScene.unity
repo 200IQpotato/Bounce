@@ -1527,6 +1527,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allRelics:
   - {fileID: 11400000, guid: 3d247a262d3429a4188e718faf50b406, type: 2}
+  - {fileID: 11400000, guid: f6925cd177d5b2a4492b67cf34b80a19, type: 2}
   playerRelics: []
   bounceCount: 0
   roundCount: 0

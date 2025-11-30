@@ -87,7 +87,9 @@ public class BattleManager : MonoBehaviour
 
         Debug.Log("Battle Start");
         turnCount = 0;
+        RelicManager.Instance.OnCountInit();
         StartCoroutine(GameLoop());
+        RelicManager.Instance.OnCountInit();
     }
 
     private IEnumerator GameLoop()

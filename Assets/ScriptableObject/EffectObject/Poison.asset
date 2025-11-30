@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Poison
   m_EditorClassIdentifier: 
   effectName: Poison
-  effectType: 1
+  effectType: 2
   isStackable: 1
   damagePerTurn: 1
