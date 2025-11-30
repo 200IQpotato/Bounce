@@ -204,39 +204,6 @@ public class MapGenerator : MonoBehaviour
             }
         }
     }
-    
-    // void CalculateNodePositions()
-    // {
-    //     Canvas canvas = GetComponentInChildren<Canvas>();
-    //     int scaleFactor = canvas != null ? (int)canvas.scaleFactor : 1;
-
-    //     for (int layer = 0; layer < map.Count; layer++)
-    //     {
-    //         List<MapNode> nodes = map[layer];
-            
-    //         // 修改處: yPos 加上 bottomPadding，確保第一層不會被切一半
-    //         int yPos = bottomPadding + layer * layerSpacing * scaleFactor;
-
-    //         // 計算該層的總寬度，讓節點居中
-    //         int totalWidth = (nodes.Count - 1) * nodeSpacing * scaleFactor;
-    //         int startX = (int)(-totalWidth / 2f);
-
-    //         for (int i = 0; i < nodes.Count; i++)
-    //         {
-    //             int xPos = startX + i * nodeSpacing * scaleFactor;
-    //             float currentYPos = yPos;
-
-    //             // 添加隨機偏移（但第一層和最後一層不偏移）
-    //             if (layer != 0 && layer != map.Count - 1)
-    //             {
-    //                 xPos += Random.Range(-randomOffset, randomOffset);
-    //                 yPos += Random.Range((int)(-randomOffset * 0.5f), (int)(randomOffset * 0.5f));
-    //             }
-
-    //             nodes[i].position = new Vector2(xPos, yPos);
-    //         }
-    //     }
-    // }
 
     void CalculateNodePositions()
     {
@@ -269,13 +236,13 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    // ✨ 新增：對齊單一數值到像素網格
+    // 對齊單一數值到像素網格
     float AlignValue(float value, float scale)
     {
         return Mathf.Round(value / scale) * scale;
     }
 
-    // ✨ 新增：產生對齊的隨機偏移
+    // 產生對齊的隨機偏移
     float GetAlignedRandomOffset(float min, float max, float scale)
     {
         // 將範圍轉換為網格單位
@@ -417,6 +384,7 @@ public class MapGenerator : MonoBehaviour
         else
         {
             OnNodeChosen?.Invoke( node );
+            node.nodeObject.GetComponent<MapNodeButton>().selectedImage.gameObject.SetActive( true );
             LockLayerNodes( currentLayer++ );
             node.nodeState = NodeState.Completed;
             for ( int i = 0; i < node.nextNodes.Count; i++ )
