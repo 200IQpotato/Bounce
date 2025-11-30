@@ -85,5 +85,8 @@ public class RelicChoosePanel : MonoBehaviour
         }        
     }
 
-
+    public void GetRelicTest()
+    {
+        OnOpen( null, 3 );
+    }
 }

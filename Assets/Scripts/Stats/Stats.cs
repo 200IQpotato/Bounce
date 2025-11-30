@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
+    public int maxHealth;
     public int health;
     public int attack;
     public float force;

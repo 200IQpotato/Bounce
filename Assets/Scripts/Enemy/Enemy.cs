@@ -73,6 +73,16 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
         }
     }
 
+    public void Heal( int healAmount )
+    {
+        stats.health += healAmount;
+        if (stats.health > stats.maxHealth)
+        {
+            stats.health = stats.maxHealth;
+        }
+        Debug.Log($"{this} Healed: " + healAmount + ", Current Health: " + stats.health);
+    }
+
     public void Die()
     {
         Debug.Log("Enemy Death");
