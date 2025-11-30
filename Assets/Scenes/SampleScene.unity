@@ -1528,6 +1528,7 @@ MonoBehaviour:
   allRelics:
   - {fileID: 11400000, guid: 3d247a262d3429a4188e718faf50b406, type: 2}
   - {fileID: 11400000, guid: f6925cd177d5b2a4492b67cf34b80a19, type: 2}
+  - {fileID: 11400000, guid: 247b70551d2c57a418ac44253b0b6857, type: 2}
   playerRelics: []
   bounceCount: 0
   roundCount: 0
@@ -2871,7 +2872,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1635126986
 RectTransform:
   m_ObjectHideFlags: 0

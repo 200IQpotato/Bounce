@@ -8,6 +8,7 @@ public class RelicChoosePanel : MonoBehaviour
     [SerializeField] private Transform contentTransform;
     [SerializeField] private Button confirmButton;
     private RelicObject selectRelic = null;
+    private RelicChoose relicChoosed = null;
 
     void Start ()
     {
@@ -22,10 +23,7 @@ public class RelicChoosePanel : MonoBehaviour
 
         foreach( RelicObject relicObject in relicObjects )
         {
-            RelicChoose relicChoose = Instantiate( relicChoosePrefab, contentTransform );
-            relicChoose.Init( relicObject );
-            RelicObject relic = relicObject;
-            relicChoose.GetComponent<Button>().onClick.AddListener( () => SelectRelic( relic ) );
+            InstantiateRelicChoose( relicObject );
             hasRelic = true;
         }
 
@@ -36,10 +34,7 @@ public class RelicChoosePanel : MonoBehaviour
             {
                 foreach( RelicObject relicObject in randomRelics )
                 {
-                    RelicChoose relicChoose = Instantiate( relicChoosePrefab, contentTransform );
-                    relicChoose.Init( relicObject );
-                    RelicObject relic = relicObject;
-                    relicChoose.GetComponent<Button>().onClick.AddListener( () => SelectRelic( relic ) );
+                    InstantiateRelicChoose( relicObject );
                 }
                 hasRelic = true;
             }
@@ -50,9 +45,14 @@ public class RelicChoosePanel : MonoBehaviour
         
     }
 
-    public void SelectRelic( RelicObject relicObject )
+    public void SelectRelic( RelicObject relicObject, RelicChoose relicChoose )
     {
         selectRelic = relicObject;
+        if( relicChoosed != null )
+            relicChoosed.GetComponent<RelicChoose>().selectedImage.gameObject.SetActive( false );
+
+        relicChoosed = relicChoose;
+        relicChoosed.GetComponent<RelicChoose>().selectedImage.gameObject.SetActive( true );        
     }
 
     public void OnConfirmClick()
@@ -88,5 +88,13 @@ public class RelicChoosePanel : MonoBehaviour
     public void GetRelicTest()
     {
         OnOpen( null, 3 );
+    }
+
+    private void InstantiateRelicChoose( RelicObject relicObject )
+    {
+        RelicChoose relicChoose = Instantiate( relicChoosePrefab, contentTransform );
+        relicChoose.Init( relicObject );
+        RelicObject relic = relicObject;
+        relicChoose.GetComponent<Button>().onClick.AddListener( () => SelectRelic( relic, relicChoose ) );
     }
 }
