@@ -384,6 +384,7 @@ public class MapGenerator : MonoBehaviour
         else
         {
             OnNodeChosen?.Invoke( node );
+            UIManager.Instance.CloseCurrentScreen();
             node.nodeObject.GetComponent<MapNodeButton>().selectedImage.gameObject.SetActive( true );
             LockLayerNodes( currentLayer++ );
             node.nodeState = NodeState.Completed;

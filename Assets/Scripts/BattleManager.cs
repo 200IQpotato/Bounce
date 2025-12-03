@@ -82,9 +82,6 @@ public class BattleManager : MonoBehaviour
 
     public void StartBattle()
     {
-        if (GameManager.Instance.CurrentState != GameState.NotBattle)
-            return;
-
         Debug.Log("Battle Start");
         turnCount = 0;
         RelicManager.Instance.OnCountInit();

@@ -5,7 +5,8 @@ public enum GameState
 {
     PlayerTurn,
     EnemyTurn,
-    NotBattle
+    NotBattle,
+    Battling
 }
 
 public class GameManager : MonoBehaviour
@@ -62,6 +63,7 @@ public class GameManager : MonoBehaviour
             return;
 
         playerInstance.transform.position = playerSpawnPoint;
+        Instance.CurrentState = GameState.Battling;
         switch ( nodeType )
         {
             case NodeType.Battle:
