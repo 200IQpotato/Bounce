@@ -10,6 +10,9 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
     [SerializeField] private float stopThreshold = 0.1f;
     public bool isExpired { get; set; }
 
+    //skills
+    public List<EnemySkillObject> skillObjects;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
