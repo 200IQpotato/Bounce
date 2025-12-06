@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Slime_2
   m_EditorClassIdentifier: 
   enemies:
-  - {fileID: 834581205061805680, guid: e930bea3bc4dc59489fb7ec3114524b1, type: 3}
-  - {fileID: 834581205061805680, guid: e930bea3bc4dc59489fb7ec3114524b1, type: 3}
+  - {fileID: 2114269363342092084, guid: 69487c5a31ad3fe44a73a5c9bcef13f3, type: 3}
+  - {fileID: 2114269363342092084, guid: 69487c5a31ad3fe44a73a5c9bcef13f3, type: 3}
   spawnPoints:
   - {x: 2, y: 2}
   - {x: 2, y: -2}

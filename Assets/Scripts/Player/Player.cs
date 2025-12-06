@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour, IBattleEntity, ITurnBase
 {
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     [Header("Drag & Prediction Line")]
     [SerializeField] private LineRenderer DragLine;
     [SerializeField] private LineRenderer PredictionLine;
@@ -36,6 +36,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
     public RelicHolder relicHolder;
     public bool isExpired { get; set; }
     private bool hasShoot = false;
+    
 
     void Awake()
     {
@@ -65,7 +66,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
 
     void OnMouseDrag()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
+        if (GameManager.Instance.isUIBlockingInput)
             return;
 
         if ( GameManager.Instance.CurrentState != GameState.PlayerTurn || hasShoot )
@@ -77,7 +78,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
 
     void OnMouseUp()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
+        if (GameManager.Instance.isUIBlockingInput)
             return;
             
         if (GameManager.Instance.CurrentState != GameState.PlayerTurn || hasShoot)

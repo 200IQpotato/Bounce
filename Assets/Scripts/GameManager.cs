@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public GameObject playerPrefab;
     [SerializeField] private Vector2 playerSpawnPoint;
     public Player playerInstance;
+    public bool isUIBlockingInput = false;
 
     void Awake() {
         if (Instance == null)

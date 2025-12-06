@@ -4,39 +4,59 @@ using System.Collections.Generic;
 
 public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
 {
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     public Stats stats { get; set; }
     [SerializeField] private EnemyUI enemyUI;
     [SerializeField] private float stopThreshold = 0.1f;
     public bool isExpired { get; set; }
 
-    //skills
-    public List<EnemySkillObject> skillObjects;
+    [Header("Animator")]
+    public Animator animator;
 
-    void Awake()
+    [Header("Enemy Skills")]
+    [SerializeField] private List<GameObject> skillPreviews = new List<GameObject>();
+    private List<EnemySkill> skills = new List<EnemySkill>();
+    private int currentSkillIndex = 0;
+    private EnemySkill currentSkill;
+
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         stats = GetComponent<Stats>();
         enemyUI.UpdateHealth(stats.health);
         enemyUI.UpdateAttack(stats.attack);
         isExpired = false;
+
+        foreach (var preview in skillPreviews)
+        {
+            if (preview != null)
+                preview.SetActive(false);
+        }
+        
+        InitializeSkills();
     }
-    void Start()
+
+    protected void Start()
     {
         BattleManager.Instance.RegisterRigidbody(rb);
         BattleManager.Instance.RegisterEnemy(this);
         BattleManager.Instance.RegisterEntity(this);
     }
 
-    void Update()
+    protected void Update()
     {
         if (rb != null && rb.linearVelocity.magnitude < stopThreshold)
         {
             rb.linearVelocity = Vector2.zero;
         }
+
+        if (currentSkill != null)
+        {
+            currentSkill.UpdatePreview();
+        }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
@@ -49,23 +69,41 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
         }
     }
 
+    protected virtual void InitializeSkills() { }
+
+    protected void AddSkill(EnemySkill skill)
+    {
+        skills.Add(skill);
+    }
+
     public IEnumerator TakeTurn()
     {
         Debug.Log($"{name} Turn Start");
-        Act();
+        if (currentSkill != null)
+        {            
+            yield return StartCoroutine(currentSkill.Execute());
+            currentSkill.HidePreview();
+            currentSkill = null;
+        }
         yield return new WaitUntil(BattleManager.Instance.AllObjectsStopped);
     }
 
-    public void OnTurnStart()
+    public virtual void OnTurnStart()
     {
+        currentSkill = SelectSkill();
         
+        if (currentSkill != null)
+        {
+            currentSkill.GetSkillData();
+            currentSkill.ShowPreview();
+        }
     }
-    public void OnTurnEnd()
+    public virtual void OnTurnEnd()
     {
         stats.OnTurnEnd(this);
     }
 
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         stats.health -= damage;
         enemyUI.UpdateHealth(stats.health);
@@ -76,7 +114,7 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
         }
     }
 
-    public void Heal( int healAmount )
+    public virtual void Heal( int healAmount )
     {
         stats.health += healAmount;
         if (stats.health > stats.maxHealth)
@@ -92,14 +130,26 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
         Destroy(gameObject);
     }
 
-    public void Act()
+    protected virtual EnemySkill SelectSkill()
     {
-        Debug.Log($"{name} is acting!");
-        Vector2 randomDir = Random.insideUnitCircle.normalized;
-        rb.AddForce(randomDir * 50f, ForceMode2D.Impulse);
+        if (skills.Count == 0) return null;
+        
+        EnemySkill selected = skills[currentSkillIndex];
+        currentSkillIndex = (currentSkillIndex + 1) % skills.Count;
+        return selected;
     }
 
-    void OnDestroy()
+    public GameObject GetPreview(int index)
+    {
+        if (index < 0 || index >= skillPreviews.Count)
+        {
+            Debug.LogWarning($"Preview index {index} out of range!");
+            return null;
+        }
+        return skillPreviews[index];
+    }
+
+    protected void OnDestroy()
     {
         if (BattleManager.Instance != null)
         {
@@ -108,5 +158,92 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
             BattleManager.Instance.UnregisterEntity(this);
         }
             
+    }
+}
+
+public abstract class EnemySkill
+{
+    protected Enemy caster;
+    protected SkillData skillData;
+    
+    public abstract string skillName { get; }
+    protected abstract int previewIndex { get; }
+    protected virtual string animatorTrigger => null;
+
+    protected GameObject CurrentPreview => caster.GetPreview(previewIndex);
+
+    public EnemySkill(Enemy caster)
+    {
+        this.caster = caster;
+    }
+
+    public SkillData GetSkillData()
+    {
+        skillData = CalculateSkillData();
+        return skillData;
+    }
+    
+    protected abstract SkillData CalculateSkillData();
+
+    public void ShowPreview()
+    {
+        if (skillData == null)
+        {
+            Debug.LogWarning($"{skillName}: SkillData is null!");
+            return;
+        }
+        
+        GameObject preview = CurrentPreview;
+        if (preview != null)
+        {
+            preview.SetActive(true);
+        }
+    }
+
+    public void HidePreview()
+    {
+        GameObject preview = CurrentPreview;
+        if (preview != null)
+        {
+            preview.SetActive(false);
+        }
+    }
+    
+    // 更新預覽（每幀呼叫）
+    public void UpdatePreview()
+    {
+        GameObject preview = CurrentPreview;
+        if (preview == null || !preview.activeSelf) return;
+        
+        UpdatePreviewTransform();
+    }
+    
+    // 子類覆寫來控制預覽的位置和旋轉
+    protected virtual void UpdatePreviewTransform()
+    {
+        GameObject preview = CurrentPreview;
+        if (preview == null) return;
+        
+        // 預設：只更新旋轉（位置跟著敵人）
+        if (skillData.direction != Vector2.zero)
+        {
+            float angle = Mathf.Atan2(skillData.direction.y, skillData.direction.x) * Mathf.Rad2Deg;
+            preview.transform.localRotation = Quaternion.Euler(0, 0, angle);
+        }
+    }
+
+    public abstract IEnumerator Execute();
+    protected virtual float GetAnimationDelay() => 0.5f;
+}
+
+public class SkillData
+{
+    public Vector2 position;    // 技能施放位置
+    public Vector2 direction;   // 技能施放方向
+    
+    public SkillData(Vector2 position, Vector2 direction)
+    {
+        this.position = position;
+        this.direction = direction;
     }
 }
