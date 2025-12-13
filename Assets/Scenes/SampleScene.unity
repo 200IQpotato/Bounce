@@ -1089,7 +1089,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &568658142
 MonoBehaviour:
@@ -1343,8 +1343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleLevels:
-  - {fileID: 11400000, guid: b66af88dfcbbdeb47b6ec77b8f0019a1, type: 2}
-  - {fileID: 11400000, guid: 9d5bc93e327c71d49bf76aa13df0a363, type: 2}
+  - {fileID: 11400000, guid: 543db908d7d46fa41b99bc3a6ec48d80, type: 2}
   playerPrefab: {fileID: 2139883107620220181, guid: 9cedf904ab1e1394bbd3c079d876d59a, type: 3}
   playerSpawnPoint: {x: -5, y: 0}
   playerInstance: {fileID: 0}
@@ -3859,7 +3858,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!1 &1931671865
 GameObject:
