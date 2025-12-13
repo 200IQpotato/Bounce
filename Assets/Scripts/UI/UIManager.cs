@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     {
         if (target == null) return;
         bool isOpen = target.activeSelf;
+        GameManager.Instance.isUIBlockingInput = !GameManager.Instance.isUIBlockingInput;
         if ( isOpen )
         {
             target.SetActive(false);
