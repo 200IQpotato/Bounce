@@ -78,5 +78,6 @@ public class EventUI : MonoBehaviour
         {
             Destroy(choice.gameObject);
         }
+        prefabs.Clear();
     }
 }
