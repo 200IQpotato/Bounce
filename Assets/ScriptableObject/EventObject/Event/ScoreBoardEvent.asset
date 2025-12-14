@@ -14,7 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventName: Score Board Event
   scoreBoardPrefab: {fileID: 4857435102786315158, guid: d114fdc9177c5eb4ba786df05f84bd2d, type: 3}
+  image: {fileID: -1710483795547954474, guid: f610ce4cea9389f4cba19b12d1e8befe, type: 3}
   targetScore: 150
   boardCount: 5
   rangeMin: {x: -9, y: -5}
   rangeMax: {x: 9, y: 4}
+  choicies:
+  - choiceText: Try the challenge
+    choiceID: 0
+    isAvailable: 1
+    lockText: 
+  - choiceText: Ignore it
+    choiceID: 1
+    isAvailable: 1
+    lockText: 
+  - choiceText: test
+    choiceID: 1
+    isAvailable: 0
+    lockText: is testing!!!

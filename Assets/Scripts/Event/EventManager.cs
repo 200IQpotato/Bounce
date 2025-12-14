@@ -6,6 +6,7 @@ public class EventManager : MonoBehaviour
 {
     public static EventManager Instance{ get; private set; }
     public List<EventObject> eventObjects;
+    public EventUI eventUI;
 
     void Awake() {
         if (Instance == null)
