@@ -148,7 +148,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         if (damage != 0)
             relicHolder.OnTakeDamage(this, ref damage);
             
-        stats.health -= damage;
+        stats.TakeDamage(damage);
             
         Debug.Log("Player Health: " + stats.health);
         if (stats.health <= 0)
@@ -159,11 +159,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
 
     public void Heal(int healAmount)
     {
-        stats.health += healAmount;
-        if (stats.health > stats.maxHealth)
-        {
-            stats.health = stats.maxHealth;
-        }
+        stats.Heal( healAmount );
         Debug.Log("Player Healed: " + healAmount + ", Current Health: " + stats.health);
     }
 

@@ -9,6 +9,36 @@ public class Stats : MonoBehaviour
     public float force;
     public List<Effect> effects = new();
 
+    public System.Action<int> OnHealthChanged;
+    public System.Action<int> OnMaxHealthChanged;
+    public System.Action<int> OnAttackChanged;
+
+    public void SetMaxHealth(int value)
+    {
+        maxHealth = value;
+        health = Mathf.Min(health, maxHealth);
+        OnMaxHealthChanged?.Invoke(maxHealth);
+        OnHealthChanged?.Invoke(health);
+    }
+
+    public void TakeDamage(int dmg)
+    {
+        health -= dmg;
+        OnHealthChanged?.Invoke(health);
+    }
+
+    public void Heal(int amount)
+    {
+        health = Mathf.Min(health + amount, maxHealth);
+        OnHealthChanged?.Invoke(health);
+    }
+
+    public void ModifyAttack(int value)
+    {
+        attack += value;
+        OnAttackChanged?.Invoke(attack);
+    }
+
     public void ApplyEffect(Effect effect)
     {
         var existingEffect = effects.Find(e => e.effectObject == effect.effectObject);

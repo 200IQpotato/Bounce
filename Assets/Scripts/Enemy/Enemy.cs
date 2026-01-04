@@ -105,8 +105,7 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
 
     public virtual void TakeDamage(int damage)
     {
-        stats.health -= damage;
-        enemyUI.UpdateHealth(stats.health);
+        stats.TakeDamage(damage);
         Debug.Log("Enemy Health: " + stats.health);
         if (stats.health <= 0)
         {
@@ -116,11 +115,7 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
 
     public virtual void Heal( int healAmount )
     {
-        stats.health += healAmount;
-        if (stats.health > stats.maxHealth)
-        {
-            stats.health = stats.maxHealth;
-        }
+        stats.Heal( healAmount );
         Debug.Log($"{this} Healed: " + healAmount + ", Current Health: " + stats.health);
     }
 

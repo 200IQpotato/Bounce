@@ -12,6 +12,9 @@ public class EnemyUI : MonoBehaviour
     void Start()
     {
         caster = GetComponentInParent<Enemy>();
+
+        caster.stats.OnHealthChanged += UpdateHealth;
+        caster.stats.OnAttackChanged += UpdateAttack;
     }
 
     void Update()
