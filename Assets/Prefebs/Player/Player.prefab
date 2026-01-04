@@ -201,6 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 094bc5876f6e22e45b37a7fe31075694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
   DragLine: {fileID: 6153894414986575259}
   PredictionLine: {fileID: 4776250389439162128}
   DragPoint: {fileID: 1387958076994479082}
@@ -227,7 +228,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a7bfc364c0b2444480708f4d2934b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3
+  maxHealth: 50
+  health: 50
   attack: 5
   force: 10
 --- !u!114 &-6339019376901005833
@@ -242,10 +244,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b5f47dc36c88324b887f612239b9935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  relics: []
-  bounceCount: 0
-  roundCount: 0
-  hitCount: 0
 --- !u!1 &3339125862167439568
 GameObject:
   m_ObjectHideFlags: 0

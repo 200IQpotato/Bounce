@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Protein Powder
   m_EditorClassIdentifier: 
   relicName: Protein Powder
-  description: gain max health 20, gain attack 20
+  description: gain max health 10, gain attack 10
   icon: {fileID: 21300000, guid: 2c2ef5085d9fb604dac38a7cca505104, type: 3}
   valueType: 0
   priority: 0

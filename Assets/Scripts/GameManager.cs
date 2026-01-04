@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector2 playerSpawnPoint;
     public Player playerInstance;
     public bool isUIBlockingInput = false;
+    public System.Action<Player> OnPlayerSpawned;
 
     void Awake() {
         if (Instance == null)
@@ -33,8 +34,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        var player = Instantiate(playerPrefab, playerSpawnPoint, Quaternion.identity);
-        playerInstance = player.GetComponent<Player>();
+        SpawnPlayer();
     }
 
     // Update is called once per frame
@@ -51,6 +51,13 @@ public class GameManager : MonoBehaviour
     void OnDisable()
     {
         MapGenerator.OnNodeChosen -= HandleNodeChosen;
+    }
+
+    void SpawnPlayer()
+    {
+        var go = Instantiate(playerPrefab, playerSpawnPoint, Quaternion.identity);
+        playerInstance = go.GetComponent<Player>();
+        OnPlayerSpawned?.Invoke(playerInstance);
     }
 
     void HandleNodeChosen( MapNode node )

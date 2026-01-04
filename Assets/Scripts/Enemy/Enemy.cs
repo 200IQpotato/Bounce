@@ -23,8 +23,8 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
     {
         rb = GetComponent<Rigidbody2D>();
         stats = GetComponent<Stats>();
-        enemyUI.UpdateHealth(stats.health);
-        enemyUI.UpdateAttack(stats.attack);
+        enemyUI.SetCaster(this);
+        
         isExpired = false;
 
         foreach (var preview in skillPreviews)
@@ -37,7 +37,7 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
     }
 
     protected void Start()
-    {
+    {        
         BattleManager.Instance.RegisterRigidbody(rb);
         BattleManager.Instance.RegisterEnemy(this);
         BattleManager.Instance.RegisterEntity(this);

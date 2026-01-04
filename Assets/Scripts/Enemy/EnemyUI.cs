@@ -9,12 +9,9 @@ public class EnemyUI : MonoBehaviour
     [SerializeField] private float offsetY;
     private Enemy caster;
 
-    void Start()
+    void Awake()
     {
-        caster = GetComponentInParent<Enemy>();
-
-        caster.stats.OnHealthChanged += UpdateHealth;
-        caster.stats.OnAttackChanged += UpdateAttack;
+        
     }
 
     void Update()
@@ -23,12 +20,27 @@ public class EnemyUI : MonoBehaviour
         attackText.rectTransform.position = Camera.main.WorldToScreenPoint(new Vector2(caster.transform.position.x + offsetX, caster.transform.position.y + offsetY));
     }
 
-    public void UpdateAttack(int attack)
+    public void SetCaster(Enemy e)
     {
-        attackText.text = attack.ToString();
+        caster = e;
+        UpdateHealth();
+        UpdateAttack();
+        caster.stats.OnHealthChanged += UpdateHealth;
+        caster.stats.OnAttackChanged += UpdateAttack;
     }
-    public void UpdateHealth(int health)
+
+    public void UpdateAttack()
     {
-        healthText.text = health.ToString();
+        attackText.text = caster.stats.attack.ToString();
+    }
+    public void UpdateHealth()
+    {
+        healthText.text = caster.stats.health.ToString();
+    }
+
+    void OnDestroy()
+    {
+        caster.stats.OnHealthChanged -= UpdateHealth;
+        caster.stats.OnAttackChanged -= UpdateAttack;
     }
 }
