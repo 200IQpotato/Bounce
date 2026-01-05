@@ -10,9 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f6190f992c6b104e9062782f3a7df52, type: 3}
-  m_Name: test
+  m_Name: Slime_3
   m_EditorClassIdentifier: 
   enemies:
   - {fileID: 2114269363342092084, guid: 69487c5a31ad3fe44a73a5c9bcef13f3, type: 3}
+  - {fileID: 2114269363342092084, guid: 69487c5a31ad3fe44a73a5c9bcef13f3, type: 3}
+  - {fileID: 2114269363342092084, guid: 69487c5a31ad3fe44a73a5c9bcef13f3, type: 3}
   spawnPoints:
-  - {x: 4, y: 0}
+  - {x: 2, y: 0}
+  - {x: 4, y: 2}
+  - {x: 4, y: -2}
+  minMoneyReward: 20
+  maxMoneyReward: 50
+  relicCount: 3
+  relicRewards: []

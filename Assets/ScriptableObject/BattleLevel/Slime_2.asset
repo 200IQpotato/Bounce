@@ -18,3 +18,7 @@ MonoBehaviour:
   spawnPoints:
   - {x: 2, y: 2}
   - {x: 2, y: -2}
+  minMoneyReward: 20
+  maxMoneyReward: 50
+  relicCount: 3
+  relicRewards: []

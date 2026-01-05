@@ -7,11 +7,13 @@ public class Stats : MonoBehaviour
     public int health;
     public int attack;
     public float force;
+    public int money;
     public List<Effect> effects = new();
 
     public System.Action OnHealthChanged;
     public System.Action OnMaxHealthChanged;
     public System.Action OnAttackChanged;
+    public System.Action OnMoneyChanged;
 
     public void ModifyMaxHealth(int value)
     {
@@ -37,6 +39,19 @@ public class Stats : MonoBehaviour
     {
         attack += value;
         OnAttackChanged?.Invoke();
+    }
+
+    public bool IsAffordable(int cost)
+    {
+        if (money >= cost)
+            return true;
+        return false;
+    }
+
+    public void ModifyMoney(int amount)
+    {
+        money += amount;
+        OnMoneyChanged?.Invoke();
     }
 
     public void ApplyEffect(Effect effect)

@@ -12,7 +12,7 @@ public class RelicChoosePanel : MonoBehaviour
 
     void Start ()
     {
-        BattleManager.Instance.OnBattleEnd += OnOpen;   
+        GameManager.Instance.RelicChooseEvent += OnOpen;   
     }
 
     public void Init( List<RelicObject> relicObjects, int relicCount )
@@ -23,8 +23,12 @@ public class RelicChoosePanel : MonoBehaviour
 
         foreach( RelicObject relicObject in relicObjects )
         {
-            InstantiateRelicChoose( relicObject );
-            hasRelic = true;
+            //if count < list count, didn't fixed
+            if( !RelicManager.Instance.IsRelicEuipped( relicObject ) )
+            {
+                InstantiateRelicChoose( relicObject );
+                hasRelic = true;
+            }            
         }
 
         if ( relicObjects.Count < relicCount )
@@ -96,5 +100,10 @@ public class RelicChoosePanel : MonoBehaviour
         relicChoose.Init( relicObject );
         RelicObject relic = relicObject;
         relicChoose.GetComponent<Button>().onClick.AddListener( () => SelectRelic( relic, relicChoose ) );
+    }
+
+    void OnDestroy()
+    {
+        GameManager.Instance.RelicChooseEvent -= OnOpen;
     }
 }

@@ -13,12 +13,14 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public GameState CurrentState { get; set; } = GameState.NotBattle;
+    public BattleLevelSO currentBattleLevel;
     public List<BattleLevelSO> battleLevels;
     public GameObject playerPrefab;
     [SerializeField] private Vector2 playerSpawnPoint;
     public Player playerInstance;
     public bool isUIBlockingInput = false;
     public System.Action<Player> OnPlayerSpawned;
+    public System.Action<List<RelicObject>, int> RelicChooseEvent;
 
     void Awake() {
         if (Instance == null)
@@ -35,6 +37,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SpawnPlayer();
+        BattleManager.Instance.OnBattleEnd += GetReward;
     }
 
     // Update is called once per frame
@@ -77,7 +80,8 @@ public class GameManager : MonoBehaviour
             case NodeType.Battle:
                 Debug.Log("Creating Combat Level");
                 int level = Random.Range(0, battleLevels.Count);
-                InstantiateBattleLevel( battleLevels[level] );
+                currentBattleLevel = battleLevels[level];
+                InstantiateBattleLevel( currentBattleLevel );
                 break;
 
             case NodeType.Elite:
@@ -116,5 +120,17 @@ public class GameManager : MonoBehaviour
             i++;
         }
         BattleManager.Instance.StartBattle();
+    }
+
+    public void GetReward()
+    {
+        int moneyReward = Random.Range( currentBattleLevel.minMoneyReward, currentBattleLevel.maxMoneyReward );
+        playerInstance.stats.ModifyMoney( moneyReward );
+        RelicChooseEvent?.Invoke( currentBattleLevel.relicRewards, currentBattleLevel.relicCount );
+    }
+
+    void OnDestroy()
+    {
+        BattleManager.Instance.OnBattleEnd -= GetReward;
     }
 }

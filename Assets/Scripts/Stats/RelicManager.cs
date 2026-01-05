@@ -46,6 +46,11 @@ public class RelicManager : MonoBehaviour
         return randomRelics;
     }
     
+    public bool IsRelicEuipped(RelicObject relic)
+    {
+        return playerRelics.Contains(relic);
+    }
+
     public void AddRelicToPlayer(RelicObject relic)
     {
         if (!playerRelics.Contains(relic))
