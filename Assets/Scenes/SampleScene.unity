@@ -2740,6 +2740,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventObjects:
   - {fileID: 11400000, guid: 0d10e7f9e2c126a4393fbef65038fd91, type: 2}
+  - {fileID: 11400000, guid: 47353e135b0d7e44eab72c45071f785f, type: 2}
+  restEvent: {fileID: 11400000, guid: 47353e135b0d7e44eab72c45071f785f, type: 2}
+  shopEvent: {fileID: 0}
   eventUI: {fileID: 1928506583}
 --- !u!4 &1204027041
 Transform:

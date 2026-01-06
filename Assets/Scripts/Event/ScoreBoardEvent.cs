@@ -16,14 +16,14 @@ public class ScoreBoardEvent : EventObject
     private int score;
     private int shootCount = 3;
     private List<GameObject> spawnedBoards = new List<GameObject>();
-    public List<EventChoice> choicies;
+    public List<EventChoice> choices;
     
 
     public override IEnumerator Execute(EventManager manager)
     {
         score = 0;
 
-        yield return manager.eventUI.ShowChoices("You see a strange scoreboard...", image, choicies);
+        yield return manager.eventUI.ShowChoices("You see a strange scoreboard...", image, choices);
 
         int result = manager.eventUI.GetResult();
 

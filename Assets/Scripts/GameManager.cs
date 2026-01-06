@@ -99,6 +99,7 @@ public class GameManager : MonoBehaviour
 
             case NodeType.Rest:
                 Debug.Log("Creating Rest Level");
+                EventManager.Instance.StartEvent(EventManager.Instance.GetRestEvent());
                 break;
 
             case NodeType.Boss:

@@ -19,16 +19,12 @@ MonoBehaviour:
   boardCount: 5
   rangeMin: {x: -9, y: -5}
   rangeMax: {x: 9, y: 4}
-  choicies:
-  - choiceText: Try the challenge
+  choices:
+  - choiceText: Try it!
     choiceID: 0
     isAvailable: 1
     lockText: 
-  - choiceText: Ignore it
+  - choiceText: Ignore
     choiceID: 1
     isAvailable: 1
     lockText: 
-  - choiceText: test
-    choiceID: 1
-    isAvailable: 0
-    lockText: is testing!!!

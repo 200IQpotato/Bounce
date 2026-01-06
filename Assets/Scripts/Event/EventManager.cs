@@ -6,6 +6,8 @@ public class EventManager : MonoBehaviour
 {
     public static EventManager Instance{ get; private set; }
     public List<EventObject> eventObjects;
+    public EventObject restEvent;
+    public EventObject shopEvent;
     public EventUI eventUI;
 
     void Awake() {
@@ -27,6 +29,22 @@ public class EventManager : MonoBehaviour
 
         EventObject eventObject = eventObjects[Random.Range(0, eventObjects.Count)];
         StartCoroutine(RunEvent(eventObject));
+    }
+
+    public void StartEvent(EventObject eventObject)
+    {
+        if (eventObject != null)
+            StartCoroutine(RunEvent(eventObject));
+    }
+
+    public EventObject GetRestEvent()
+    {
+        return restEvent;
+    }
+
+    public EventObject GetShopEvent()
+    {
+        return shopEvent;
     }
 
     private IEnumerator RunEvent(EventObject eventObject)
