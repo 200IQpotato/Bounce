@@ -95,6 +95,7 @@ public class GameManager : MonoBehaviour
 
             case NodeType.Shop:
                 Debug.Log("Creating Shop Level");
+                EventManager.Instance.StartEvent(EventManager.Instance.GetShopEvent());
                 break;
 
             case NodeType.Rest:

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ae086ca71fbc5c49a4d15fc42a2aca8, type: 3}
+  m_Name: ShopEvent
+  m_EditorClassIdentifier: 
+  eventName: Shop Event
+  image: {fileID: 2615476524931761181, guid: d72d058233ebc1846b88777871b08048, type: 3}
+  choices:
+  - choiceText: Buy Item
+    choiceID: 0
+    isAvailable: 1
+    lockText: 
+  - choiceText: Rob the shop
+    choiceID: 1
+    isAvailable: 1
+    lockText: 
+  - choiceText: Leave
+    choiceID: 2
+    isAvailable: 1
+    lockText: 
+  shopControllerPrefab: {fileID: 8067114380970881371, guid: 695cb19c8e816f64982d180d3752fecd, type: 3}
