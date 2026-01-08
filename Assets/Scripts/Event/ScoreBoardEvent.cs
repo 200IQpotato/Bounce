@@ -41,10 +41,13 @@ public class ScoreBoardEvent : EventObject
                 Random.Range(rangeMin.y, rangeMax.y)
             );
 
-            var obj = Instantiate(scoreBoardPrefab, pos, Quaternion.identity);
+            Quaternion rot = Quaternion.Euler( 0, 0, Random.Range(0, 360));
+
+            var obj = Instantiate(scoreBoardPrefab, pos, rot);
             obj.GetComponent<ScoreBoard>().OnHit += AddScore;
             spawnedBoards.Add(obj);
         }
+        EventTextUI.Instance.Show("Current Score: " + score.ToString());
 
         int j = 0;
         while (j < shootCount){
@@ -59,12 +62,18 @@ public class ScoreBoardEvent : EventObject
 
         if (score >= targetScore)
         {
-            Debug.Log("ScoreBoard Event Succeeded!");
+            EventTextUI.Instance.Show("You Success!\nMax Health +3");
+            GameManager.Instance.playerInstance.stats.ModifyMaxHealth(3);
+            GameManager.Instance.playerInstance.stats.Heal(3);
         }
         else
         {
-            Debug.Log("ScoreBoard Event Failed!");
+            EventTextUI.Instance.Show("You Failed!");
+            GameManager.Instance.playerInstance.TakeDamage(15);
         }
+
+        yield return new WaitForSeconds(2f);
+        EventTextUI.Instance.Hide();
     }
 
     private void AddScore(int value, bool isAdd)
@@ -73,5 +82,7 @@ public class ScoreBoardEvent : EventObject
             score += value;
         else
             score *= value;
+
+        EventTextUI.Instance.Show("Current Score: " + score.ToString());
     }
 }

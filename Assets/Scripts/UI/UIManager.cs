@@ -5,18 +5,23 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance { get; private set; }
     private GameObject currentActiveScreen = null;
     [SerializeField] private GameObject mapScreen;
+    [SerializeField] private GameObject retryButton;
 
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    void Start()
+    {
+        retryButton.SetActive(false);
     }
 
     public void Screen_On_Off( GameObject target )
@@ -50,5 +55,15 @@ public class UIManager : MonoBehaviour
     public void OpenMapScreen()
     {
         Screen_On_Off(mapScreen);
+    }
+
+    public void ShowRetryButton()
+    {
+        retryButton.SetActive(true);
+    }
+
+    public void HideRetryButton()
+    {
+        retryButton.SetActive(false);
     }
 }

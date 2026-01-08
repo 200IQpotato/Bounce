@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ScoreBoardEvent
   m_EditorClassIdentifier: 
   eventName: Score Board Event
-  scoreBoardPrefab: {fileID: 4857435102786315158, guid: d114fdc9177c5eb4ba786df05f84bd2d, type: 3}
+  scoreBoardPrefab: {fileID: 2585307066627588169, guid: 5d777c00a6d293548a7518116837f837, type: 3}
   image: {fileID: -1710483795547954474, guid: f610ce4cea9389f4cba19b12d1e8befe, type: 3}
   targetScore: 150
   boardCount: 5

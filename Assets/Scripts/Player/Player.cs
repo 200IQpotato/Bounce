@@ -166,7 +166,8 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
     public void Die()
     {
         Debug.Log("Player Death");
-        // Implement game over logic here
+        UIManager.Instance.ShowRetryButton();
+        Destroy(gameObject);
     }
 
     void DrawDragLine()

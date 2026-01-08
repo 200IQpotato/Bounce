@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -27,7 +28,6 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -138,6 +138,11 @@ public class GameManager : MonoBehaviour
         int moneyReward = Random.Range( currentBattleLevel.minMoneyReward, currentBattleLevel.maxMoneyReward );
         playerInstance.stats.ModifyMoney( moneyReward );
         RelicChooseEvent?.Invoke( currentBattleLevel.relicRewards, currentBattleLevel.relicCount );
+    }
+
+    public void RetryGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     void OnDestroy()

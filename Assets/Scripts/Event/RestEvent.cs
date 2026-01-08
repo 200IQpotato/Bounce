@@ -24,6 +24,7 @@ public class RestEvent : EventObject
         {
             Player player = GameManager.Instance.playerInstance;
             player.stats.ModifyMaxHealth(increaseMaxHealth);
+            player.stats.Heal(increaseMaxHealth);
         }
         else
         {
