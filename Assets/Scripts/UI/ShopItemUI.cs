@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopTooltipUI : MonoBehaviour
+public class ShopItemUI : MonoBehaviour
 {
-    public static ShopTooltipUI Instance;
+    public static ShopItemUI Instance;
 
     [SerializeField] private RectTransform root;
     [SerializeField] private Text descriptionText;

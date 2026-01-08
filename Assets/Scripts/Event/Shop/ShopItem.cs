@@ -17,13 +17,14 @@ public class ShopItem : MonoBehaviour
         {
             GameManager.Instance.playerInstance.stats.ModifyMoney(-itemCost);
             onItemPurchased?.Invoke();
+            ShopItemUI.Instance.Hide();
             shopController.BuyItem(gameObject);
         }
     }
 
     void OnMouseEnter()
     {
-        ShopTooltipUI.Instance.Show(
+        ShopItemUI.Instance.Show(
             description,
             itemCost
         );
@@ -31,7 +32,7 @@ public class ShopItem : MonoBehaviour
 
     void OnMouseExit()
     {
-        ShopTooltipUI.Instance.Hide();
+        ShopItemUI.Instance.Hide();
     }
 
     public void Init( Sprite itemSprite, int cost, ShopItemType itemType, string desc, ShopController shopController )
