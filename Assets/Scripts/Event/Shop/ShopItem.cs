@@ -8,6 +8,7 @@ public class ShopItem : MonoBehaviour
     [SerializeField] private SpriteRenderer itemSpriteRenderer;
     private int itemCost;
     private ShopItemType itemType;
+    private string description;
     public System.Action onItemPurchased;
 
     void OnMouseDown()
@@ -20,11 +21,25 @@ public class ShopItem : MonoBehaviour
         }
     }
 
-    public void Init( Sprite itemSprite, int cost, ShopItemType itemType, ShopController shopController )
+    void OnMouseEnter()
+    {
+        ShopTooltipUI.Instance.Show(
+            description,
+            itemCost
+        );
+    }
+
+    void OnMouseExit()
+    {
+        ShopTooltipUI.Instance.Hide();
+    }
+
+    public void Init( Sprite itemSprite, int cost, ShopItemType itemType, string desc, ShopController shopController )
     {
         this.shopController = shopController;
         itemSpriteRenderer.sprite = itemSprite;
         itemCost = cost;
+        description = desc;
         this.itemType = itemType;
     }
 }
