@@ -126,7 +126,8 @@ public class GameManager : MonoBehaviour
         LevelObstacleSO obstacleSO = levelObstacles[Random.Range(0, levelObstacles.Count)];
         foreach ( Obstacle obstacle in obstacleSO.obstacles )
         {
-            Instantiate( obstacle, obstacleSO.spawnPoints[i], obstacleSO.spawnRotations[i] );
+            Instantiate( obstacle, obstacleSO.spawnPoints[i], obstacleSO.spawnRotations[i] ).transform.localScale 
+            = new Vector3(obstacleSO.spawnScales[i].x, obstacleSO.spawnScales[i].y, 1);
             i++;
         }
         BattleManager.Instance.StartBattle();

@@ -8,4 +8,5 @@ public class LevelObstacleSO : ScriptableObject
     public List<Obstacle> obstacles = new List<Obstacle>();
     public List<Vector2> spawnPoints = new List<Vector2>();
     public List<Quaternion> spawnRotations = new List<Quaternion>();
+    public List<Vector2> spawnScales = new List<Vector2>();
 }
