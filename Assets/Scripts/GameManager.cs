@@ -76,17 +76,19 @@ public class GameManager : MonoBehaviour
 
         playerInstance.transform.position = playerSpawnPoint;
         Instance.CurrentState = GameState.Battling;
+        int level = Random.Range(0, battleLevels.Count);
         switch ( nodeType )
         {
             case NodeType.Battle:
                 Debug.Log("Creating Combat Level");
-                int level = Random.Range(0, battleLevels.Count);
                 currentBattleLevel = battleLevels[level];
                 InstantiateBattleLevel( currentBattleLevel );
                 break;
 
             case NodeType.Elite:
                 Debug.Log("Creating Elite Level");
+                currentBattleLevel = battleLevels[level];
+                InstantiateBattleLevel( currentBattleLevel );
                 break;
 
             case NodeType.Event:
@@ -106,6 +108,8 @@ public class GameManager : MonoBehaviour
 
             case NodeType.Boss:
                 Debug.Log("Creating Boss Level");
+                currentBattleLevel = battleLevels[level];
+                InstantiateBattleLevel( currentBattleLevel );
                 break;
 
             default:
