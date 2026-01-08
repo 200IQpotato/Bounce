@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public GameState CurrentState { get; set; } = GameState.NotBattle;
     public BattleLevelSO currentBattleLevel;
     public List<BattleLevelSO> battleLevels;
+    public List<LevelObstacleSO> levelObstacles;
     public GameObject playerPrefab;
     [SerializeField] private Vector2 playerSpawnPoint;
     public Player playerInstance;
@@ -119,6 +120,13 @@ public class GameManager : MonoBehaviour
         foreach ( Enemy enemy in battleLevelSO.enemies )
         {
             Instantiate( enemy, battleLevelSO.spawnPoints[i], Quaternion.identity );
+            i++;
+        }
+        i = 0;
+        LevelObstacleSO obstacleSO = levelObstacles[Random.Range(0, levelObstacles.Count)];
+        foreach ( Obstacle obstacle in obstacleSO.obstacles )
+        {
+            Instantiate( obstacle, obstacleSO.spawnPoints[i], obstacleSO.spawnRotations[i] );
             i++;
         }
         BattleManager.Instance.StartBattle();

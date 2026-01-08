@@ -126,6 +126,7 @@ public class BattleManager : MonoBehaviour
             {
                 OnBattleEnd?.Invoke();
                 GameManager.Instance.CurrentState = GameState.NotBattle;
+                DestroyObstacles();
                 Debug.Log("Battle End");
                 yield break;
             }
@@ -142,5 +143,23 @@ public class BattleManager : MonoBehaviour
         }
         Debug.Log("All objects have stopped.");
         return true;
+    }
+
+    private void DestroyObstacles()
+    {
+        List<Obstacle> toRemove = new List<Obstacle>();
+        foreach (var entity in entities)
+        {
+            if (entity is Obstacle obstacle)
+            {
+                toRemove.Add(obstacle);
+            }
+        }
+
+        foreach (var entity in toRemove)
+        {
+            UnregisterEntity(entity);
+            Destroy(entity.gameObject);
+        }
     }
 }
