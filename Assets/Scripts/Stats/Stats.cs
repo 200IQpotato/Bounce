@@ -60,6 +60,33 @@ public class Stats : MonoBehaviour
         OnMoneyChanged?.Invoke();
     }
 
+    public void NotifyOnHit(IBattleEntity owner, IBattleEntity target)
+    {
+        foreach (var effect in effects)
+        {
+            if (effect.effectObject is IOnHitEffect e)
+                e.OnHit(owner, target);
+        }
+    }
+
+    public void NotifyOnDealDamage(IBattleEntity owner, IBattleEntity target, ref int damage)
+    {
+        foreach (var effect in effects)
+        {
+            if (effect.effectObject is IOnDealDamageEffect e)
+                e.OnDealDamage(owner, target, ref damage);
+        }
+    }
+
+    public void NotifyOnTakeDamage(IBattleEntity owner, ref int damage)
+    {
+        foreach (var effect in effects)
+        {
+            if (effect.effectObject is IOnTakeDamageEffect e)
+                e.OnTakeDamage(owner, ref damage);
+        }
+    }
+
     public void ApplyEffect(Effect effect)
     {
         var existingEffect = effects.Find(e => e.effectObject == effect.effectObject);

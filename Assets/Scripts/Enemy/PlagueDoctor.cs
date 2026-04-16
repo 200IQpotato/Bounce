@@ -46,7 +46,7 @@ public class PlagueDoctor : Enemy
                 {
                     Vector2 dir = player.transform.position - caster.transform.position;
                     player.rb.AddForce(dir.normalized * caster.stats.force * 10, ForceMode2D.Impulse);
-                    player.TakeDamage(caster.stats.GetAttack());
+                    caster.DealDamage(player, caster.stats.GetAttack());
                     Debug.Log("hits");
                 }
             }

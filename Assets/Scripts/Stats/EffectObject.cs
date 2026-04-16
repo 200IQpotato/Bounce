@@ -7,6 +7,21 @@ public enum EffectType
     Dot
 }
 
+public interface IOnHitEffect
+{
+    void OnHit(IBattleEntity owner, IBattleEntity target);
+}
+
+public interface IOnDealDamageEffect
+{
+    void OnDealDamage(IBattleEntity owner, IBattleEntity target, ref int damage);
+}
+
+public interface IOnTakeDamageEffect
+{
+    void OnTakeDamage(IBattleEntity owner, ref int damage);
+}
+
 public class EffectObject : ScriptableObject
 {
     public string effectName;

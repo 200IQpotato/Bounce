@@ -122,8 +122,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
             if (GameManager.Instance.CurrentState == GameState.PlayerTurn)
             {
                 int damage = stats.GetAttack();
-                relicHolder.OnDealDamage(this, enemy, ref damage);
-                enemy.TakeDamage(damage);
+                DealDamage(enemy, damage);
             }
 
             RelicManager.Instance.OnHitAdd();
@@ -143,11 +142,14 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         }
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int rawDamage)
     {
-        if (damage != 0)
-            relicHolder.OnTakeDamage(this, ref damage);
-            
+        int damage = rawDamage;
+        if (damage == 0)
+            return;
+
+        stats.NotifyOnTakeDamage(this, ref damage);
+        relicHolder.OnTakeDamage(this, ref damage);          
         stats.TakeDamage(damage);
             
         Debug.Log("Player Health: " + stats.health);
@@ -155,6 +157,17 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         {
             Die();
         }
+    }
+
+    public void DealDamage(IBattleEntity target, int rawDamage)
+    {
+        int damage = rawDamage;
+        if(damage == 0)
+            return;
+
+        stats.NotifyOnDealDamage(this, target, ref damage);
+        relicHolder.OnDealDamage(this, target, ref damage);
+        target.TakeDamage(damage);
     }
 
     public void Heal(int healAmount)
