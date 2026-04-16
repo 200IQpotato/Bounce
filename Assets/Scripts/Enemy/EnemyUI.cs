@@ -31,7 +31,7 @@ public class EnemyUI : MonoBehaviour
 
     public void UpdateAttack()
     {
-        attackText.text = caster.stats.attack.ToString();
+        attackText.text = caster.stats.GetAttack().ToString();
     }
     public void UpdateHealth()
     {

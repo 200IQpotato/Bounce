@@ -131,7 +131,7 @@ public class Slime : Enemy
                 {
                     Vector2 dir = player.transform.position - caster.transform.position;
                     player.rb.AddForce(dir * caster.stats.force * 10, ForceMode2D.Impulse);
-                    player.TakeDamage(caster.stats.attack);
+                    player.TakeDamage(caster.stats.GetAttack());
                     Debug.Log("hits");
                 }
             }

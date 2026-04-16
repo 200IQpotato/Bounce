@@ -6,6 +6,7 @@ public class Stats : MonoBehaviour
     public int maxHealth;
     public int health;
     public int attack;
+    public int attackPercent;
     public float force;
     public int money;
     public List<Effect> effects = new();
@@ -39,6 +40,11 @@ public class Stats : MonoBehaviour
     {
         attack += value;
         OnAttackChanged?.Invoke();
+    }
+
+    public int GetAttack()
+    {
+        return (int)(attack * (1 + attackPercent / 100f));
     }
 
     public bool IsAffordable(int cost)

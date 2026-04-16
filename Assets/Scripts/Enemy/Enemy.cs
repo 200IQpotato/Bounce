@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
             if (player != null)
             {
                 if (GameManager.Instance.CurrentState == GameState.EnemyTurn)
-                    player.TakeDamage(stats.attack);
+                    player.TakeDamage(stats.GetAttack());
             }
         }
     }

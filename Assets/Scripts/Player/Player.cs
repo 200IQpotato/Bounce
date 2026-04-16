@@ -121,7 +121,7 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (GameManager.Instance.CurrentState == GameState.PlayerTurn)
             {
-                int damage = stats.attack;
+                int damage = stats.GetAttack();
                 relicHolder.OnDealDamage(this, enemy, ref damage);
                 enemy.TakeDamage(damage);
             }
