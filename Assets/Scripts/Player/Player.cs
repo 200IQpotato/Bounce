@@ -148,8 +148,8 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         if (damage == 0)
             return;
 
-        stats.NotifyOnTakeDamage(this, ref damage);
-        relicHolder.OnTakeDamage(this, ref damage);          
+        relicHolder.OnTakeDamage(this, ref damage);  
+        stats.NotifyOnTakeDamage(this, ref damage);                
         stats.TakeDamage(damage);
             
         Debug.Log("Player Health: " + stats.health);
@@ -165,8 +165,8 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         if(damage == 0)
             return;
 
-        stats.NotifyOnDealDamage(this, target, ref damage);
         relicHolder.OnDealDamage(this, target, ref damage);
+        stats.NotifyOnDealDamage(this, target, ref damage);
         target.TakeDamage(damage);
     }
 
