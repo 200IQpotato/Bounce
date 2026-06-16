@@ -59,11 +59,15 @@ public class ShopController : MonoBehaviour
         {
             var item = Instantiate(shopItemPrefab, shopItemSpawnPoint[i+shopPotionCount], Quaternion.identity);
             var relic = relics[i];
-            item.GetComponent<ShopItem>().Init(relic.icon, 100, ShopItemType.Relic, relic.description, this);
-            item.GetComponent<ShopItem>().onItemPurchased += () =>{
-                RelicManager.Instance.AddRelicToPlayer(relic);
-            };
-            shopItems.Add(item);
+            if( relic != null)
+            {
+                item.GetComponent<ShopItem>().Init(relic.icon, 100, ShopItemType.Relic, relic.description, this);
+                item.GetComponent<ShopItem>().onItemPurchased += () =>{
+                    RelicManager.Instance.AddRelicToPlayer(relic);
+                };
+                shopItems.Add(item);
+            }
+            
         }
 
         while ( isShopping )
