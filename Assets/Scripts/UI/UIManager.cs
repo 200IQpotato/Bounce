@@ -4,7 +4,6 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
     private GameObject currentActiveScreen = null;
-    [SerializeField] private GameObject mapScreen;
     [SerializeField] private GameObject retryButton;
 
     void Awake()
@@ -28,15 +27,16 @@ public class UIManager : MonoBehaviour
     {
         if (target == null) return;
         bool isOpen = target.activeSelf;
-        GameManager.Instance.isUIBlockingInput = !GameManager.Instance.isUIBlockingInput;
         if ( isOpen )
         {
+            GameManager.Instance.isUIBlockingInput = false;
             target.SetActive(false);
             currentActiveScreen = null;
             Time.timeScale = 1f;
         }
         else
         {
+            GameManager.Instance.isUIBlockingInput = true;
             if (currentActiveScreen != null)
                 currentActiveScreen.SetActive(false);            
 
@@ -50,11 +50,6 @@ public class UIManager : MonoBehaviour
     {
         if (currentActiveScreen != null)
             Screen_On_Off(currentActiveScreen);
-    }
-
-    public void OpenMapScreen()
-    {
-        Screen_On_Off(mapScreen);
     }
 
     public void ShowRetryButton()

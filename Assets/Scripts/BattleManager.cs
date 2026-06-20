@@ -12,7 +12,7 @@ public class BattleManager : MonoBehaviour
     private readonly List<Player> players = new();
     private readonly List<IBattleEntity> entities = new();
     public event Func<int, bool, IEnumerator> OnTurnStartEndUI;
-    public event Action OnBattleEnd;
+    public event Func<IEnumerator> OnBattleEnd;
     private int turnCount = 0;
     
     void Awake() {
@@ -123,7 +123,9 @@ public class BattleManager : MonoBehaviour
 
             if (enemies.Count == 0)
             {
-                OnBattleEnd?.Invoke();
+                if (OnBattleEnd != null)
+                    yield return StartCoroutine(OnBattleEnd.Invoke());
+                    
                 GameManager.Instance.CurrentState = GameState.NotBattle;
                 DestroyObstacles();
                 Debug.Log("Battle End");

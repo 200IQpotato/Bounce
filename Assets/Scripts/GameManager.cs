@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,7 +23,7 @@ public class GameManager : MonoBehaviour
     public Player playerInstance;
     public bool isUIBlockingInput = false;
     public System.Action<Player> OnPlayerSpawned;
-    public System.Action<List<RelicObject>, int> RelicChooseEvent;
+    public System.Action<List<RelicObject>, int, System.Action> RelicChooseEvent;
 
     void Awake() {
         if (Instance == null)
@@ -137,11 +138,14 @@ public class GameManager : MonoBehaviour
         BattleManager.Instance.StartBattle();
     }
 
-    public void GetReward()
+    public IEnumerator GetReward()
     {
         int moneyReward = Random.Range( currentBattleLevel.minMoneyReward, currentBattleLevel.maxMoneyReward );
         playerInstance.stats.ModifyMoney( moneyReward );
-        RelicChooseEvent?.Invoke( currentBattleLevel.relicRewards, currentBattleLevel.relicCount );
+
+        bool relicChosen = false;
+        RelicChooseEvent?.Invoke( currentBattleLevel.relicRewards, currentBattleLevel.relicCount, () => relicChosen = true );
+        yield return new WaitUntil(() => relicChosen);
     }
 
     public void RetryGame()

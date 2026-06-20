@@ -9,6 +9,7 @@ public class RelicChoosePanel : MonoBehaviour
     [SerializeField] private Button confirmButton;
     private RelicObject selectRelic = null;
     private RelicChoose relicChoosed = null;
+    private System.Action onCompleted;
 
     void Start ()
     {
@@ -68,8 +69,9 @@ public class RelicChoosePanel : MonoBehaviour
         }
     }
 
-    public void OnOpen(List<RelicObject> relicObjects, int relicCount)
+    public void OnOpen(List<RelicObject> relicObjects, int relicCount, System.Action onCompleted)
     {
+        this.onCompleted = onCompleted;
         foreach( Transform child in contentTransform )
         {
             Destroy( child.gameObject );
@@ -87,11 +89,14 @@ public class RelicChoosePanel : MonoBehaviour
         {
             Destroy( child.gameObject );
         }        
+
+        onCompleted?.Invoke();
+        onCompleted = null;
     }
 
     public void GetRelicTest()
     {
-        OnOpen( null, 3 );
+        OnOpen( null, 3, null );
     }
 
     private void InstantiateRelicChoose( RelicObject relicObject )
