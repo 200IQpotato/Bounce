@@ -21,7 +21,7 @@ public class RelicHolder : MonoBehaviour
 
     public void OnHit(Player player, IBattleEntity entity)
     {
-        foreach (var relic in RelicManager.Instance.playerRelics.OrderBy(r => r.priority))
+        foreach (var relic in RelicManager.Instance.playerRelics)
         {
             relic.OnHit(player, entity);
         }
@@ -29,7 +29,7 @@ public class RelicHolder : MonoBehaviour
 
     public void OnDealDamage(Player player, IBattleEntity entity, ref int damage)
     {
-        foreach (var relic in RelicManager.Instance.playerRelics.OrderBy(r => r.priority))
+        foreach (var relic in RelicManager.Instance.playerRelics)
         {
             relic.OnDealDamage(player, entity, ref damage);
         }
@@ -37,7 +37,7 @@ public class RelicHolder : MonoBehaviour
 
     public void OnTakeDamage(Player player, ref int damage)
     {
-        foreach (var relic in RelicManager.Instance.playerRelics.OrderBy(r => r.priority))
+        foreach (var relic in RelicManager.Instance.playerRelics)
         {
             relic.OnTakeDamage(player, ref damage);
         }
@@ -45,7 +45,7 @@ public class RelicHolder : MonoBehaviour
 
     public void OnHealthChange(Player player)
     {
-        foreach (var relic in RelicManager.Instance.playerRelics.OrderBy(r => r.priority))
+        foreach (var relic in RelicManager.Instance.playerRelics)
         {
             relic.onHealthChange(player);
         }
@@ -53,7 +53,7 @@ public class RelicHolder : MonoBehaviour
 
     public void OnTurnStart(Player player)
     {
-        foreach (var relic in RelicManager.Instance.playerRelics.OrderBy(r => r.priority))
+        foreach (var relic in RelicManager.Instance.playerRelics)
         {
             relic.OnTurnStart(player);
         }
@@ -61,7 +61,7 @@ public class RelicHolder : MonoBehaviour
 
     public void OnTurnEnd(Player player)
     {
-        foreach (var relic in RelicManager.Instance.playerRelics.OrderBy(r => r.priority))
+        foreach (var relic in RelicManager.Instance.playerRelics)
         {
             relic.OnTurnEnd(player);
         }

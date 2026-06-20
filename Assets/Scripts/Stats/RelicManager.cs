@@ -55,6 +55,7 @@ public class RelicManager : MonoBehaviour
         if (!playerRelics.Contains(relic))
         {
             playerRelics.Add(relic);
+            playerRelics.Sort((a, b) => a.priority.CompareTo(b.priority));
             GameManager.Instance.playerInstance.relicHolder.EquipRelic(relic);
             OnRelicAddedUI?.Invoke(relic, GetTypeValue(relic.valueType));
         }
