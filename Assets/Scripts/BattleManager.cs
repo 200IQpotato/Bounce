@@ -84,6 +84,10 @@ public class BattleManager : MonoBehaviour
         Debug.Log("Battle Start");
         turnCount = 0;
         RelicManager.Instance.OnCountInit();
+        foreach ( Player player in players )
+        {
+            player.stats.CleanEffect();
+        }
         StartCoroutine(GameLoop());
         RelicManager.Instance.OnCountInit();
     }
@@ -108,9 +112,11 @@ public class BattleManager : MonoBehaviour
             }
 
             GameManager.Instance.CurrentState = GameState.EnemyTurn;
-            foreach (ITurnBase enemy in enemies)
+            var enemiesCopy = new List<Enemy>(enemies);
+            foreach (var enemy in enemiesCopy)
             {
-                yield return StartCoroutine(enemy.TakeTurn());
+                if (enemies.Contains(enemy))
+                    yield return StartCoroutine(enemy.TakeTurn());
             }
 
             foreach (IBattleEntity entity in entities)

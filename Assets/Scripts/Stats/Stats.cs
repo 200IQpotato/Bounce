@@ -135,4 +135,10 @@ public class Stats : MonoBehaviour
         }
         RemoveExpiredEffects();
     }
+
+    public void CleanEffect()
+    {
+        effects = new();
+        Debug.Log("Effects clear");
+    }
 }
