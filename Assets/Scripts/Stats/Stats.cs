@@ -109,6 +109,7 @@ public class Stats : MonoBehaviour
         else
         {
             effects.Add(effect);
+            effects.Sort((a, b) => a.effectObject.priority.CompareTo(b.effectObject.priority));
             effect.effectObject.OnApply(this.GetComponent<IBattleEntity>(), effect);
             Debug.Log($"Effect {effect.effectObject.name} applied with duration {effect.duration}.");
         }
@@ -133,6 +134,10 @@ public class Stats : MonoBehaviour
                 Debug.Log($"Effect {effect.effectObject.name} has expired.");
             }
         }
+
+        foreach (var effect in effects)
+            effect.isConsumed = false;
+
         RemoveExpiredEffects();
     }
 
