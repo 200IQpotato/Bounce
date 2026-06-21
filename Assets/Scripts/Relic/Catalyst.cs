@@ -11,9 +11,9 @@ public class Catalyst : RelicObject
         {
             foreach ( Effect effect in entity.stats.effects)
             {
-                if ( effect.effectObject.effectType == EffectType.Dot )
+                if ( effect.effectObject.effectType == EffectType.Dot && effect.effectObject is IOnTakeTurn e)
                 {
-                    effect.effectObject.OnTurnEnd(entity, effect);
+                    e.OnTakeTurn(entity, effect);
                 }
             }
             
