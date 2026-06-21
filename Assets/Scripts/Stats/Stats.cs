@@ -65,7 +65,7 @@ public class Stats : MonoBehaviour
         foreach (var effect in effects)
         {
             if (effect.effectObject is IOnHitEffect e)
-                e.OnHit(owner, target);
+                e.OnHit(owner, effect, target);
         }
     }
 
@@ -74,7 +74,7 @@ public class Stats : MonoBehaviour
         foreach (var effect in effects)
         {
             if (effect.effectObject is IOnDealDamageEffect e)
-                e.OnDealDamage(owner, target, ref damage, damageType);
+                e.OnDealDamage(owner, effect, target, ref damage, damageType);
         }
     }
 
@@ -83,7 +83,16 @@ public class Stats : MonoBehaviour
         foreach (var effect in effects)
         {
             if (effect.effectObject is IOnTakeDamageEffect e)
-                e.OnTakeDamage(owner, ref damage, damageType);
+                e.OnTakeDamage(owner, effect, ref damage, damageType);
+        }
+    }
+
+    public void NotifyOnTakeTurn(IBattleEntity owner)
+    {
+        foreach (var effect in effects)
+        {
+            if (effect.effectObject is IOnTakeTurn e)
+                e.OnTakeTurn(owner, effect);
         }
     }
 
@@ -95,7 +104,7 @@ public class Stats : MonoBehaviour
         {
             if (effect.effectObject.isStackable)
             {
-                existingEffect.stackCount++;
+                existingEffect.stackCount += effect.stackCount;
                 Debug.Log($"Effect {effect.effectObject.name} stacked to {existingEffect.stackCount}.");
             }
             else
@@ -118,6 +127,14 @@ public class Stats : MonoBehaviour
     public void RemoveExpiredEffects()
     {
         effects.RemoveAll(e => e.duration <= 0);
+    }
+
+    public void OnTurnStart(IBattleEntity entity)
+    {
+        foreach (var effect in effects)
+        {
+            effect.effectObject.OnTurnStart(entity, effect);
+        }
     }
 
     public void OnTurnEnd(IBattleEntity entity)

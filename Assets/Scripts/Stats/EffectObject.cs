@@ -9,17 +9,22 @@ public enum EffectType
 
 public interface IOnHitEffect
 {
-    void OnHit(IBattleEntity owner, IBattleEntity target);
+    void OnHit(IBattleEntity owner, Effect effect, IBattleEntity target);
 }
 
 public interface IOnDealDamageEffect
 {
-    void OnDealDamage(IBattleEntity owner, IBattleEntity target, ref int damage, DamageType damageType);
+    void OnDealDamage(IBattleEntity owner, Effect effect, IBattleEntity target, ref int damage, DamageType damageType);
 }
 
 public interface IOnTakeDamageEffect
 {
-    void OnTakeDamage(IBattleEntity owner, ref int damage, DamageType damageType);
+    void OnTakeDamage(IBattleEntity owner, Effect effect, ref int damage, DamageType damageType);
+}
+
+public interface IOnTakeTurn
+{
+    void OnTakeTurn( IBattleEntity owner, Effect effect );
 }
 
 public class EffectObject : ScriptableObject

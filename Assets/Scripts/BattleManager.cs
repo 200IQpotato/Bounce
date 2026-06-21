@@ -106,8 +106,9 @@ public class BattleManager : MonoBehaviour
             Debug.Log("New Turn");
 
             GameManager.Instance.CurrentState = GameState.PlayerTurn;
-            foreach (ITurnBase player in players)
+            foreach (var player in players)
             {
+                player.OnTakeTurn();
                 yield return StartCoroutine(player.TakeTurn());
             }
 
@@ -116,7 +117,12 @@ public class BattleManager : MonoBehaviour
             foreach (var enemy in enemiesCopy)
             {
                 if (enemies.Contains(enemy))
-                    yield return StartCoroutine(enemy.TakeTurn());
+                {
+                    enemy.OnTakeTurn();
+                    if (enemies.Contains(enemy))
+                        yield return StartCoroutine(enemy.TakeTurn());
+                }
+                    
             }
 
             foreach (IBattleEntity entity in entities)

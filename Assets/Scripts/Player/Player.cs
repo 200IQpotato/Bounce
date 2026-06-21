@@ -106,10 +106,19 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
     public void OnTurnStart()
     {
         RelicManager.Instance.OnRoundAdd();
+        relicHolder.OnTurnStart(this);
+        stats.OnTurnStart(this);
+    }
+
+    public void OnTakeTurn()
+    {
+        relicHolder.OnTakeTurn(this);
+        stats.NotifyOnTakeTurn(this);
     }
 
     public void OnTurnEnd()
     {
+        relicHolder.OnTurnEnd(this);
         stats.OnTurnEnd(this);
     }
 

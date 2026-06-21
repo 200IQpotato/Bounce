@@ -37,6 +37,11 @@ public class Obstacle : MonoBehaviour, IBattleEntity
         
     }
 
+    public void OnTakeTurn()
+    {
+        
+    }
+
     public void OnTurnEnd()
     {
         

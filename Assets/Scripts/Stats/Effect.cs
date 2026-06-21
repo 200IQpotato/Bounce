@@ -14,4 +14,12 @@ public class Effect
         this.stackCount = 1;
         this.isConsumed = false;
     }
+
+    public Effect(EffectObject effectObject, int duration, int stackCount)
+    {
+        this.effectObject = effectObject;
+        this.duration = duration;
+        this.stackCount = stackCount;
+        this.isConsumed = false;
+    }
 }

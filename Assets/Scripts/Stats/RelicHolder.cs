@@ -59,6 +59,14 @@ public class RelicHolder : MonoBehaviour
         }
     }
 
+    public void OnTakeTurn(Player player)
+    {
+        foreach (var relic in RelicManager.Instance.playerRelics)
+        {
+            relic.OnTakeTurn(player);
+        }
+    }
+
     public void OnTurnEnd(Player player)
     {
         foreach (var relic in RelicManager.Instance.playerRelics)

@@ -90,6 +90,7 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
 
     public virtual void OnTurnStart()
     {
+        stats.OnTurnStart(this);
         currentSkill = SelectSkill();
         
         if (currentSkill != null)
@@ -98,6 +99,12 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
             currentSkill.ShowPreview();
         }
     }
+
+    public virtual void OnTakeTurn()
+    {
+        stats.NotifyOnTakeTurn(this);
+    }
+
     public virtual void OnTurnEnd()
     {
         stats.OnTurnEnd(this);
