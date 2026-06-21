@@ -12,8 +12,8 @@ public class RelicObject : ScriptableObject
     public virtual void OnEquip(Player player) { }
     public virtual void OnUnequip(Player player) { }
     public virtual void OnHit(Player player, IBattleEntity entity) { }
-    public virtual void OnDealDamage(Player player, IBattleEntity entity, ref int damage) { }
-    public virtual void OnTakeDamage(Player player, ref int damage) { }
+    public virtual void OnDealDamage(Player player, IBattleEntity entity, ref int damage, DamageType damageType) { }
+    public virtual void OnTakeDamage(Player player, ref int damage, DamageType damageType) { }
     public virtual void onHealthChange(Player player ) { }
     public virtual void OnTurnStart(Player player) { }
     public virtual void OnTurnEnd(Player player) { }

@@ -69,21 +69,21 @@ public class Stats : MonoBehaviour
         }
     }
 
-    public void NotifyOnDealDamage(IBattleEntity owner, IBattleEntity target, ref int damage)
+    public void NotifyOnDealDamage(IBattleEntity owner, IBattleEntity target, ref int damage, DamageType damageType)
     {
         foreach (var effect in effects)
         {
             if (effect.effectObject is IOnDealDamageEffect e)
-                e.OnDealDamage(owner, target, ref damage);
+                e.OnDealDamage(owner, target, ref damage, damageType);
         }
     }
 
-    public void NotifyOnTakeDamage(IBattleEntity owner, ref int damage)
+    public void NotifyOnTakeDamage(IBattleEntity owner, ref int damage, DamageType damageType)
     {
         foreach (var effect in effects)
         {
             if (effect.effectObject is IOnTakeDamageEffect e)
-                e.OnTakeDamage(owner, ref damage);
+                e.OnTakeDamage(owner, ref damage, damageType);
         }
     }
 

@@ -42,7 +42,7 @@ public class Obstacle : MonoBehaviour, IBattleEntity
         
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, DamageType damageType)
     {
         
     }

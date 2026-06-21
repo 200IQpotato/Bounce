@@ -7,7 +7,7 @@ public class Poison : EffectObject
 
     public override void OnTurnEnd(IBattleEntity entity, Effect effect)
     {
-        entity.TakeDamage(damagePerTurn * effect.stackCount);
+        entity.TakeDamage(damagePerTurn * effect.stackCount, DamageType.Dot);
         Debug.Log($"{entity} takes {damagePerTurn * effect.stackCount} poison damage.");
     }
 }

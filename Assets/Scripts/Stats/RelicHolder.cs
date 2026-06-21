@@ -27,19 +27,19 @@ public class RelicHolder : MonoBehaviour
         }
     }
 
-    public void OnDealDamage(Player player, IBattleEntity entity, ref int damage)
+    public void OnDealDamage(Player player, IBattleEntity entity, ref int damage, DamageType damageType)
     {
         foreach (var relic in RelicManager.Instance.playerRelics)
         {
-            relic.OnDealDamage(player, entity, ref damage);
+            relic.OnDealDamage(player, entity, ref damage, damageType);
         }
     }
 
-    public void OnTakeDamage(Player player, ref int damage)
+    public void OnTakeDamage(Player player, ref int damage, DamageType damageType)
     {
         foreach (var relic in RelicManager.Instance.playerRelics)
         {
-            relic.OnTakeDamage(player, ref damage);
+            relic.OnTakeDamage(player, ref damage, damageType);
         }
     }
 

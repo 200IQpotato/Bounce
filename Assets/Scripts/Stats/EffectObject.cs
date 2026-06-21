@@ -14,12 +14,12 @@ public interface IOnHitEffect
 
 public interface IOnDealDamageEffect
 {
-    void OnDealDamage(IBattleEntity owner, IBattleEntity target, ref int damage);
+    void OnDealDamage(IBattleEntity owner, IBattleEntity target, ref int damage, DamageType damageType);
 }
 
 public interface IOnTakeDamageEffect
 {
-    void OnTakeDamage(IBattleEntity owner, ref int damage);
+    void OnTakeDamage(IBattleEntity owner, ref int damage, DamageType damageType);
 }
 
 public class EffectObject : ScriptableObject
