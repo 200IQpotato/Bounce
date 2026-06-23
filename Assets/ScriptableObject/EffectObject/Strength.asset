@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2287fcb01473be4469903174965ca82b, type: 3}
-  m_Name: Poison
-  m_EditorClassIdentifier: 
-  effectName: Poison
-  effectType: 2
-  stackState: 2
+  m_Script: {fileID: 11500000, guid: 0666915b465b0f44ca447efe2334459a, type: 3}
+  m_Name: Strength
+  m_EditorClassIdentifier: Assembly-CSharp::Strength
+  effectName: 
+  effectType: 0
+  stackState: 1
   priority: 0

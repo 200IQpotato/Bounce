@@ -7,6 +7,13 @@ public enum EffectType
     Dot
 }
 
+public enum StackState
+{
+    Only,
+    Separate,
+    Merge
+}
+
 public interface IOnHitEffect
 {
     void OnHit(IBattleEntity owner, Effect effect, IBattleEntity target);
@@ -31,7 +38,7 @@ public class EffectObject : ScriptableObject
 {
     public string effectName;
     public EffectType effectType;
-    public bool isStackable;
+    public StackState stackState;
     public int priority;
     public virtual void OnTurnStart(IBattleEntity entity, Effect effect) { }
     public virtual void OnTurnEnd(IBattleEntity entity, Effect effect) { }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Stats : MonoBehaviour
@@ -98,30 +99,59 @@ public class Stats : MonoBehaviour
 
     public void ApplyEffect(Effect effect)
     {
-        var existingEffect = effects.Find(e => e.effectObject == effect.effectObject);
-
-        if (existingEffect != null)
+        bool isAdded = false;
+        switch ( effect.effectObject.stackState )
         {
-            if (effect.effectObject.isStackable)
+            case StackState.Only:
             {
-                existingEffect.stackCount += effect.stackCount;
-                Debug.Log($"Effect {effect.effectObject.name} stacked to {existingEffect.stackCount}.");
+                var existingEffect = effects.Find(e => e.effectObject == effect.effectObject);
+                if(existingEffect == null)
+                    break;
+                existingEffect.duration = Mathf.Max(existingEffect.duration, effect.duration);
+                isAdded = true;
+                Debug.Log($"Effect {effect.effectObject.name} is Only. Refreshing duration.");
+                break;
             }
-            else
+                
+
+            case StackState.Separate:
             {
-                Debug.Log($"Effect {effect.effectObject.name} is not stackable. Refreshing duration.");
+                var existingEffects = effects.FindAll(e => e.effectObject == effect.effectObject);
+                if(existingEffects == null)
+                    break;
+                foreach ( Effect existingEffect in existingEffects )
+                {
+                    if( existingEffect.duration == effect.duration )
+                    {
+                        existingEffect.stackCount += effect.stackCount;
+                        isAdded = true;
+                        Debug.Log($"Effect {effect.effectObject.name} is stacked. \nNow stacks : {existingEffect.stackCount}, Now duration : {existingEffect.duration}.");
+                    }
+                }
+                break;
             }
 
-            existingEffect.duration = Mathf.Max(existingEffect.duration, effect.duration);
-            effect.effectObject.OnApply(this.GetComponent<IBattleEntity>(), existingEffect);
+            case StackState.Merge:
+            {
+                var existingEffect = effects.Find(e => e.effectObject == effect.effectObject);
+                if(existingEffect == null)
+                    break;
+                existingEffect.stackCount += effect.stackCount;
+                existingEffect.duration = existingEffect.stackCount;
+                isAdded = true;
+                Debug.Log($"Effect {effect.effectObject.name} is merged. \nNow stack : {existingEffect.stackCount}, Now duration : {existingEffect.duration}.");
+                break;
+            }                
         }
-        else
+
+        if( !isAdded)
         {
             effects.Add(effect);
-            effects.Sort((a, b) => a.effectObject.priority.CompareTo(b.effectObject.priority));
-            effect.effectObject.OnApply(this.GetComponent<IBattleEntity>(), effect);
-            Debug.Log($"Effect {effect.effectObject.name} applied with duration {effect.duration}.");
-        }
+            Debug.Log($"{effect.effectObject.name} is added! \nNow stack : {effect.stackCount}, Now duration : {effect.duration}");
+        }            
+
+        effects.Sort((a, b) => a.effectObject.priority.CompareTo(b.effectObject.priority));
+        effect.effectObject.OnApply(this.GetComponent<IBattleEntity>(), effect);
     }
 
     public void RemoveExpiredEffects()
@@ -142,6 +172,9 @@ public class Stats : MonoBehaviour
         foreach (var effect in effects)
         {
             effect.duration--;
+            if( effect.effectObject.stackState == StackState.Merge )
+                effect.stackCount--;
+
             effect.effectObject.OnTurnEnd(entity, effect);
             Debug.Log($"Effect {effect.effectObject.name} duration decreased to {effect.duration}.");
 
