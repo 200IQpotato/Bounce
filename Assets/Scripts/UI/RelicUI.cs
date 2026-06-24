@@ -11,14 +11,14 @@ public class RelicUI : MonoBehaviour
     {
         RelicManager.OnRelicAddedUI += AddRelic;
         RelicManager.OnRelicRemovedUI += RemoveRelic;
-        RelicManager.OnRelicTriggered += RelicUsed;
+        RelicManager.OnRelicTriggered += RelicTrigger;
     }
 
     void OnDisable()
     {
         RelicManager.OnRelicAddedUI -= AddRelic;
         RelicManager.OnRelicRemovedUI -= RemoveRelic;
-        RelicManager.OnRelicTriggered -= RelicUsed;
+        RelicManager.OnRelicTriggered -= RelicTrigger;
     }
 
     public void AddRelic(RelicObject relic, int value)
@@ -40,7 +40,7 @@ public class RelicUI : MonoBehaviour
         }
     }
 
-    public void RelicUsed(RelicObject relic)
+    public void RelicTrigger(RelicObject relic)
     {
         relicUIs[relic].Glow();
     }
