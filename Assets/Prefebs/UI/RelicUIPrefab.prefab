@@ -103,6 +103,7 @@ MonoBehaviour:
   m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -148,6 +149,7 @@ GameObject:
   - component: {fileID: 8907565325228131617}
   - component: {fileID: 5135053253203671613}
   - component: {fileID: 2869641624408515341}
+  - component: {fileID: 6937258922101434891}
   m_Layer: 5
   m_Name: RelicUIPrefab
   m_TagString: Untagged
@@ -227,3 +229,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   relicIcon: {fileID: 5135053253203671613}
   value: {fileID: 4370252441712065745}
+  outline: {fileID: 6937258922101434891}
+  glowDuration: 0.2
+  glowAlpha: 0.5
+--- !u!114 &6937258922101434891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8790487110363867346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0.7509433, g: 0.7509433, b: 0.7509433, a: 0}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1

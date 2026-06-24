@@ -7,10 +7,18 @@ public class RelicUI : MonoBehaviour
     public RelicUIPrefab relicPrefab;
     private Dictionary<RelicObject, RelicUIPrefab> relicUIs = new();
 
-    void Start()
+    void OnEnable()
     {
         RelicManager.OnRelicAddedUI += AddRelic;
         RelicManager.OnRelicRemovedUI += RemoveRelic;
+        RelicManager.OnRelicTriggered += RelicUsed;
+    }
+
+    void OnDisable()
+    {
+        RelicManager.OnRelicAddedUI -= AddRelic;
+        RelicManager.OnRelicRemovedUI -= RemoveRelic;
+        RelicManager.OnRelicTriggered -= RelicUsed;
     }
 
     public void AddRelic(RelicObject relic, int value)
@@ -30,5 +38,10 @@ public class RelicUI : MonoBehaviour
             Destroy(relicUIs[relic].gameObject);
             relicUIs.Remove(relic);
         }
+    }
+
+    public void RelicUsed(RelicObject relic)
+    {
+        relicUIs[relic].Glow();
     }
 }

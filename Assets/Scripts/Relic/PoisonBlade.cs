@@ -7,5 +7,6 @@ public class PoisonBlade : RelicObject
     public override void OnHit(Player player, IBattleEntity entity)
     {
         entity.stats.ApplyEffect(new Effect(poisonEffect, 1));
+        OnTrigger();
     }
 }

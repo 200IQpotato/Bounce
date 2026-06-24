@@ -17,7 +17,7 @@ public class Catalyst : RelicObject
                 }
             }
             
-            Debug.Log($"Catalyst triggered!");
+            OnTrigger();
         }
     }
 

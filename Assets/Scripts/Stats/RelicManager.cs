@@ -13,6 +13,7 @@ public class RelicManager : MonoBehaviour
     public static event Action<RelicObject, int> OnRelicAddedUI;
     public static event Action<RelicObject> OnRelicRemovedUI;
     public static event Action<ValueType, int> OnRelicValueUpdatedUI;
+    public static event Action<RelicObject> OnRelicTriggered;
     public int bounceCount = 0;
     public int roundCount = 0;
     public int hitCount = 0;
@@ -97,6 +98,11 @@ public class RelicManager : MonoBehaviour
     {
         hitCount++;
         OnRelicValueUpdatedUI?.Invoke(ValueType.Hit, hitCount);
+    }
+
+    public void OnRelicTrigger(RelicObject relic)
+    {
+        OnRelicTriggered?.Invoke(relic);
     }
 
     public int GetTypeValue( ValueType valueType )

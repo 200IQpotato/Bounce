@@ -10,5 +10,6 @@ public class StrengthDice : RelicObject
     public override void OnTurnStart(Player player)
     {
         player.stats.ApplyEffect(new Effect(strengthEffect, Random.Range(0, maxDuration+1), Random.Range(0, maxStack+1))); 
+        OnTrigger();
     }
 }
