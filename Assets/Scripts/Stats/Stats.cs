@@ -88,6 +88,15 @@ public class Stats : MonoBehaviour
         }
     }
 
+    public void NotifyOnSummon(IBattleEntity owner, ref SummonData data)
+    {
+        foreach (var effect in effects)
+        {
+            if (effect.effectObject is IOnSummon e)
+                e.OnSummon(owner, effect, ref data);
+        }
+    }
+
     public void NotifyOnTakeTurn(IBattleEntity owner)
     {
         foreach (var effect in effects)

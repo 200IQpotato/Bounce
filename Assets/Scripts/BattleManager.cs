@@ -11,6 +11,8 @@ public class BattleManager : MonoBehaviour
     private readonly List<Enemy> enemies = new();
     private readonly List<Player> players = new();
     private readonly List<IBattleEntity> entities = new();
+    private readonly List<Summonable> activeSummons = new();
+    public bool AllSummonsFinished() => activeSummons.Count == 0;
     public event Func<int, bool, IEnumerator> OnTurnStartEndUI;
     public event Func<IEnumerator> OnBattleEnd;
     private int turnCount = 0;
@@ -79,6 +81,18 @@ public class BattleManager : MonoBehaviour
             entities.Remove(entity);
     }
 
+    public void RegisterSummon(Summonable summon)
+    {
+        if ( summon != null && !activeSummons.Contains(summon))
+            activeSummons.Add(summon);
+    }
+
+    public void UnregisterSummon(Summonable summon)
+    {
+        if (summon != null)
+            activeSummons.Remove(summon);
+    }
+
     public void StartBattle()
     {
         Debug.Log("Battle Start");
@@ -102,6 +116,7 @@ public class BattleManager : MonoBehaviour
             foreach (IBattleEntity entity in entities)
             {
                 entity.OnTurnStart();
+                yield return new WaitUntil(AllSummonsFinished);
             }
             Debug.Log("New Turn");
 
@@ -110,6 +125,7 @@ public class BattleManager : MonoBehaviour
             {
                 player.OnTakeTurn();
                 yield return StartCoroutine(player.TakeTurn());
+                yield return new WaitUntil(AllSummonsFinished);
             }
 
             GameManager.Instance.CurrentState = GameState.EnemyTurn;
@@ -121,6 +137,8 @@ public class BattleManager : MonoBehaviour
                     enemy.OnTakeTurn();
                     if (enemies.Contains(enemy))
                         yield return StartCoroutine(enemy.TakeTurn());
+
+                    yield return new WaitUntil(AllSummonsFinished);
                 }
                     
             }
@@ -128,6 +146,7 @@ public class BattleManager : MonoBehaviour
             foreach (IBattleEntity entity in entities)
             {
                 entity.OnTurnEnd();
+                yield return new WaitUntil(AllSummonsFinished);
             }
 
             Debug.Log("End Turn");

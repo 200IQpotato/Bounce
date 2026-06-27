@@ -7,6 +7,7 @@ public interface IBattleEntity
     void OnTurnEnd();
     void TakeDamage(int damage, DamageType damageType);
     void Heal(int healAmount);
+    void Summon(GameObject prefab, SummonData rawData);
     Stats stats { get; }
     bool isExpired{ get; }
 }

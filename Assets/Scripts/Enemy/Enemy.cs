@@ -141,6 +141,19 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
         Debug.Log($"{this} Healed: " + healAmount + ", Current Health: " + stats.health);
     }
 
+    public virtual void Summon(GameObject prefab, SummonData rawData)
+    {
+        SummonData data = rawData;
+        stats.NotifyOnSummon(this, ref rawData);
+
+        var go = Instantiate(prefab);
+        var summon = go.GetComponent<Summonable>();
+        if (summon != null)
+        {
+            summon.Init(data);
+        }
+    }
+
     public void Die()
     {
         Debug.Log("Enemy Death");

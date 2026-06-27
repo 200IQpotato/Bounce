@@ -34,6 +34,11 @@ public interface IOnTakeTurn
     void OnTakeTurn( IBattleEntity owner, Effect effect );
 }
 
+public interface IOnSummon
+{
+    void OnSummon(IBattleEntity owner, Effect effect, ref SummonData data);
+}
+
 public class EffectObject : ScriptableObject
 {
     public string effectName;

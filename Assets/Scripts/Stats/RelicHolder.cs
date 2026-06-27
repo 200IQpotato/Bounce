@@ -51,6 +51,14 @@ public class RelicHolder : MonoBehaviour
         }
     }
 
+    public void OnSummon(Player player, ref SummonData data)
+    {
+        foreach (var relic in RelicManager.Instance.playerRelics)
+        {
+            relic.OnSummon(player, ref data);
+        }
+    }
+
     public void OnTurnStart(Player player)
     {
         foreach (var relic in RelicManager.Instance.playerRelics)
