@@ -192,13 +192,13 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         Destroy(gameObject);
     }
 
-    public void Summon(GameObject prefab, SummonData rawData)
+    public void Summon(GameObject prefab, SummonData rawData, Transform spawnPoint)
     {
         SummonData data = rawData;
         relicHolder.OnSummon(this, ref data);
         stats.NotifyOnSummon(this, ref data);
 
-        var go = Instantiate(prefab);
+        var go = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
         var summon = go.GetComponent<Summonable>();
         if (summon != null)
         {

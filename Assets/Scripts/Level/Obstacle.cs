@@ -57,7 +57,7 @@ public class Obstacle : MonoBehaviour, IBattleEntity
         
     }
 
-    public void Summon(GameObject prefab, SummonData rawData)
+    public void Summon(GameObject prefab, SummonData rawData, Transform spawnPoint)
     {
         
     }

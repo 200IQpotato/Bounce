@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StrengthDice
   relicName: Strength Dice
   description: Add random stack of strength to player
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: c999a1f25d183d94ab55c86df7266cd6, type: 3}
   valueType: 0
   priority: 0
   strengthEffect: {fileID: 11400000, guid: 894c642b586eec545a8a12f859919e43, type: 2}

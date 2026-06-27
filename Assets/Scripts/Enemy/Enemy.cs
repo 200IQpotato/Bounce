@@ -141,12 +141,12 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
         Debug.Log($"{this} Healed: " + healAmount + ", Current Health: " + stats.health);
     }
 
-    public virtual void Summon(GameObject prefab, SummonData rawData)
+    public virtual void Summon(GameObject prefab, SummonData rawData, Transform spawnPoint)
     {
         SummonData data = rawData;
         stats.NotifyOnSummon(this, ref rawData);
 
-        var go = Instantiate(prefab);
+        var go = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
         var summon = go.GetComponent<Summonable>();
         if (summon != null)
         {

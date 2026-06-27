@@ -51,6 +51,11 @@ public class BattleManager : MonoBehaviour
             enemies.Add(enemy);
     }
 
+    public List<Enemy> GetEnemies()
+    {
+        return new List<Enemy>(enemies);
+    }
+
     public void UnregisterEnemy(Enemy enemy)
     {
         if (enemy != null)

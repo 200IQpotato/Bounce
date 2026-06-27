@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fc51a4b333409342b7e79d989091c50, type: 3}
+  m_Name: Magic Book
+  m_EditorClassIdentifier: Assembly-CSharp::MagicBook
+  relicName: Magic Book
+  description: 
+  icon: {fileID: 21300000, guid: fd8f34e94c23e344e968f0389d14d408, type: 3}
+  valueType: 0
+  priority: 0
+  fireBallPrefab: {fileID: 3817641257976226186, guid: c2ffae1302438ba4fad87c32b543c75f, type: 3}
+  fireDamage: 10
