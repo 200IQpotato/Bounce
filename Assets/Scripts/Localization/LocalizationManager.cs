@@ -64,7 +64,7 @@ public class LocalizationManager : MonoBehaviour
         LoadLanguage(lang);
     }
 
-    public DescriptionData ResolveLink(string linkId)
+    public DescriptionData ResolveLink(string linkId) //傳入 "Relics/RelicID" 或 "Effects/EffectID" 或 "Glossary/GlossaryID" 這種格式的字串, 回傳對應的 DescriptionData
     {
         var parts = linkId.Split('/');
         if (parts.Length != 2)
@@ -94,6 +94,15 @@ public class LocalizationManager : MonoBehaviour
     public DescriptionData GetRelicData(string id) => relics.ContainsKey(id) ? relics[id] : new DescriptionData { name = "Unknown Relic", description = "Unknown Relic Description" };
     public DescriptionData GetEffectData(string id) => effects.ContainsKey(id) ? effects[id] : new DescriptionData { name = "Unknown Effect", description = "Unknown Effect Description" };
     public DescriptionData GetGlossaryData(string id) => glossary.ContainsKey(id) ? glossary[id] : new DescriptionData { name = "Unknown Glossary Entry", description = "Unknown Glossary Entry Description" };
+    public DescriptionData Get(string id)
+    {
+        if (relics.ContainsKey(id)) return relics[id];
+        if (effects.ContainsKey(id)) return effects[id];
+        if (glossary.ContainsKey(id)) return glossary[id];
+
+        Debug.LogWarning($"ID not found in any category: {id}");
+        return new DescriptionData { name = "Unknown", description = "Unknown ID" };
+    }
     public string GetRelicName(string id) => relics.ContainsKey(id) ? relics[id].name : "Unknown Relic";
     public string GetRelicDescription(string id) => relics.ContainsKey(id) ? relics[id].description : "Unknown Relic Description";
     public string GetEffectName(string id) => effects.ContainsKey(id) ? effects[id].name : "Unknown Effect";
