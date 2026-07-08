@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000019073486, y: 42}
-  m_SizeDelta: {x: -0.000061035, y: -86.9732}
+  m_AnchoredPosition: {x: -0.000019073486, y: 42.783}
+  m_SizeDelta: {x: -0.0001, y: -88.54}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4337381535056154656
 CanvasRenderer:
@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: NAME
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 33f76d04163894741a035a37e15f30da, type: 2}
-  m_sharedMaterial: {fileID: -2874461774642915000, guid: 33f76d04163894741a035a37e15f30da, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 91a4c0f9f21d8fe40b93d47047fa2775, type: 2}
+  m_sharedMaterial: {fileID: -3247013012850133690, guid: 91a4c0f9f21d8fe40b93d47047fa2775, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -92,8 +92,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10
-  m_fontSizeBase: 10
+  m_fontSize: 8
+  m_fontSizeBase: 8
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -375,6 +375,7 @@ GameObject:
   - component: {fileID: 1025052397936514064}
   - component: {fileID: 1853048814419871223}
   - component: {fileID: 6122253912328960744}
+  - component: {fileID: 716517579753419969}
   m_Layer: 5
   m_Name: RelicChoose
   m_TagString: Untagged
@@ -505,6 +506,19 @@ MonoBehaviour:
   image: {fileID: 2341449022874292873}
   relicName: {fileID: 5324001467670304704}
   selectedImage: {fileID: 939348107732012523}
+--- !u!114 &716517579753419969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6146003220616440364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82cc1a3a96e94ca43b11003742600af1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DescriptionLinkHandler
+  tmpText: {fileID: 6990825359048146236}
 --- !u!1 &6862914756042853329
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,8 +661,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 123
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 33f76d04163894741a035a37e15f30da, type: 2}
-  m_sharedMaterial: {fileID: -2874461774642915000, guid: 33f76d04163894741a035a37e15f30da, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 91a4c0f9f21d8fe40b93d47047fa2775, type: 2}
+  m_sharedMaterial: {fileID: -3247013012850133690, guid: 91a4c0f9f21d8fe40b93d47047fa2775, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -672,8 +686,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8
-  m_fontSizeBase: 8
+  m_fontSize: 6
+  m_fontSizeBase: 6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

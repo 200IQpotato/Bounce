@@ -64,6 +64,36 @@ public class LocalizationManager : MonoBehaviour
         LoadLanguage(lang);
     }
 
+    public DescriptionData ResolveLink(string linkId)
+    {
+        var parts = linkId.Split('/');
+        if (parts.Length != 2)
+        {
+            Debug.LogWarning($"Malformed link id: {linkId}");
+            return new DescriptionData { name = "Unknown", description = "Unknown ID" };
+        }
+
+        string category = parts[0];
+        string id = parts[1];
+        Debug.Log($"Resolving link: Category={category}, ID={id}");
+
+        switch (category)
+        {
+            case "Relics":
+                return GetRelicData(id);
+            case "Effects":
+                return GetEffectData(id);
+            case "Glossary":
+                return GetGlossaryData(id);
+            default:
+                Debug.LogWarning($"Unknown link category: {category}");
+                return new DescriptionData { name = "Unknown", description = "Unknown ID" };
+        }
+    }
+
+    public DescriptionData GetRelicData(string id) => relics.ContainsKey(id) ? relics[id] : new DescriptionData { name = "Unknown Relic", description = "Unknown Relic Description" };
+    public DescriptionData GetEffectData(string id) => effects.ContainsKey(id) ? effects[id] : new DescriptionData { name = "Unknown Effect", description = "Unknown Effect Description" };
+    public DescriptionData GetGlossaryData(string id) => glossary.ContainsKey(id) ? glossary[id] : new DescriptionData { name = "Unknown Glossary Entry", description = "Unknown Glossary Entry Description" };
     public string GetRelicName(string id) => relics.ContainsKey(id) ? relics[id].name : "Unknown Relic";
     public string GetRelicDescription(string id) => relics.ContainsKey(id) ? relics[id].description : "Unknown Relic Description";
     public string GetEffectName(string id) => effects.ContainsKey(id) ? effects[id].name : "Unknown Effect";

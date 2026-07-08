@@ -4,12 +4,12 @@
         {
             "id": "PoisonDagger",
             "name": "Poison Dagger",
-            "description": "When <link=Glossary/Hit>hit</link> enemy, add 1 <link=Effect/Poison>poison</link> to it."
+            "description": "When <link=Glossary/Hit><color=#FFFA67>hit</color></link> enemy, add 1 <link=Effects/Poison><color=#FFFA67>poison</color></link> to it."
         },
         {
             "id": "Catalyst",
             "name": "Catalyst",
-            "description": "Every 7 <link=Glossary/Hit>hit</link>, explode all <link=Glossary/DotDamage>dot damage</link> on enemies."
+            "description": "Every 7 <link=Glossary/Hit><color=#FFFA67>hit</color></link>, explode all <link=Glossary/DotDamage><color=#FFFA67>dot damage</color></link> on enemies."
         },
         {
             "id": "ProteinPowder",
@@ -19,7 +19,7 @@
         {
             "id": "StrengthDice",
             "name": "Strength Dice",
-            "description": "Add random stack of <link='Effect/Strength'>strength</link> to player"
+            "description": "Add random stack of <link=Effects/Strength><color=#FFFA67>strength</color></link> to player"
         },
         {
             "id": "MagicBook",
