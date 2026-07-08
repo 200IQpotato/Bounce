@@ -1,0 +1,77 @@
+{
+    "Relics":
+    [        
+        {
+            "id": "PoisonDagger",
+            "name": "Poison Dagger",
+            "description": "When <link=Glossary/Hit>hit</link> enemy, add 1 <link=Effect/Poison>poison</link> to it."
+        },
+        {
+            "id": "Catalyst",
+            "name": "Catalyst",
+            "description": "Every 7 <link=Glossary/Hit>hit</link>, explode all <link=Glossary/DotDamage>dot damage</link> on enemies."
+        },
+        {
+            "id": "ProteinPowder",
+            "name": "Protein Powder",
+            "description": "gain max health 10, gain attack 10."
+        },
+        {
+            "id": "StrengthDice",
+            "name": "Strength Dice",
+            "description": "Add random stack of <link='Effect/Strength'>strength</link> to player"
+        },
+        {
+            "id": "MagicBook",
+            "name": "Magic Book",
+            "description": "Spawn a fireball on turn start."
+        }
+        
+    ],
+    "Effects":
+    [
+        {
+            "id": "Poison",
+            "name": "Poison",
+            "description": "Take damage when self's turn starts."
+        },
+        {
+            "id": "Strength",
+            "name": "Strength",
+            "description": "Increase attack damage by percent."
+        }
+    ],
+    "Glossary":
+    [
+        {
+            "id": "Hit",
+            "name": "Hit",
+            "description": "A successful attack against an enemy."
+        },
+        {
+            "id": "Bounce",
+            "name": "Bounce",
+            "description": "A hit on wall."
+        },
+        {
+            "id": "TurnStart",
+            "name": "Turn Start",
+            "description": "The beginning of a player's or enemy's turn."
+        },
+        {
+            "id": "TurnEnd",
+            "name": "Turn End",
+            "description": "The end of a player's or enemy's turn."
+        },
+        {
+            "id": "TakeTurn",
+            "name": "Take Turn",
+            "description": "To perform an action during a turn."
+        },
+        {
+            "id": "DotDamage",
+            "name": "Dot Damage",
+            "description": "Damage over time."
+        }
+    ]
+}

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0666915b465b0f44ca447efe2334459a, type: 3}
   m_Name: Strength
   m_EditorClassIdentifier: Assembly-CSharp::Strength
-  effectName: Strength
+  effectID: Strength
+  icon: {fileID: 0}
   effectType: 0
   stackState: 1
   priority: 0

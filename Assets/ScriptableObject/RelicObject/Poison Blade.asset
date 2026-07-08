@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fdcc13490618894f92550be2490e923, type: 3}
   m_Name: Poison Blade
   m_EditorClassIdentifier: 
-  relicName: Poison Blade
-  description: When hit enemy, add 1 poison to it. (last 2 turn)
+  relicID: PoisonDagger
   icon: {fileID: 21300000, guid: af0b55c124476ba4796387de8e222d80, type: 3}
   valueType: 0
   priority: 0

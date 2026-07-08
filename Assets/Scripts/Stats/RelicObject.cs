@@ -4,11 +4,12 @@ public enum ValueType{ None, Round, Bounce, Hit }
 
 public class RelicObject : ScriptableObject
 {
-    public string relicName;
-    public string description;
+    public string relicID;
     public Sprite icon;
     public ValueType valueType;
     public int priority;
+    public string relicName => LocalizationManager.Instance.GetRelicName(relicID);
+    public string description => LocalizationManager.Instance.GetRelicDescription(relicID);
     public virtual void OnEquip(Player player) { }
     public virtual void OnUnequip(Player player) { }
     public virtual void OnHit(Player player, IBattleEntity entity) { }
@@ -24,4 +25,5 @@ public class RelicObject : ScriptableObject
     {
         RelicManager.Instance.OnRelicTrigger(this);
     }
+    
 }

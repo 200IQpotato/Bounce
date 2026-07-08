@@ -1,9 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ChoiceText : MonoBehaviour
 {
-    [SerializeField] private Text description;
+    [SerializeField] private TMP_Text description;
     [SerializeField] private Image image;
 
     public void Init( EventChoice choice )

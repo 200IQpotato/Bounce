@@ -41,12 +41,16 @@ public interface IOnSummon
 
 public class EffectObject : ScriptableObject
 {
-    public string effectName;
+    public string effectID;
+    public Sprite icon;
     public EffectType effectType;
     public StackState stackState;
     public int priority;
+    public string effectName => LocalizationManager.Instance.GetEffectName(effectID);
+    public string description => LocalizationManager.Instance.GetEffectDescription(effectID);
     public virtual void OnTurnStart(IBattleEntity entity, Effect effect) { }
     public virtual void OnTurnEnd(IBattleEntity entity, Effect effect) { }
     public virtual void OnApply(IBattleEntity entity, Effect effect) { }
     public virtual void OnExpire(IBattleEntity entity, Effect effect) { }
+    
 }

@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc51a4b333409342b7e79d989091c50, type: 3}
   m_Name: Magic Book
   m_EditorClassIdentifier: Assembly-CSharp::MagicBook
-  relicName: Magic Book
-  description: 
+  relicID: MagicBook
   icon: {fileID: 21300000, guid: fd8f34e94c23e344e968f0389d14d408, type: 3}
   valueType: 0
   priority: 0

@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class RelicChoose : MonoBehaviour
 {
-    [SerializeField] private Text text;
+    [SerializeField] private TMP_Text text;
     [SerializeField] private Image image;
-    [SerializeField] private Text relicName;
+    [SerializeField] private TMP_Text relicName;
     [SerializeField] public Image selectedImage;
 
     public void Init( RelicObject relicObject )

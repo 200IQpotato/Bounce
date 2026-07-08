@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2287fcb01473be4469903174965ca82b, type: 3}
   m_Name: Poison
   m_EditorClassIdentifier: 
-  effectName: Poison
+  effectID: Poison
+  icon: {fileID: 0}
   effectType: 2
   stackState: 2
   priority: 0
