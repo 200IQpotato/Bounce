@@ -24,11 +24,12 @@ public class LocFile
 public class LocalizationManager : MonoBehaviour
 {
     public static LocalizationManager Instance { get; private set; }
+    public static event System.Action OnLanguageChanged;
     public Language CurrentLanguage { get; private set; } = Language.English;
     private Dictionary<string, DescriptionData> relics = new Dictionary<string, DescriptionData>();
     private Dictionary<string, DescriptionData> effects = new Dictionary<string, DescriptionData>();
     private Dictionary<string, DescriptionData> glossary = new Dictionary<string, DescriptionData>();
-
+    
     void Awake()
     {
         if (Instance == null)
@@ -46,7 +47,19 @@ public class LocalizationManager : MonoBehaviour
 
     public void LoadLanguage(Language lang)
     {
-        string path = lang == Language.Chinese ? "Assets/Scripts/Localization/Chinese/Zh.json" : "Assets/Scripts/Localization/English/En.json";
+        string path = string.Empty;
+        switch (lang)
+        {
+            case Language.English:
+                path = "Assets/Scripts/Localization/English/En.json";
+                break;
+            case Language.Chinese:
+                path = "Assets/Scripts/Localization/Chinese/Ch.json";
+                break;
+            default:
+                Debug.LogWarning($"Unsupported language: {lang}");
+                break;
+        }
         LocFile data = JsonUtility.FromJson<LocFile>(File.ReadAllText(path));
 
         relics.Clear();
@@ -60,8 +73,20 @@ public class LocalizationManager : MonoBehaviour
 
     public void SetLanguage(Language lang)
     {
+        Debug.Log($"Setting language to: {lang}");
         CurrentLanguage = lang;
         LoadLanguage(lang);
+        OnLanguageChanged?.Invoke();
+    }
+
+    public void SetLanguageByIndex(int index)
+    {
+        if (index < 0 || index >= System.Enum.GetValues(typeof(Language)).Length)
+        {
+            Debug.LogWarning($"Invalid language index: {index}");
+            return;
+        }
+        SetLanguage((Language)index);
     }
 
     public DescriptionData ResolveLink(string linkId) //傳入 "Relics/RelicID" 或 "Effects/EffectID" 或 "Glossary/GlossaryID" 這種格式的字串, 回傳對應的 DescriptionData

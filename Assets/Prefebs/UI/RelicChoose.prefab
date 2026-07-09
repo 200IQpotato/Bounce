@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: NAME
+  m_text: "NAME\u540D\u5B57"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 91a4c0f9f21d8fe40b93d47047fa2775, type: 2}
   m_sharedMaterial: {fileID: -3247013012850133690, guid: 91a4c0f9f21d8fe40b93d47047fa2775, type: 2}
@@ -92,8 +92,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8
-  m_fontSizeBase: 8
+  m_fontSize: 7
+  m_fontSizeBase: 7
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -628,8 +628,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -21.39}
-  m_SizeDelta: {x: -12.309, y: -47.7272}
+  m_AnchoredPosition: {x: 0, y: -22.1239}
+  m_SizeDelta: {x: -12.309, y: -49.1951}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9077136996339077106
 CanvasRenderer:
@@ -659,7 +659,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 123
+  m_text: "Description\u53D9\u8FF0"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 91a4c0f9f21d8fe40b93d47047fa2775, type: 2}
   m_sharedMaterial: {fileID: -3247013012850133690, guid: 91a4c0f9f21d8fe40b93d47047fa2775, type: 2}
@@ -686,8 +686,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 6
-  m_fontSizeBase: 6
+  m_fontSize: 5
+  m_fontSizeBase: 5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

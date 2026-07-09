@@ -1,0 +1,77 @@
+{
+    "Relics":
+    [        
+        {
+            "id": "PoisonDagger",
+            "name": "剧毒匕首",
+            "description": "当<link=Glossary/Hit><color=#FFFA67>打击</color></link>敌人时, 加 1 点<link=Effects/Poison><color=#FFFA67>剧毒</color></link>到该敌人上"
+        },
+        {
+            "id": "Catalyst",
+            "name": "催化剂",
+            "description": "每 7 次<link=Glossary/Hit><color=#FFFA67>打击</color></link>, 引爆该打击目标身上所有的<link=Glossary/DotDamage><color=#FFFA67>持续伤害</color></link>"
+        },
+        {
+            "id": "ProteinPowder",
+            "name": "蛋白质粉",
+            "description": "获得最大生命值 10, 获得攻击 10"
+        },
+        {
+            "id": "StrengthDice",
+            "name": "力量骰子",
+            "description": "在<link=Glossary/TakeTurn><color=#FFFA67>回合行动</color></link>时增加随机叠层的<link=Effects/Strength><color=#FFFA67>力量</color></link>到玩家身上"
+        },
+        {
+            "id": "MagicBook",
+            "name": "魔法书",
+            "description": "在<link=Glossary/TakeTurn><color=#FFFA67>回合行动</color></link>时生成一个火球."
+        }
+        
+    ],
+    "Effects":
+    [
+        {
+            "id": "Poison",
+            "name": "剧毒",
+            "description": "在自身<link=Glossary/TakeTurn><color=#FFFA67>回合行动</color></link>时受到伤害"
+        },
+        {
+            "id": "Strength",
+            "name": "力量",
+            "description": "增加攻击伤害"
+        }
+    ],
+    "Glossary":
+    [
+        {
+            "id": "Hit",
+            "name": "打击",
+            "description": "对敌人造成成功的攻击"
+        },
+        {
+            "id": "Bounce",
+            "name": "反弹",
+            "description": "撞到墙壁或障碍物后的弹回"
+        },
+        {
+            "id": "TurnStart",
+            "name": "回合开始",
+            "description": "每一轮玩家和敌人行动前的开始阶段"
+        },
+        {
+            "id": "TurnEnd",
+            "name": "回合结束",
+            "description": "每一轮玩家和敌人行动后的结束阶段"
+        },
+        {
+            "id": "TakeTurn",
+            "name": "回合行动",
+            "description": "在玩家或敌人的回合期间"
+        },
+        {
+            "id": "DotDamage",
+            "name": "持续伤害",
+            "description": "在<link=Glossary/TakeTurn><color=#FFFA67>回合行动</color></link>时造成伤害的效果"
+        }
+    ]
+}

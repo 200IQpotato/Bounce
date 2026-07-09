@@ -19,12 +19,12 @@
         {
             "id": "StrengthDice",
             "name": "Strength Dice",
-            "description": "Add random stack of <link=Effects/Strength><color=#FFFA67>strength</color></link> to player"
+            "description": "When <link=Glossary/TakeTurn><color=#FFFA67>take turn</color></link>, add random stack of <link=Effects/Strength><color=#FFFA67>strength</color></link> to player"
         },
         {
             "id": "MagicBook",
             "name": "Magic Book",
-            "description": "Spawn a fireball on turn start."
+            "description": "Spawn a fireball on <link=Glossary/TakeTurn><color=#FFFA67>take turn</color></link>."
         }
         
     ],
@@ -33,7 +33,7 @@
         {
             "id": "Poison",
             "name": "Poison",
-            "description": "Take damage when self's turn starts."
+            "description": "Take damage when <link=Glossary/TakeTurn><color=#FFFA67>take turn</color></link>."
         },
         {
             "id": "Strength",
@@ -51,27 +51,27 @@
         {
             "id": "Bounce",
             "name": "Bounce",
-            "description": "A hit on wall."
+            "description": "A hit on wall or obstacle."
         },
         {
             "id": "TurnStart",
             "name": "Turn Start",
-            "description": "The beginning of a player's or enemy's turn."
+            "description": "The time before all player's and enemy's turn."
         },
         {
             "id": "TurnEnd",
             "name": "Turn End",
-            "description": "The end of a player's or enemy's turn."
+            "description": "The time after all player's and enemy's turn."
         },
         {
             "id": "TakeTurn",
             "name": "Take Turn",
-            "description": "To perform an action during a turn."
+            "description": "When player or enemy start their turn."
         },
         {
             "id": "DotDamage",
             "name": "Dot Damage",
-            "description": "Damage over time."
+            "description": "Effects that deal damage when <link=Glossary/TakeTurn><color=#FFFA67>take turn</color></link>."
         }
     ]
 }

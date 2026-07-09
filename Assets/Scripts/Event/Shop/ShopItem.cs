@@ -11,7 +11,7 @@ public class ShopItem : MonoBehaviour
     [SerializeField] private SpriteRenderer itemSpriteRenderer;
     private int itemCost;
     private ShopItemType itemType;
-    private DescriptionData data;
+    private string itemID;
     public System.Action onItemPurchased;
 
     void OnMouseDown()
@@ -29,6 +29,7 @@ public class ShopItem : MonoBehaviour
     {
         DescriptionsListController.Instance.Clear();
 
+        DescriptionData data = LocalizationManager.Instance.Get(itemID);
         string fullDescription = $"Cost: <color=#FFFA67>{itemCost}</color><br>{data.description}";
         DescriptionsListController.Instance.AddDescription(data.name, fullDescription); // 主要說明本身(第一格,原始文字保留<link>讓TMP渲染出顏色/樣式)
 
@@ -56,7 +57,7 @@ public class ShopItem : MonoBehaviour
         this.shopController = shopController;
         itemSpriteRenderer.sprite = itemSprite;
         itemCost = cost;
-        data = LocalizationManager.Instance.Get(ItemID);
+        this.itemID = ItemID;
         this.itemType = itemType;
     }
 
@@ -65,7 +66,6 @@ public class ShopItem : MonoBehaviour
         this.shopController = shopController;
         itemSpriteRenderer.sprite = itemSprite;
         itemCost = cost;
-        this.data = data;
         this.itemType = itemType;
     }
 }
