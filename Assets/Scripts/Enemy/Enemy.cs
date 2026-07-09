@@ -152,11 +152,14 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
         SummonData data = rawData;
         stats.NotifyOnSummon(this, ref rawData);
 
-        var go = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
-        var summon = go.GetComponent<Summonable>();
-        if (summon != null)
+        for (int i = 0; i < data.summonCount; i++)
         {
-            summon.Init(data);
+            var go = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
+            var summon = go.GetComponent<Summonable>();
+            if (summon != null)
+            {
+                summon.Init(data);
+            }
         }
     }
 

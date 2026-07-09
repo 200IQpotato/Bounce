@@ -5,16 +5,25 @@ public class SummonData
 {
     public int damage;
     public IBattleEntity caster;
+    public int summonCount;
 
     public SummonData(int damage, IBattleEntity caster)
     {
         this.damage = damage;
         this.caster = caster;
+        this.summonCount = 1;
+    }
+
+    public SummonData(int damage, IBattleEntity caster, int summonCount)
+    {
+        this.damage = damage;
+        this.caster = caster;
+        this.summonCount = summonCount;
     }
 
     public SummonData Clone()
     {
-        return new SummonData(damage, caster);
+        return new SummonData(damage, caster, summonCount);
     }
 }
 

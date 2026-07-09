@@ -201,11 +201,14 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         relicHolder.OnSummon(this, ref data);
         stats.NotifyOnSummon(this, ref data);
 
-        var go = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
-        var summon = go.GetComponent<Summonable>();
-        if (summon != null)
+        for (int i = 0; i < data.summonCount; i++)
         {
-            summon.Init(data);
+            var go = Instantiate(prefab, spawnPoint.position, spawnPoint.rotation);
+            var summon = go.GetComponent<Summonable>();
+            if (summon != null)
+            {
+                summon.Init(data);
+            }
         }
     }
 
