@@ -132,6 +132,7 @@ public class Stats : MonoBehaviour
                 if(existingEffect == null)
                     break;
                 existingEffect.duration = Mathf.Max(existingEffect.duration, effect.duration);
+                effect.isConsumed = false;
                 isAdded = true;
                 Debug.Log($"Effect {effect.effectObject.name} is Only. Refreshing duration.");
                 break;
@@ -148,6 +149,7 @@ public class Stats : MonoBehaviour
                     if( existingEffect.duration == effect.duration )
                     {
                         existingEffect.stackCount += effect.stackCount;
+                        effect.isConsumed = false;
                         isAdded = true;
                         Debug.Log($"Effect {effect.effectObject.name} is stacked. \nNow stacks : {existingEffect.stackCount}, Now duration : {existingEffect.duration}.");
                     }
@@ -162,6 +164,7 @@ public class Stats : MonoBehaviour
                     break;
                 existingEffect.stackCount += effect.stackCount;
                 existingEffect.duration = existingEffect.stackCount;
+                effect.isConsumed = false;
                 isAdded = true;
                 Debug.Log($"Effect {effect.effectObject.name} is merged. \nNow stack : {existingEffect.stackCount}, Now duration : {existingEffect.duration}.");
                 break;
