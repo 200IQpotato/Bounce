@@ -26,7 +26,7 @@ public interface IOnDealDamageEffect
 
 public interface IOnTakeDamageEffect
 {
-    void OnTakeDamage(IBattleEntity owner, Effect effect, ref int damage, DamageType damageType);
+    void OnTakeDamage(IBattleEntity owner, Effect effect, IBattleEntity attacker, ref int damage, DamageType damageType);
 }
 
 public interface IOnTakeTurn
@@ -37,6 +37,11 @@ public interface IOnTakeTurn
 public interface IOnSummon
 {
     void OnSummon(IBattleEntity owner, Effect effect, ref SummonData data);
+}
+
+public interface IOnHeal
+{
+    void OnHeal(IBattleEntity owner, Effect effect, ref int healAmount);
 }
 
 public class EffectObject : ScriptableObject

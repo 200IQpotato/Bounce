@@ -23,7 +23,7 @@ public class FireBall : Summonable
                 transform.position = Vector2.MoveTowards(transform.position, targetEnemy.transform.position, 5f * Time.deltaTime);
                 yield return null;
             }
-            targetEnemy.TakeDamage(data.damage, DamageType.Hit);
+            targetEnemy.TakeDamage(data.caster, data.damage, DamageType.Hit);
         }
         yield break;
     }

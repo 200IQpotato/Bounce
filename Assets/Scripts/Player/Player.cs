@@ -132,10 +132,10 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
             {
                 int damage = stats.GetAttack();
                 DealDamage(enemy, damage, DamageType.Hit);
+                RelicManager.Instance.OnHitAdd();
+                relicHolder.OnHit(this, enemy);   
+                stats.NotifyOnHit(this, enemy); 
             }
-
-            RelicManager.Instance.OnHitAdd();
-            relicHolder.OnHit(this, enemy);            
         }
 
         RelicManager.Instance.OnBounceAdd();
@@ -151,14 +151,14 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         }
     }
 
-    public void TakeDamage(int rawDamage, DamageType damageType)
+    public void TakeDamage(IBattleEntity attacker, int rawDamage, DamageType damageType)
     {
         int damage = rawDamage;
         if (damage == 0)
             return;
 
-        relicHolder.OnTakeDamage(this, ref damage, damageType);  
-        stats.NotifyOnTakeDamage(this, ref damage, damageType);                
+        relicHolder.OnTakeDamage(this, attacker, ref damage, damageType);  
+        stats.NotifyOnTakeDamage(this, attacker, ref damage, damageType);                
         stats.TakeDamage(damage);
             
         Debug.Log("Player Health: " + stats.health + "\ntake damage: " + damage + "\tdamage type: " + damageType);
@@ -176,11 +176,14 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
 
         relicHolder.OnDealDamage(this, target, ref damage, damageType);
         stats.NotifyOnDealDamage(this, target, ref damage, damageType);
-        target.TakeDamage(damage, damageType);
+        target.TakeDamage(this, damage, damageType);
     }
 
-    public void Heal(int healAmount)
+    public void Heal(int rawHealAmount)
     {
+        int healAmount = rawHealAmount;
+        relicHolder.OnHeal(this, ref healAmount);
+        stats.NotifyOnHeal(this, ref healAmount);
         stats.Heal( healAmount );
         Debug.Log("Player Healed: " + healAmount + ", Current Health: " + stats.health);
     }

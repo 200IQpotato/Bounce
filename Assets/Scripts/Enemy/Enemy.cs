@@ -64,7 +64,11 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
             if (player != null)
             {
                 if (GameManager.Instance.CurrentState == GameState.EnemyTurn)
-                    DealDamage(player, stats.GetAttack(), DamageType.Hit);
+                {
+                    int damage = stats.GetAttack();
+                    DealDamage(player, damage, DamageType.Hit);
+                    stats.NotifyOnHit(this, player);
+                }
             }
         }
     }
@@ -110,13 +114,13 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
         stats.OnTurnEnd(this);
     }
 
-    public virtual void TakeDamage(int rawDamage, DamageType damageType)
+    public virtual void TakeDamage(IBattleEntity attacker, int rawDamage, DamageType damageType)
     {
         int damage = rawDamage;
         if(damage == 0)
             return;
 
-        stats.NotifyOnTakeDamage(this, ref damage, damageType);
+        stats.NotifyOnTakeDamage(this, attacker, ref damage, damageType);
         stats.TakeDamage(damage);
         Debug.Log("Enemy Health: " + stats.health + "\ntake damage: " + damage + "\tdamage type: " + damageType);
         if (stats.health <= 0)
@@ -132,11 +136,13 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
             return;
 
         stats.NotifyOnDealDamage(this, target, ref damage, damageType);
-        target.TakeDamage(damage, damageType);
+        target.TakeDamage(this, damage, damageType);
     }
 
-    public virtual void Heal( int healAmount )
+    public virtual void Heal( int rawHealAmount )
     {
+        int healAmount = rawHealAmount;
+        stats.NotifyOnHeal(this, ref healAmount);
         stats.Heal( healAmount );
         Debug.Log($"{this} Healed: " + healAmount + ", Current Health: " + stats.health);
     }

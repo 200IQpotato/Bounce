@@ -43,6 +43,12 @@ public class Stats : MonoBehaviour
         OnAttackChanged?.Invoke();
     }
 
+    public void ModifyAttackPercent(int value)
+    {
+        attackPercent += value;
+        OnAttackChanged?.Invoke();
+    }
+
     public int GetAttack()
     {
         return (int)(attack * (1 + attackPercent / 100f));
@@ -79,12 +85,21 @@ public class Stats : MonoBehaviour
         }
     }
 
-    public void NotifyOnTakeDamage(IBattleEntity owner, ref int damage, DamageType damageType)
+    public void NotifyOnTakeDamage(IBattleEntity owner, IBattleEntity attacker, ref int damage, DamageType damageType)
     {
         foreach (var effect in effects)
         {
             if (effect.effectObject is IOnTakeDamageEffect e)
-                e.OnTakeDamage(owner, effect, ref damage, damageType);
+                e.OnTakeDamage(owner, effect, attacker, ref damage, damageType);
+        }
+    }
+
+    public void NotifyOnHeal(IBattleEntity owner, ref int healAmount)
+    {
+        foreach (var effect in effects)
+        {
+            if (effect.effectObject is IOnHeal e)
+                e.OnHeal(owner, effect, ref healAmount);
         }
     }
 
@@ -180,11 +195,11 @@ public class Stats : MonoBehaviour
     {
         foreach (var effect in effects)
         {
+            effect.effectObject.OnTurnEnd(entity, effect);
             effect.duration--;
             if( effect.effectObject.stackState == StackState.Merge )
                 effect.stackCount--;
-
-            effect.effectObject.OnTurnEnd(entity, effect);
+            
             Debug.Log($"Effect {effect.effectObject.name} duration decreased to {effect.duration}.");
 
             if (effect.duration <= 0)

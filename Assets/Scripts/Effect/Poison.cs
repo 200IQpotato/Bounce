@@ -5,7 +5,7 @@ public class Poison : EffectObject, IOnTakeTurn
 {
     public void OnTakeTurn(IBattleEntity entity, Effect effect)
     {
-        entity.TakeDamage(effect.stackCount, DamageType.Dot);
+        entity.TakeDamage(null, effect.stackCount, DamageType.Dot);
         Debug.Log($"{entity} takes {effect.stackCount} poison damage.");
     }
 }

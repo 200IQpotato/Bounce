@@ -69,7 +69,7 @@ public class ScoreBoardEvent : EventObject
         else
         {
             EventTextUI.Instance.Show("You Failed!");
-            GameManager.Instance.playerInstance.TakeDamage(15, DamageType.System);
+            GameManager.Instance.playerInstance.TakeDamage(null, 15, DamageType.System);
         }
 
         yield return new WaitForSeconds(2f);
