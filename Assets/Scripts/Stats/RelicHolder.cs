@@ -47,7 +47,7 @@ public class RelicHolder : MonoBehaviour
     {
         foreach (var relic in RelicManager.Instance.playerRelics)
         {
-            relic.onHealthChange(player);
+            relic.OnHealthChange(player);
         }
     }
 

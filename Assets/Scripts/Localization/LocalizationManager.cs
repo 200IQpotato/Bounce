@@ -19,6 +19,7 @@ public class LocFile
     public List<DataLocEntry> Relics;
     public List<DataLocEntry> Effects;
     public List<DataLocEntry> Glossary;
+    public List<DataLocEntry> Potions;
 }
 
 public class LocalizationManager : MonoBehaviour
@@ -29,6 +30,7 @@ public class LocalizationManager : MonoBehaviour
     private Dictionary<string, DescriptionData> relics = new Dictionary<string, DescriptionData>();
     private Dictionary<string, DescriptionData> effects = new Dictionary<string, DescriptionData>();
     private Dictionary<string, DescriptionData> glossary = new Dictionary<string, DescriptionData>();
+    private Dictionary<string, DescriptionData> potions = new Dictionary<string, DescriptionData>();
     
     void Awake()
     {
@@ -65,10 +67,12 @@ public class LocalizationManager : MonoBehaviour
         relics.Clear();
         effects.Clear();
         glossary.Clear();
+        potions.Clear();
 
         foreach (var r in data.Relics) relics[r.id] = new DescriptionData { name = r.name, description = r.description };
         foreach (var e in data.Effects) effects[e.id] = new DescriptionData { name = e.name, description = e.description };
         foreach (var g in data.Glossary) glossary[g.id] = new DescriptionData { name = g.name, description = g.description };
+        foreach (var p in data.Potions) potions[p.id] = new DescriptionData { name = p.name, description = p.description };
     }
 
     public void SetLanguage(Language lang)
@@ -92,11 +96,14 @@ public class LocalizationManager : MonoBehaviour
     public DescriptionData GetRelicData(string id) => relics.ContainsKey(id) ? relics[id] : new DescriptionData { name = "Unknown Relic", description = "Unknown Relic Description" };
     public DescriptionData GetEffectData(string id) => effects.ContainsKey(id) ? effects[id] : new DescriptionData { name = "Unknown Effect", description = "Unknown Effect Description" };
     public DescriptionData GetGlossaryData(string id) => glossary.ContainsKey(id) ? glossary[id] : new DescriptionData { name = "Unknown Glossary Entry", description = "Unknown Glossary Entry Description" };
+    public DescriptionData GetPotionData(string id) => potions.ContainsKey(id) ? potions[id] : new DescriptionData { name = "Unknown Potion", description = "Unknown Potion Description" };
+
     public DescriptionData Get(string id)
     {
         if (relics.ContainsKey(id)) return relics[id];
         if (effects.ContainsKey(id)) return effects[id];
         if (glossary.ContainsKey(id)) return glossary[id];
+        if (potions.ContainsKey(id)) return potions[id];
 
         Debug.LogWarning($"ID not found in any category: {id}");
         return new DescriptionData { name = "Unknown", description = "Unknown ID" };
@@ -106,6 +113,7 @@ public class LocalizationManager : MonoBehaviour
         if (relics.ContainsKey(id)) return $"Relics/{id}";
         if (effects.ContainsKey(id)) return $"Effects/{id}";
         if (glossary.ContainsKey(id)) return $"Glossary/{id}";
+        if (potions.ContainsKey(id)) return $"Potions/{id}";
 
         Debug.LogWarning($"ID not found in any category: {id}");
         return string.Empty;
@@ -116,4 +124,6 @@ public class LocalizationManager : MonoBehaviour
     public string GetEffectDescription(string id) => effects.ContainsKey(id) ? effects[id].description : "Unknown Effect Description";
     public string GetGlossaryName(string id) => glossary.ContainsKey(id) ? glossary[id].name : "Unknown Glossary Entry";
     public string GetGlossaryDescription(string id) => glossary.ContainsKey(id) ? glossary[id].description : "Unknown Glossary Entry Description";
+    public string GetPotionName(string id) => potions.ContainsKey(id) ? potions[id].name : "Unknown Potion";
+    public string GetPotionDescription(string id) => potions.ContainsKey(id) ? potions[id].description : "Unknown Potion Description";
 }

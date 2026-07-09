@@ -73,5 +73,23 @@
             "name": "Dot Damage",
             "description": "Effects that deal damage when <link=Glossary/TakeTurn><color=#FFFA67>take turn</color></link>."
         }
+    ],
+    "Potions":
+    [
+        {
+            "id": "HealthPotion",
+            "name": "Health Potion",
+            "description": "Restore 20 health."
+        },
+        {
+            "id": "MaxHealthPotion",
+            "name": "Max Health Potion",
+            "description": "Increase max health by 10."
+        },
+        {
+            "id": "StrengthPotion",
+            "name": "Strength Potion",
+            "description": "Gain 1 attack."
+        }
     ]
 }

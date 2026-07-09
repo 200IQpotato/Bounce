@@ -73,5 +73,23 @@
             "name": "持续伤害",
             "description": "在<link=Glossary/TakeTurn><color=#FFFA67>回合行动</color></link>时造成伤害的效果"
         }
+    ],
+    "Potions":
+    [
+        {
+            "id": "HealthPotion",
+            "name": "生命药水",
+            "description": "恢复 20 点生命值"
+        },
+        {
+            "id": "MaxHealthPotion",
+            "name": "最大生命药水",
+            "description": "增加 10 点最大生命值"
+        },
+        {
+            "id": "StrengthPotion",
+            "name": "力量药水",
+            "description": "获得 1 点攻击力"
+        }
     ]
 }

@@ -47,12 +47,16 @@ MonoBehaviour:
   merchantPrefab: {fileID: 3907984025653690663, guid: 80ba9a176b47d534687edf973df2b010, type: 3}
   merchantSpawnPoint: {x: 0, y: 3}
   shopItemPrefab: {fileID: 1794059464167349656, guid: 0bc1310ac37ef404d86159b0f99b7a6c, type: 3}
+  potions:
+  - {fileID: 11400000, guid: 838477f3c3312434fb2832838341086f, type: 2}
+  - {fileID: 11400000, guid: b5f938f32e168b448b247cf2b587252e, type: 2}
+  - {fileID: 11400000, guid: f54356644ae7e124fb4b636bf66854d4, type: 2}
   shopItemSpawnPoint:
   - {x: -3, y: 0}
   - {x: 0, y: 0}
   - {x: 3, y: 0}
+  - {x: -3, y: -2}
+  - {x: 0, y: -2}
+  - {x: 3, y: -2}
   shopPotionCount: 2
   shopRelicCount: 1
-  healthPotionSprite: {fileID: 21300000, guid: 2b05d000f0980ab4cb13fcb44726ec28, type: 3}
-  maxHealthPotionSprite: {fileID: 21300000, guid: a55fffd82a68ef44cb536c3cbe90cbd6, type: 3}
-  attackPotionSprite: {fileID: 21300000, guid: ae432554b12b5a54dbd57bf57f13823c, type: 3}

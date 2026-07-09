@@ -10,15 +10,13 @@ public class ShopController : MonoBehaviour
 
     public GameObject shopItemPrefab;
     private List<GameObject> shopItems = new List<GameObject>();
+    [SerializeField] 
+    private List<PotionObject> potions = new List<PotionObject>();
     public List<Vector2> shopItemSpawnPoint;
     public int shopPotionCount;
     public int shopRelicCount;
     
     private bool isShopping = false;
-
-    public Sprite healthPotionSprite;
-    public Sprite maxHealthPotionSprite;
-    public Sprite attackPotionSprite;
 
     public IEnumerator RunShop(EventManager manager)
     {
@@ -29,28 +27,10 @@ public class ShopController : MonoBehaviour
         for ( int i = 0; i < shopPotionCount; i++ )
         {
             var item = Instantiate(shopItemPrefab, shopItemSpawnPoint[i], Quaternion.identity);
-            int potionIndex = Random.Range(0, 3);
-            if ( potionIndex == 0 )
-            {
-                item.GetComponent<ShopItem>().Init(healthPotionSprite, 50, ShopItemType.Potion, new DescriptionData{name = "Health Potion", description = "Restores 25 health."}, this);
-                item.GetComponent<ShopItem>().onItemPurchased += () => {
-                    GameManager.Instance.playerInstance.stats.Heal(25);
-                };
-            }
-            else if ( potionIndex == 1 )
-            {
-                item.GetComponent<ShopItem>().Init(maxHealthPotionSprite, 75, ShopItemType.Potion, new DescriptionData{name = "Max Health Potion", description = "Increases max health by 3."}, this);
-                item.GetComponent<ShopItem>().onItemPurchased += () => {
-                    GameManager.Instance.playerInstance.stats.ModifyMaxHealth(3);
-                };
-            }
-            else if ( potionIndex == 2 )
-            {
-                item.GetComponent<ShopItem>().Init(attackPotionSprite, 75, ShopItemType.Potion, new DescriptionData{name = "Attack Potion", description = "Increase attack by 1"}, this);
-                item.GetComponent<ShopItem>().onItemPurchased += () => {
-                    GameManager.Instance.playerInstance.stats.ModifyAttack(1);
-                };
-            }
+            int potionIndex = Random.Range(0, potions.Count);
+            
+            item.GetComponent<ShopItem>().Init(potions[potionIndex].icon, 50, ShopItemType.Potion, potions[potionIndex].potionID, this);
+            item.GetComponent<ShopItem>().onItemPurchased += () => { potions[potionIndex].OnUse(GameManager.Instance.playerInstance); };
             shopItems.Add(item);
         }
 

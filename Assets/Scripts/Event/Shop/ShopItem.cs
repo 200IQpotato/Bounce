@@ -44,12 +44,4 @@ public class ShopItem : MonoBehaviour
         this.itemID = ItemID;
         this.itemType = itemType;
     }
-
-    public void Init( Sprite itemSprite, int cost, ShopItemType itemType, DescriptionData data, ShopController shopController )
-    {
-        this.shopController = shopController;
-        itemSpriteRenderer.sprite = itemSprite;
-        itemCost = cost;
-        this.itemType = itemType;
-    }
 }

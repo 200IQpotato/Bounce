@@ -70,6 +70,11 @@ public class GameManager : MonoBehaviour
         CreateLevel( node.type );
     }
 
+    public void CreateChooseLevel(int levelIndex) //for testing purpose, directly create a level based on the index of the battleLevels list
+    {
+        CreateLevel((NodeType)levelIndex);
+    }
+
     public void CreateLevel( NodeType nodeType )
     {
         if( CurrentState != GameState.NotBattle )
