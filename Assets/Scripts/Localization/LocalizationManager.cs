@@ -89,33 +89,6 @@ public class LocalizationManager : MonoBehaviour
         SetLanguage((Language)index);
     }
 
-    public DescriptionData ResolveLink(string linkId) //傳入 "Relics/RelicID" 或 "Effects/EffectID" 或 "Glossary/GlossaryID" 這種格式的字串, 回傳對應的 DescriptionData
-    {
-        var parts = linkId.Split('/');
-        if (parts.Length != 2)
-        {
-            Debug.LogWarning($"Malformed link id: {linkId}");
-            return new DescriptionData { name = "Unknown", description = "Unknown ID" };
-        }
-
-        string category = parts[0];
-        string id = parts[1];
-        Debug.Log($"Resolving link: Category={category}, ID={id}");
-
-        switch (category)
-        {
-            case "Relics":
-                return GetRelicData(id);
-            case "Effects":
-                return GetEffectData(id);
-            case "Glossary":
-                return GetGlossaryData(id);
-            default:
-                Debug.LogWarning($"Unknown link category: {category}");
-                return new DescriptionData { name = "Unknown", description = "Unknown ID" };
-        }
-    }
-
     public DescriptionData GetRelicData(string id) => relics.ContainsKey(id) ? relics[id] : new DescriptionData { name = "Unknown Relic", description = "Unknown Relic Description" };
     public DescriptionData GetEffectData(string id) => effects.ContainsKey(id) ? effects[id] : new DescriptionData { name = "Unknown Effect", description = "Unknown Effect Description" };
     public DescriptionData GetGlossaryData(string id) => glossary.ContainsKey(id) ? glossary[id] : new DescriptionData { name = "Unknown Glossary Entry", description = "Unknown Glossary Entry Description" };
@@ -127,6 +100,15 @@ public class LocalizationManager : MonoBehaviour
 
         Debug.LogWarning($"ID not found in any category: {id}");
         return new DescriptionData { name = "Unknown", description = "Unknown ID" };
+    }
+    public string GetLink(string id)
+    {
+        if (relics.ContainsKey(id)) return $"Relics/{id}";
+        if (effects.ContainsKey(id)) return $"Effects/{id}";
+        if (glossary.ContainsKey(id)) return $"Glossary/{id}";
+
+        Debug.LogWarning($"ID not found in any category: {id}");
+        return string.Empty;
     }
     public string GetRelicName(string id) => relics.ContainsKey(id) ? relics[id].name : "Unknown Relic";
     public string GetRelicDescription(string id) => relics.ContainsKey(id) ? relics[id].description : "Unknown Relic Description";

@@ -27,23 +27,7 @@ public class ShopItem : MonoBehaviour
 
     void OnMouseEnter()
     {
-        DescriptionsListController.Instance.Clear();
-
-        DescriptionData data = LocalizationManager.Instance.Get(itemID);
-        string fullDescription = $"Cost: <color=#FFFA67>{itemCost}</color><br>{data.description}";
-        DescriptionsListController.Instance.AddDescription(data.name, fullDescription); // 主要說明本身(第一格,原始文字保留<link>讓TMP渲染出顏色/樣式)
-
-        var seenIds = new HashSet<string>();
-        foreach (Match match in linkPattern.Matches(data.description))
-        {
-            string linkId = match.Groups[1].Value; // 例如 "Effects/Poison"
-            if (seenIds.Add(linkId))
-            {
-                DescriptionData resolved = LocalizationManager.Instance.ResolveLink(linkId);
-                DescriptionsListController.Instance.AddDescription(resolved.name, resolved.description);
-            }
-        }
-
+        DescriptionsListController.Instance.CreateDescriptionBoxWithId(itemID);
         DescriptionsListController.Instance.Show();
     }
 

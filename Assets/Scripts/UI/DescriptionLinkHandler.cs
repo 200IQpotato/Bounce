@@ -10,19 +10,12 @@ public class DescriptionLinkHandler : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        DescriptionsListController.Instance.Clear();
-
-        var seenIds = new HashSet<string>();
         var linkInfos = tmpText.textInfo.linkInfo;
-
+        if (linkInfos.Length == 0) return;
+        DescriptionsListController.Instance.Clear();
         for (int i = 0; i < linkInfos.Length; i++)
         {
-            string termId = linkInfos[i].GetLinkID();
-            if (seenIds.Add(termId)) // 同一個詞出現兩次只加一次
-            {
-                DescriptionData data = LocalizationManager.Instance.ResolveLink(termId);
-                DescriptionsListController.Instance.AddDescription(data.name, data.description);
-            }
+            DescriptionsListController.Instance.ContinueCreateDescriptionBoxWithLink(linkInfos[i].GetLinkID());
         }
 
         DescriptionsListController.Instance.Show();
