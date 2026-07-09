@@ -118,56 +118,80 @@ public class BattleManager : MonoBehaviour
             turnCount++;
             yield return StartCoroutine(OnTurnStartEndUI?.Invoke(turnCount, true));
 
-            foreach (IBattleEntity entity in entities)
+            var entitiesCopy = new List<IBattleEntity>(entities);
+            foreach (IBattleEntity entity in entitiesCopy)
             {
+                if (!entities.Contains(entity)) continue; // 該實體已死亡/被移除
                 entity.OnTurnStart();
                 yield return new WaitUntil(AllSummonsFinished);
+                if (enemies.Count == 0) break;
             }
-            Debug.Log("New Turn");
+            if (enemies.Count == 0) 
+            { 
+                yield return StartCoroutine(EndBattle()); 
+                yield break; 
+            }
 
+            Debug.Log("New Turn");
             GameManager.Instance.CurrentState = GameState.PlayerTurn;
+
             foreach (var player in players)
             {
                 player.OnTakeTurn();
                 yield return StartCoroutine(player.TakeTurn());
                 yield return new WaitUntil(AllSummonsFinished);
+                if (enemies.Count == 0) break;
+            }
+            if (enemies.Count == 0) 
+            { 
+                yield return StartCoroutine(EndBattle()); 
+                yield break; 
             }
 
             GameManager.Instance.CurrentState = GameState.EnemyTurn;
             var enemiesCopy = new List<Enemy>(enemies);
             foreach (var enemy in enemiesCopy)
             {
-                if (enemies.Contains(enemy))
-                {
-                    enemy.OnTakeTurn();
-                    if (enemies.Contains(enemy))
-                        yield return StartCoroutine(enemy.TakeTurn());
-
-                    yield return new WaitUntil(AllSummonsFinished);
-                }
-                    
+                if (!enemies.Contains(enemy)) continue; // 該實體已死亡/被移除
+                enemy.OnTakeTurn();
+                if (!enemies.Contains(enemy)) continue; // 該實體已死亡/被移除
+                yield return StartCoroutine(enemy.TakeTurn());
+                yield return new WaitUntil(AllSummonsFinished);
+                if (enemies.Count == 0) break;
+            }
+            if (enemies.Count == 0) 
+            { 
+                yield return StartCoroutine(EndBattle()); 
+                yield break; 
             }
 
-            foreach (IBattleEntity entity in entities)
+            entitiesCopy = new List<IBattleEntity>(entities);
+            foreach (IBattleEntity entity in entitiesCopy)
             {
+                if (!entities.Contains(entity)) continue; // 該實體已死亡/被移除
                 entity.OnTurnEnd();
                 yield return new WaitUntil(AllSummonsFinished);
+                if (enemies.Count == 0) break;
+            }
+            if (enemies.Count == 0)
+            {
+                yield return StartCoroutine(EndBattle());
+                yield break;
             }
 
             Debug.Log("End Turn");
             yield return StartCoroutine(OnTurnStartEndUI?.Invoke(turnCount, false));
-
-            if (enemies.Count == 0)
-            {
-                if (OnBattleEnd != null)
-                    yield return StartCoroutine(OnBattleEnd.Invoke());
-                    
-                GameManager.Instance.CurrentState = GameState.NotBattle;
-                DestroyObstacles();
-                Debug.Log("Battle End");
-                yield break;
-            }
         }
+    }
+
+    private IEnumerator EndBattle()
+    {
+        if (OnBattleEnd != null)
+            yield return StartCoroutine(OnBattleEnd.Invoke());
+
+        GameManager.Instance.CurrentState = GameState.NotBattle;
+        DestroyObstacles();
+        Debug.Log("Battle End");
     }
     
     public bool AllObjectsStopped()
