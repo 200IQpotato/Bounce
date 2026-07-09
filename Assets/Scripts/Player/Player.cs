@@ -191,6 +191,13 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
     public void Die()
     {
         Debug.Log("Player Death");
+        isExpired = true;
+        if (BattleManager.Instance != null)
+        {
+            BattleManager.Instance.UnregisterRigidbody(rb);
+            BattleManager.Instance.UnregisterPlayer(this);
+            BattleManager.Instance.UnregisterEntity(this);
+        }
         UIManager.Instance.ShowRetryButton();
         Destroy(gameObject);
     }

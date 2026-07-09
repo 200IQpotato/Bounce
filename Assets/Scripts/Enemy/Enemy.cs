@@ -166,6 +166,13 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
     public void Die()
     {
         Debug.Log("Enemy Death");
+        isExpired = true;
+        if (BattleManager.Instance != null)
+        {
+            BattleManager.Instance.UnregisterRigidbody(rb);
+            BattleManager.Instance.UnregisterEnemy(this);
+            BattleManager.Instance.UnregisterEntity(this);
+        }
         Destroy(gameObject);
     }
 
