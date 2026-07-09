@@ -47,7 +47,7 @@ public class DescriptionsListController : MonoBehaviour
         // 判斷是否超出右邊界 / 下邊界(以滑鼠為原點,parent的座標系通常是以中心為(0,0))
         bool overflowRight = pos.x + 2 + boxWidth > parentWidth / 2f;
         bool overflowBottom = pos.y - 2 - boxHeight < -parentHeight / 2f;
-        Debug.Log($"Mouse Pos: {pos}, Box Size: ({boxWidth}, {boxHeight}), Parent Size: ({parentWidth}, {parentHeight}), Overflow Right: {overflowRight}, Overflow Bottom: {overflowBottom}");
+        //Debug.Log($"Mouse Pos: {pos}, Box Size: ({boxWidth}, {boxHeight}), Parent Size: ({parentWidth}, {parentHeight}), Overflow Right: {overflowRight}, Overflow Bottom: {overflowBottom}");
 
         float offsetX = overflowRight ? -2 - boxWidth : 2;
         float offsetY = overflowBottom ? 2 + boxHeight : -2;
