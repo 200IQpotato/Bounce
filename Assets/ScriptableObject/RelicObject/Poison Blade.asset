@@ -17,3 +17,4 @@ MonoBehaviour:
   valueType: 0
   priority: 0
   poisonEffect: {fileID: 11400000, guid: 8f1355a1824274f42995b49ed1334ef2, type: 2}
+  poisonStack: 20
