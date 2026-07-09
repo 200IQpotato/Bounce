@@ -161,7 +161,14 @@ public class Stats : MonoBehaviour
             {
                 var existingEffect = effects.Find(e => e.effectObject == effect.effectObject);
                 if(existingEffect == null)
+                {
+                    effect.duration = effect.stackCount;
+                    isAdded = true;
+                    effects.Add(effect);
+                    Debug.Log($"{effect.effectObject.name} is added! \nNow stack : {effect.stackCount}, Now duration : {effect.duration}");
                     break;
+                }
+                    
                 existingEffect.stackCount += effect.stackCount;
                 existingEffect.duration = existingEffect.stackCount;
                 effect.isConsumed = false;

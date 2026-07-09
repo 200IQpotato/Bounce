@@ -8,5 +8,6 @@ public class MagicBook : RelicObject
     public override void OnTurnStart(Player player)
     {
         player.Summon(fireBallPrefab, new SummonData(fireDamage, player), player.transform);
+        OnTrigger();
     }
 }
