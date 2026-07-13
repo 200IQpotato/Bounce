@@ -20,6 +20,22 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
     [Header("Drag Settings")]
     [SerializeField] private float dragLimit = 3f;
     [SerializeField] private float stopThreshold = 0.1f;
+
+    [Header("Drag State")]
+    public bool isDragging { get; private set; }
+    public event System.Action<bool> OnDragStateChanged;
+    private bool dragCancelled = false; // 取消後鎖住,直到滑鼠真的放開
+
+    [Header("Cancel Drag")]
+    [SerializeField] private KeyCode cancelDragKey = KeyCode.Mouse1; // 右鍵取消
+
+    [Header("Camera Follow")]
+    [SerializeField] private Transform cameraTransform;
+    [SerializeField] private Vector2 cameraOffsetLimit = new Vector2(2f, 2f);
+    [SerializeField] private float cameraFollowSpeed = 8f;
+    [SerializeField] private float cameraReturnSpeed = 5f;
+    [SerializeField] private float cameraDeadzone = 0.5f; // 力度小於這個值,鏡頭不動
+    private Vector3 cameraOriginPosition;
     
     
     private Vector3 mousePosition
@@ -53,6 +69,15 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         BattleManager.Instance.RegisterRigidbody(rb);
         BattleManager.Instance.RegisterPlayer(this);
         BattleManager.Instance.RegisterEntity(this);
+        if (cameraTransform == null && Camera.main != null)
+        {
+            cameraTransform = Camera.main.transform;
+        }
+
+        if (cameraTransform != null)
+        {
+            cameraOriginPosition = cameraTransform.position;
+        }
     }
 
     // Update is called once per frame
@@ -61,6 +86,21 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         if (rb != null && rb.linearVelocity.magnitude < stopThreshold)
         {
             rb.linearVelocity = Vector2.zero;
+        }
+
+        if (isDragging)
+        {
+            if (Input.GetKeyDown(cancelDragKey))
+            {
+                CancelDrag();
+                return;
+            }
+            UpdateCameraFollow();
+        }
+
+        else
+        {
+            ReturnCameraToOrigin();
         }
     }
 
@@ -72,6 +112,11 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         if ( GameManager.Instance.CurrentState != GameState.PlayerTurn || hasShoot )
             return;
 
+        if (dragCancelled) // 被取消過,滑鼠還沒放開之前完全不處理
+            return;
+
+        if (!isDragging)
+            StartDragging();
         DrawDragLine();
         DrawPredictionLine();
     }
@@ -84,7 +129,13 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         if (GameManager.Instance.CurrentState != GameState.PlayerTurn || hasShoot)
             return;
 
+        dragCancelled = false; // 滑鼠放開,取消鎖住
+
+        if (!isDragging)
+            return;
+
         DisableLine();
+        EndDragging();
 
         Vector3 distance = mousePosition - transform.position;
         if (distance.magnitude > dragLimit)
@@ -93,6 +144,61 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         }
         rb.AddForce(-distance * stats.force, ForceMode2D.Impulse);
         hasShoot = true;
+    }
+
+    public void CancelDrag()
+    {
+        DisableLine();
+        EndDragging();
+        dragCancelled = true; // 鎖住,直到滑鼠放開
+        // 注意:不設 hasShoot,玩家可以重新拖動
+    }
+
+    private void StartDragging()
+    {
+        isDragging = true;
+        OnDragStateChanged?.Invoke(true);
+    }
+
+    private void EndDragging()
+    {
+        isDragging = false;
+        OnDragStateChanged?.Invoke(false);
+    }
+
+    private void UpdateCameraFollow()
+    {
+        if (cameraTransform == null) return;
+
+        Vector3 distance = mousePosition - transform.position;
+        if (distance.magnitude < cameraDeadzone)
+        {
+            ReturnCameraToOrigin();
+            return; // 力度不夠,鏡頭維持原地
+        }
+            
+
+        Vector2 desiredOffset = (Vector2)distance;
+        desiredOffset = Vector2.ClampMagnitude(desiredOffset, 1f); // 先正規化力度
+        desiredOffset = new Vector2(
+            Mathf.Clamp(desiredOffset.x * cameraOffsetLimit.x, -cameraOffsetLimit.x, cameraOffsetLimit.x),
+            Mathf.Clamp(desiredOffset.y * cameraOffsetLimit.y, -cameraOffsetLimit.y, cameraOffsetLimit.y)
+        );
+
+        Vector3 targetPos = cameraOriginPosition + (Vector3)desiredOffset;
+        targetPos.z = cameraTransform.position.z;
+
+        cameraTransform.position = Vector3.Lerp(cameraTransform.position, targetPos, cameraFollowSpeed * Time.deltaTime);
+    }
+
+    private void ReturnCameraToOrigin()
+    {
+        if (cameraTransform == null) return;
+        if (cameraTransform.position == cameraOriginPosition) return;
+
+        Vector3 target = cameraOriginPosition;
+        target.z = cameraTransform.position.z;
+        cameraTransform.position = Vector3.Lerp(cameraTransform.position, target, cameraReturnSpeed * Time.deltaTime);
     }
 
     public IEnumerator TakeTurn()
