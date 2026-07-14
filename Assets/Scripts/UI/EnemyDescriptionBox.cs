@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class EnemyDescriptionBox : MonoBehaviour
 {
     public static EnemyDescriptionBox Instance { get; private set; }
+    private Enemy targetEnemy;
     private Stats targetStats; //目標詳情
     [SerializeField] private GameObject descriptionBox; //詳情UI物件
     [SerializeField] private EnemyDescriptionEffect effectPrefab; //效果UI物件
@@ -30,13 +31,16 @@ public class EnemyDescriptionBox : MonoBehaviour
 
     public void RegisterStats(Stats stats)
     {
+        UnregisterStats();
         targetStats = stats;
+        targetEnemy = stats.GetComponent<Enemy>();
         EnemyBasicInfoUpdate();
         HealthBarUpdate();
         UpdateEffectUI();
         targetStats.OnHealthChanged += HealthBarUpdate;
         targetStats.OnMaxHealthChanged += HealthBarUpdate;
         targetStats.OnEffectChange += UpdateEffectUI;
+        targetEnemy.OnDeath += HandleEnemyDeath;
     }
 
     public void UnregisterStats()
@@ -47,6 +51,11 @@ public class EnemyDescriptionBox : MonoBehaviour
             targetStats.OnMaxHealthChanged -= HealthBarUpdate;
             targetStats.OnEffectChange -= UpdateEffectUI;
             targetStats = null;
+        }
+        if (targetEnemy != null)
+        {
+            targetEnemy.OnDeath -= HandleEnemyDeath;
+            targetEnemy = null;
         }
     }
 
@@ -99,6 +108,12 @@ public class EnemyDescriptionBox : MonoBehaviour
     {
         healthSlider.value = (float)targetStats.health / targetStats.maxHealth;
         healthText.text = $"{targetStats.health}/{targetStats.maxHealth}";
+    }
+
+    private void HandleEnemyDeath()
+    {
+        Hide();
+        UnregisterStats();
     }
 
     public void Show()

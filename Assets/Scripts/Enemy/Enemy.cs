@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
     [SerializeField] private EnemyUI enemyUI;
     [SerializeField] private float stopThreshold = 0.1f;
     public bool isExpired { get; set; }
+    public event System.Action OnDeath;
 
     [Header("Animator")]
     public Animator animator;
@@ -174,6 +175,7 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
     {
         Debug.Log("Enemy Death");
         isExpired = true;
+        OnDeath?.Invoke();
         if (BattleManager.Instance != null)
         {
             BattleManager.Instance.UnregisterRigidbody(rb);
