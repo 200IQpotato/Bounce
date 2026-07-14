@@ -72,6 +72,16 @@
             "id": "DotDamage",
             "name": "Dot Damage",
             "description": "Effects that deal damage when <link=Glossary/TakeTurn><color=#FFFA67>take turn</color></link>."
+        },
+        {
+            "id": "StackCount",
+            "name": "StackCount",
+            "description": "Stack count : {0}"
+        },
+        {
+            "id": "TurnsRemaining",
+            "name": "TurnsRemaining",
+            "description": "{0} turns remaining"
         }
     ],
     "Potions":

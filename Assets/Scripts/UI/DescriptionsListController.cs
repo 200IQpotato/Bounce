@@ -75,6 +75,11 @@ public class DescriptionsListController : MonoBehaviour
     public void CreateDescriptionBoxWithId(string id)
     {
         Clear();
+        ContinueCreateDescriptionBoxWithId(id);
+    }
+
+    public void ContinueCreateDescriptionBoxWithId(string id)
+    {
         DescriptionData data = LocalizationManager.Instance.Get(id);
         if (seenIds.Add(LocalizationManager.Instance.GetLink(id))) // 確保同一個ID不會被重複加入
         {
@@ -85,7 +90,6 @@ public class DescriptionsListController : MonoBehaviour
                 ContinueCreateDescriptionBoxWithLink(linkId);
             }
         }
-        
     }
 
     public void CreateDescriptionBoxWithLink(string LinkId)
@@ -106,6 +110,12 @@ public class DescriptionsListController : MonoBehaviour
                 ContinueCreateDescriptionBoxWithLink(linkId);
             }
         }
+    }
+
+    public string GetGlossaryFormat(string id, params object[] args)
+    {
+        string template = LocalizationManager.Instance.GetGlossaryDescription(id);
+        return string.Format(template, args);
     }
 
     public DescriptionData ResolveLink(string linkId) //傳入 "Relics/RelicID" 或 "Effects/EffectID" 或 "Glossary/GlossaryID" 這種格式的字串, 回傳對應的 DescriptionData

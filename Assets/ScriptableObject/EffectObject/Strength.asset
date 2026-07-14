@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Strength
   m_EditorClassIdentifier: Assembly-CSharp::Strength
   effectID: Strength
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 2c2ef5085d9fb604dac38a7cca505104, type: 3}
   effectType: 0
   stackState: 1
   priority: 0

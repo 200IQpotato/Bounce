@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
 {
     public Rigidbody2D rb;
     public Stats stats { get; set; }
+    public EnemyInfoObject enemyInfo; //敵人資訊(名字、圖片)
     [SerializeField] private EnemyUI enemyUI;
     [SerializeField] private float stopThreshold = 0.1f;
     public bool isExpired { get; set; }
@@ -54,6 +55,12 @@ public class Enemy : MonoBehaviour, IBattleEntity, ITurnBase
         {
             currentSkill.UpdatePreview();
         }
+    }
+
+    void OnMouseDown()
+    {
+        EnemyDescriptionBox.Instance.RegisterStats(stats);
+        EnemyDescriptionBox.Instance.Show();
     }
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)

@@ -16,6 +16,7 @@ public class Stats : MonoBehaviour
     public System.Action OnMaxHealthChanged;
     public System.Action OnAttackChanged;
     public System.Action OnMoneyChanged;
+    public System.Action OnEffectChange;
 
     public void ModifyMaxHealth(int value)
     {
@@ -186,11 +187,43 @@ public class Stats : MonoBehaviour
 
         effects.Sort((a, b) => a.effectObject.priority.CompareTo(b.effectObject.priority));
         effect.effectObject.OnApply(this.GetComponent<IBattleEntity>(), effect);
+        OnEffectChange?.Invoke();
+    }
+
+    public int GetTotalStackCount(EffectObject effectObject)
+    {
+        int totalStack = 0;
+        var targetEffectList = effects.FindAll(e => e.effectObject == effectObject);
+        foreach (Effect effect in targetEffectList)
+        {
+            totalStack += effect.stackCount;
+        }
+        return totalStack;
     }
 
     public void RemoveExpiredEffects()
     {
         effects.RemoveAll(e => e.duration <= 0);
+        OnEffectChange?.Invoke();
+    }
+
+    public void RemoveEffect(Effect effect)
+    {
+        if (effects.Remove(effect))
+        {
+            effect.effectObject.OnExpire(this.GetComponent<IBattleEntity>(), effect);
+            OnEffectChange?.Invoke();
+            Debug.Log($"Effect {effect.effectObject.name} removed manually.");
+        }
+    }
+
+    public void ModifyEffectStackCount(Effect effect, int stackOffset)
+    {
+        effect.stackCount -= stackOffset;
+        if(effect.stackCount <= 0)
+            RemoveEffect(effect);
+            
+        OnEffectChange?.Invoke();
     }
 
     public void OnTurnStart(IBattleEntity entity)
@@ -223,6 +256,7 @@ public class Stats : MonoBehaviour
             effect.isConsumed = false;
 
         RemoveExpiredEffects();
+        OnEffectChange?.Invoke();
     }
 
     public void CleanEffect()

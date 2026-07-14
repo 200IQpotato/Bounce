@@ -72,6 +72,16 @@
             "id": "DotDamage",
             "name": "持续伤害",
             "description": "在<link=Glossary/TakeTurn><color=#FFFA67>回合行动</color></link>时造成伤害的效果"
+        },
+        {
+            "id": "StackCount",
+            "name": "叠层数",
+            "description": "叠层数量 : {0}"
+        },
+        {
+            "id": "TurnsRemaining",
+            "name": "回合剩余",
+            "description": "剩余 {0} 回合"
         }
     ],
     "Potions":
