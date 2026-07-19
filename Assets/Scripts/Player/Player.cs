@@ -37,6 +37,10 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
     [SerializeField] private float cameraDeadzone = 0.5f; // 力度小於這個值,鏡頭不動
     private Vector3 cameraOriginPosition;
     
+    [Header("Terrain Prediction")]
+    [SerializeField] private LayerMask terrainMask;
+    [SerializeField] private GameObject arrowIndicator; // 場景裡預先擺好、預設關閉的箭頭物件
+    [SerializeField] private float curveSampleInterval = 0.06f; // 彎曲軌跡多久取一個點
     
     private Vector3 mousePosition
     {
@@ -355,10 +359,21 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
 
         Vector3 initialVelocity = -distance * stats.force / rb.mass;
         Vector3 currentVelocity = initialVelocity;
-        float timeStep = 0.02f;
+        float timeStep = Time.fixedDeltaTime;
         float currentTime = 0f;
         int reflectionCount = 0;
         bool isHittingEnemy = false;
+
+        float? breakTimer = null;
+        ITerrainZone activeBreakZone = null;
+        bool predictionBroken = false;
+        Vector2 breakDirection = Vector2.zero;
+
+        float timeSinceLastSample = 0f;
+
+        // 記錄各次反彈當下的位置,供結尾決定 PredictionPoint 顯示用
+        Vector2? bouncePos0 = null;
+        Vector2? bouncePos1 = null;
 
         PredictionLine.positionCount = 1;
         PredictionLine.SetPosition(0, startPosition + currentVelocity.normalized * 0.5f );
@@ -373,10 +388,19 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
             {
                 PredictionLine.positionCount++;
                 PredictionLine.SetPosition(PredictionLine.positionCount - 1, hit.point + hit.normal * ballRadius);
-                currentVelocity = Vector3.Reflect(currentVelocity, hit.normal);
+
+                Vector2 reflected = Vector2.Reflect(currentVelocity, hit.normal);
+                if (hit.collider.TryGetComponent<IBounceModifier>(out var bounce))
+                {
+                    reflected *= bounce.GetForceMultiplier();
+                }
+                currentVelocity = reflected;
                 startPosition = hit.point + hit.normal * (ballRadius + 0.01f);
                 reflectionCount++;
-                SetPredictionPoint(startPosition, reflectionCount - 1);
+                timeSinceLastSample = 0f; // 反彈點本身就是一個記錄點,重新計時
+
+                if (reflectionCount == 1) bouncePos0 = startPosition;
+                else if (reflectionCount == 2) bouncePos1 = startPosition;
 
                 if (hit.collider.CompareTag("Enemy"))
                 {
@@ -386,21 +410,121 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
             }
             else
             {
-                startPosition += direction * stepDistance;
                 currentTime += timeStep;
                 currentVelocity *= (1 - rb.linearDamping * timeStep);
+
+                Collider2D[] zoneHits = Physics2D.OverlapCircleAll(startPosition, ballRadius, terrainMask);
+                bool anyBreakZoneThisStep = false;
+                bool anyZoneThisStep = zoneHits.Length > 0;
+                ITerrainZone firstBreakZoneThisStep = null;
+
+                foreach (var zoneHit in zoneHits)
+                {
+                    if (zoneHit.TryGetComponent<ITerrainZone>(out var zone))
+                    {
+                        Vector2 vel2D = currentVelocity;
+                        zone.ModifyVelocity(startPosition, ref vel2D, timeStep);
+                        currentVelocity = vel2D;
+
+                        if (zone.PredictBreakTime > 0f)
+                        {
+                            anyBreakZoneThisStep = true;
+                            if (firstBreakZoneThisStep == null)
+                                firstBreakZoneThisStep = zone;
+                        }
+                    }
+                }
+                startPosition += currentVelocity * timeStep;
+
+                // 只有在 zone 影響範圍內(軌跡可能彎曲)才需要取樣中間點
+                if (anyZoneThisStep)
+                {
+                    timeSinceLastSample += timeStep;
+                    if (timeSinceLastSample >= curveSampleInterval)
+                    {
+                        PredictionLine.positionCount++;
+                        PredictionLine.SetPosition(PredictionLine.positionCount - 1, startPosition);
+                        timeSinceLastSample = 0f;
+                    }
+                }
+
+                if (activeBreakZone == null && anyBreakZoneThisStep)
+                {
+                    activeBreakZone = firstBreakZoneThisStep;
+                    breakTimer = activeBreakZone.PredictBreakTime;
+                }
+                else if (activeBreakZone != null)
+                {
+                    if (!anyBreakZoneThisStep)
+                    {
+                        activeBreakZone = null;
+                        breakTimer = null;
+                    }
+                    else
+                    {
+                        breakTimer -= timeStep;
+                        if (breakTimer <= 0f)
+                        {
+                            predictionBroken = true;
+                            breakDirection = currentVelocity.normalized;
+                            break;
+                        }
+                    }
+                }
             }
         }
 
-        if (reflectionCount < maxReflectionCount && !isHittingEnemy)
+        if (predictionBroken)
         {
             PredictionLine.positionCount++;
             PredictionLine.SetPosition(PredictionLine.positionCount - 1, startPosition);
+
+            arrowIndicator.SetActive(true);
+            arrowIndicator.transform.position = startPosition;
+            float angle = Mathf.Atan2(breakDirection.y, breakDirection.x) * Mathf.Rad2Deg;
+            arrowIndicator.transform.rotation = Quaternion.Euler(0, 0, angle+180);
+        }
+        else
+        {
+            arrowIndicator.SetActive(false);
+
+            if (reflectionCount < maxReflectionCount && !isHittingEnemy)
+            {
+                PredictionLine.positionCount++;
+                PredictionLine.SetPosition(PredictionLine.positionCount - 1, startPosition);
+            }
         }
 
-        SetPredictionPoint(startPosition, PredictionLine.positionCount - 2);
-        if(PredictionLine.positionCount < 3)
-            PredictionPoint[1].SetActive(false);
+        PredictionPoint[0].SetActive(false);
+        PredictionPoint[1].SetActive(false);
+
+        if (reflectionCount == 0)
+        {
+            // 沒碰到任何東西:只有broken時顯示箭頭,否則顯示最終停止點
+            if (!predictionBroken)
+                SetPredictionPoint(startPosition, 0);
+        }
+        else if (reflectionCount == 1)
+        {
+            SetPredictionPoint(bouncePos0.Value, 0);
+
+            if (isHittingEnemy)
+            {
+                // 撞敵人:只顯示 point0,不會有 predictionBroken(loop 已在此時中斷)
+            }
+            else if (!predictionBroken)
+            {
+                // 反彈一次後繼續飛,最終停在 startPosition
+                SetPredictionPoint(startPosition, 1);
+            }
+            // predictionBroken 且未撞敵人:point1 保持隱藏,由箭頭取代
+        }
+        else // reflectionCount == 2
+        {
+            // 兩次反彈用完額度,loop 立即結束,不可能發生 predictionBroken
+            SetPredictionPoint(bouncePos0.Value, 0);
+            SetPredictionPoint(bouncePos1.Value, 1);
+        }
     }
 
     void SetPredictionPoint(Vector3 position, int index)
@@ -422,5 +546,6 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
         DragPoint.SetActive(false);
         PredictionPoint[0].SetActive(false);
         PredictionPoint[1].SetActive(false);
+        arrowIndicator.SetActive(false);
     }
 }
