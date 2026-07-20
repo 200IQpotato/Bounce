@@ -72,6 +72,7 @@ public class RelicChoosePanel : MonoBehaviour
     public void OnOpen(List<RelicObject> relicObjects, int relicCount, System.Action onCompleted)
     {
         this.onCompleted = onCompleted;
+        selectRelic = null;
         foreach( Transform child in contentTransform )
         {
             Destroy( child.gameObject );
