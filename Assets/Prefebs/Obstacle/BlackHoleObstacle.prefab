@@ -81,7 +81,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -5
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.5169811, g: 0.5169811, b: 0.5169811, a: 1}
@@ -107,9 +107,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BlackHoleObstacle
   isDestructible: 0
   isTouchable: 0
+  priority: 0
   lifespanTurns: -1
+  terrainMask:
+    serializedVersion: 2
+    m_Bits: 128
   pullForce: 10
-  minDistance: 1
+  minDistance: 1.75
   predictBreakDuration: 0.4
 --- !u!58 &2289370606175908975
 CircleCollider2D:

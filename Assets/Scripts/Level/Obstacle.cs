@@ -2,7 +2,8 @@ using UnityEngine;
 
 public interface ITerrainZone
 {
-    void ModifyVelocity(Vector2 ballPosition, ref Vector2 velocity, float deltaTime);
+    bool IsExclusive { get; } // true = 互斥(Ice/Slime),同時只有priority最高的生效; false = 疊加(BlackHole),全部生效
+    void ModifyVelocity(Vector2 ballPosition, ref Vector2 velocity, float deltaTime, float baseDamping);
     float PredictBreakTime { get; } // 0 = 完整模擬到底,不中斷預測
 }
 
@@ -18,7 +19,9 @@ public class Obstacle : MonoBehaviour, IBattleEntity
     public bool isExpired{ get; set; }
     public bool isDestructible;
     public bool isTouchable;
+    public int priority; // 互斥型terrain重疊時,數字越大越優先生效
     public int lifespanTurns = -1; // -1 = 永久, >0 = 該回合數後自動消失
+    [SerializeField] private LayerMask terrainMask;
 
     private Collider2D obstacleCollider;
 
@@ -43,8 +46,14 @@ public class Obstacle : MonoBehaviour, IBattleEntity
         if (isTouchable) return;
         if (this is ITerrainZone zone && other.TryGetComponent<Rigidbody2D>(out var rb))
         {
+            if (zone.IsExclusive)
+            {
+                Obstacle primary = TerrainResolver.ResolvePrimaryExclusive(rb.position, terrainMask);
+                if (primary != this) return;
+            }
+
             Vector2 vel = rb.linearVelocity;
-            zone.ModifyVelocity(rb.position, ref vel, Time.fixedDeltaTime);
+            zone.ModifyVelocity(rb.position, ref vel, Time.fixedDeltaTime, rb.linearDamping);
             rb.linearVelocity = vel;
         }
     }

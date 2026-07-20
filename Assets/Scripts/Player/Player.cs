@@ -410,20 +410,30 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
             }
             else
             {
+                startPosition += currentVelocity * timeStep;
                 currentTime += timeStep;
-                currentVelocity *= (1 - rb.linearDamping * timeStep);
+            }
+            
+            currentVelocity *= (1 - rb.linearDamping * timeStep);
 
-                Collider2D[] zoneHits = Physics2D.OverlapCircleAll(startPosition, ballRadius, terrainMask);
-                bool anyBreakZoneThisStep = false;
-                bool anyZoneThisStep = zoneHits.Length > 0;
-                ITerrainZone firstBreakZoneThisStep = null;
-
+            Collider2D[] zoneHits = Physics2D.OverlapCircleAll(startPosition, ballRadius, terrainMask);
+            bool anyBreakZoneThisStep = false;
+            bool anyZoneThisStep = zoneHits.Length > 0;
+            ITerrainZone firstBreakZoneThisStep = null;
+            Obstacle primaryObstacle = TerrainResolver.ResolvePrimaryExclusive(startPosition, terrainMask);
+            if(zoneHits != null)
+            {
                 foreach (var zoneHit in zoneHits)
                 {
                     if (zoneHit.TryGetComponent<ITerrainZone>(out var zone))
                     {
+                        if (zone.IsExclusive)
+                        {
+                            if (!zoneHit.TryGetComponent<Obstacle>(out var obstacle) || obstacle != primaryObstacle)
+                                continue;
+                        }
                         Vector2 vel2D = currentVelocity;
-                        zone.ModifyVelocity(startPosition, ref vel2D, timeStep);
+                        zone.ModifyVelocity(startPosition, ref vel2D, timeStep, rb.linearDamping);
                         currentVelocity = vel2D;
 
                         if (zone.PredictBreakTime > 0f)
@@ -434,43 +444,43 @@ public class Player : MonoBehaviour, IBattleEntity, ITurnBase
                         }
                     }
                 }
-                startPosition += currentVelocity * timeStep;
+            }
 
-                // 只有在 zone 影響範圍內(軌跡可能彎曲)才需要取樣中間點
-                if (anyZoneThisStep)
+            // 只有在 zone 影響範圍內(軌跡可能彎曲)才需要取樣中間點
+            if (anyZoneThisStep)
+            {
+                timeSinceLastSample += timeStep;
+                if (timeSinceLastSample >= curveSampleInterval)
                 {
-                    timeSinceLastSample += timeStep;
-                    if (timeSinceLastSample >= curveSampleInterval)
-                    {
-                        PredictionLine.positionCount++;
-                        PredictionLine.SetPosition(PredictionLine.positionCount - 1, startPosition);
-                        timeSinceLastSample = 0f;
-                    }
+                    PredictionLine.positionCount++;
+                    PredictionLine.SetPosition(PredictionLine.positionCount - 1, startPosition);
+                    timeSinceLastSample = 0f;
                 }
+            }
 
-                if (activeBreakZone == null && anyBreakZoneThisStep)
+            if (activeBreakZone == null && anyBreakZoneThisStep)
+            {
+                activeBreakZone = firstBreakZoneThisStep;
+                breakTimer = activeBreakZone.PredictBreakTime;
+            }
+            else if (activeBreakZone != null)
+            {
+                if (!anyBreakZoneThisStep)
                 {
-                    activeBreakZone = firstBreakZoneThisStep;
-                    breakTimer = activeBreakZone.PredictBreakTime;
+                    activeBreakZone = null;
+                    breakTimer = null;
                 }
-                else if (activeBreakZone != null)
+                else
                 {
-                    if (!anyBreakZoneThisStep)
+                    breakTimer -= timeStep;
+                    if (breakTimer <= 0f)
                     {
-                        activeBreakZone = null;
-                        breakTimer = null;
-                    }
-                    else
-                    {
-                        breakTimer -= timeStep;
-                        if (breakTimer <= 0f)
-                        {
-                            predictionBroken = true;
-                            breakDirection = currentVelocity.normalized;
-                            break;
-                        }
+                        predictionBroken = true;
+                        breakDirection = currentVelocity.normalized;
+                        break;
                     }
                 }
+                
             }
         }
 
